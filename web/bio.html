@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سكن الروح 🌙 | واحتك الإيمانية النقية بدون أي إعلانات</title>
+    <meta name="description" content="حمّل تطبيق سكن الروح مجاناً لوجه الله تعالى: قرآن كريم برسم المصحف أوفلاين، رفيق المشاعر، أذكار حصن المسلم، والختمة العائلية.">
+    
+    <!-- Open Graph for Social Sharing -->
+    <meta property="og:title" content="سكن الروح 🌙 | واحتك الإيمانية بدون أي إعلانات">
+    <meta property="og:description" content="قرآن كريم، أذكار، رفيق المشاعر، وسبحة ذكية لوجه الله 100%">
+    <meta property="og:type" content="website">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg: #070d0a;
+            --card-bg: rgba(14, 26, 20, 0.85);
+            --card-border: rgba(212, 175, 55, 0.25);
+            --gold: #D4AF37;
+            --gold-light: #FFE082;
+            --emerald: #0F5A3E;
+            --emerald-glow: #00E676;
+            --text-light: #F8F9FA;
+            --text-muted: #9EAC9F;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg);
+            background-image: 
+                radial-gradient(circle at 50% 10%, rgba(15, 90, 62, 0.35) 0%, transparent 60%),
+                radial-gradient(circle at 20% 80%, rgba(212, 175, 55, 0.08) 0%, transparent 50%);
+            color: var(--text-light);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px 16px 50px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        /* App Profile Header */
+        .app-avatar {
+            width: 96px;
+            height: 96px;
+            border-radius: 26px;
+            background: linear-gradient(135deg, #123524, #081a11);
+            border: 2px solid var(--gold);
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .app-avatar span {
+            font-size: 46px;
+        }
+
+        .app-title {
+            font-size: 26px;
+            font-weight: 900;
+            color: var(--text-light);
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .app-badge {
+            background: rgba(212, 175, 55, 0.15);
+            color: var(--gold-light);
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 14px;
+            display: inline-block;
+        }
+
+        .app-bio {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        /* Auto Detected Device Highlight */
+        .device-callout {
+            width: 100%;
+            background: linear-gradient(135deg, rgba(15, 90, 62, 0.9), rgba(10, 48, 33, 0.95));
+            border: 1.5px solid var(--emerald-glow);
+            border-radius: 18px;
+            padding: 14px 16px;
+            margin-bottom: 20px;
+            box-shadow: 0 6px 20px rgba(0, 230, 118, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            animation: pulse-glow 2.5s infinite;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 15px rgba(0, 230, 118, 0.2); }
+            50% { box-shadow: 0 0 25px rgba(0, 230, 118, 0.4); }
+        }
+
+        .device-info {
+            text-align: right;
+        }
+
+        .device-info .detected-title {
+            font-size: 13px;
+            color: #C8E6C9;
+            font-weight: 600;
+        }
+
+        .device-info .detected-action {
+            font-size: 15px;
+            color: #FFFFFF;
+            font-weight: 800;
+        }
+
+        .device-btn {
+            background: #FFFFFF;
+            color: #0A3C2A;
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 13px;
+            text-decoration: none;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.2s;
+        }
+
+        .device-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* Store Download Buttons */
+        .section-title {
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            color: var(--gold);
+            text-transform: uppercase;
+            margin: 18px 0 10px;
+            width: 100%;
+            text-align: right;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(to left, var(--card-border), transparent);
+        }
+
+        .links-group {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .store-btn {
+            width: 100%;
+            background: var(--card-bg);
+            border: 1.5px solid var(--card-border);
+            border-radius: 16px;
+            padding: 14px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            text-decoration: none;
+            color: var(--text-light);
+            transition: all 0.25s ease;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .store-btn:hover {
+            transform: translateY(-2px);
+            border-color: var(--gold);
+            box-shadow: 0 8px 24px rgba(212, 175, 55, 0.2);
+        }
+
+        .store-btn.highlighted {
+            border-color: var(--emerald-glow);
+            background: rgba(15, 90, 62, 0.5);
+            box-shadow: 0 0 18px rgba(0, 230, 118, 0.25);
+        }
+
+        .btn-content {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .btn-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-text {
+            text-align: right;
+        }
+
+        .btn-text .sub {
+            font-size: 11px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .btn-text .main {
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--text-light);
+        }
+
+        .btn-arrow {
+            font-size: 18px;
+            color: var(--gold);
+        }
+
+        /* Features Highlights */
+        .features-card {
+            width: 100%;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 18px 20px;
+            margin-bottom: 24px;
+            text-align: right;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13.5px;
+            color: var(--text-light);
+            margin-bottom: 10px;
+        }
+
+        .feature-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .feature-item .icon {
+            color: var(--gold);
+            font-size: 16px;
+        }
+
+        /* Social Channels Grid */
+        .social-grid {
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .social-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 14px 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text-light);
+            transition: all 0.2s;
+        }
+
+        .social-card:hover {
+            background: rgba(212, 175, 55, 0.1);
+            border-color: var(--gold);
+            transform: translateY(-2px);
+        }
+
+        .social-card .s-icon {
+            font-size: 24px;
+            margin-bottom: 6px;
+        }
+
+        .social-card .s-name {
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        /* Share Button */
+        .share-banner {
+            width: 100%;
+            background: linear-gradient(135deg, #128C7E, #075E54);
+            border-radius: 16px;
+            padding: 14px 18px;
+            color: #FFFFFF;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-weight: 800;
+            font-size: 14px;
+            box-shadow: 0 4px 15px rgba(18, 140, 126, 0.3);
+            margin-bottom: 24px;
+            transition: all 0.2s;
+        }
+
+        .share-banner:hover {
+            transform: scale(1.02);
+        }
+
+        .footer {
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .footer .sub-gold {
+            color: var(--gold);
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Avatar & App Name -->
+        <div class="app-avatar">
+            <span>🌙</span>
+        </div>
+
+        <h1 class="app-title">سكن الروح 🌿</h1>
+        <div class="app-badge">🚫 صدقة جارية خالية 100% من أي إعلانات</div>
+        <p class="app-bio">
+            واحتك الإيمانية الهادئة لسكينة القلب وتفريج الهم.. مصحف مرتل بالرسم العثماني أوفلاين، رفيق المشاعر، وأذكار حصن المسلم بدون إنترنت.
+        </p>
+
+        <!-- Dynamic Device Detector (JavaScript will adapt this) -->
+        <div id="deviceCallout" class="device-callout" style="display: none;">
+            <div class="device-info">
+                <div class="detected-title" id="detectedTitle">جهازك المكتشف</div>
+                <div class="detected-action" id="detectedAction">تنزيل مباشر للتطبيق</div>
+            </div>
+            <a href="#" id="detectedBtn" class="device-btn" target="_blank">تحميل فوري 📲</a>
+        </div>
+
+        <!-- Store Download Links -->
+        <div class="section-title">📲 روابط التحميل المباشرة للمتاجر</div>
+        <div class="links-group">
+            <!-- Google Play -->
+            <a href="https://play.google.com/store/apps/details?id=com.nooralhoda.official.app" id="btnGooglePlay" class="store-btn" target="_blank">
+                <div class="btn-content">
+                    <div class="btn-icon">🟢</div>
+                    <div class="btn-text">
+                        <div class="sub">لهواتف أندرويد (سامسونج، شاومي، أوبو)</div>
+                        <div class="main">Google Play Store</div>
+                    </div>
+                </div>
+                <div class="btn-arrow">←</div>
+            </a>
+
+            <!-- Huawei AppGallery -->
+            <a href="https://appgallery.huawei.com/app/C118816285" id="btnHuawei" class="store-btn" target="_blank">
+                <div class="btn-content">
+                    <div class="btn-icon">🔴</div>
+                    <div class="btn-text">
+                        <div class="sub">لهواتف هواوي وهونر</div>
+                        <div class="main">Huawei AppGallery</div>
+                    </div>
+                </div>
+                <div class="btn-arrow">←</div>
+            </a>
+
+            <!-- Apple App Store (Coming Soon) -->
+            <div id="btnApple" class="store-btn" style="opacity: 0.7; cursor: default;">
+                <div class="btn-content">
+                    <div class="btn-icon">⚪</div>
+                    <div class="btn-text">
+                        <div class="sub">لهواتف آيفون وآيباد</div>
+                        <div class="main">Apple App Store (قريباً بإذن الله)</div>
+                    </div>
+                </div>
+                <div class="btn-arrow" style="font-size: 13px; color: var(--text-muted);">قريباً ⏳</div>
+            </div>
+        </div>
+
+        <!-- App Features Highlights -->
+        <div class="features-card">
+            <div class="feature-item">
+                <span class="icon">✨</span>
+                <span><strong>خالي 100% من الإعلانات:</strong> لا شيء يقطع خشوعك لوجه الله.</span>
+            </div>
+            <div class="feature-item">
+                <span class="icon">📖</span>
+                <span><strong>المصحف المرتل أوفلاين:</strong> تلاوة العفاسي بخط مجمع الملك فهد.</span>
+            </div>
+            <div class="feature-item">
+                <span class="icon">🕊️</span>
+                <span><strong>رفيق المشاعر:</strong> آيات تطبطب على قلبك حسب ما تشعر به.</span>
+            </div>
+            <div class="feature-item">
+                <span class="icon">📿</span>
+                <span><strong>السبحة الذكية:</strong> عداد دقيق بهزاز واقعي وحفظ تلقائي.</span>
+            </div>
+            <div class="feature-item">
+                <span class="icon">👨‍👩‍👧‍👦</span>
+                <span><strong>ختمة عائلية بالواتساب:</strong> شارك أهلك في قراءة القرآن برابط ويب.</span>
+            </div>
+        </div>
+
+        <!-- Social Media Official Channels -->
+        <div class="section-title">🌐 منصاتنا وصفحاتنا الرسمية</div>
+        <div class="social-grid">
+            <a href="https://www.tiktok.com/@sakan.alrooh.app" class="social-card" target="_blank">
+                <span class="s-icon">🎵</span>
+                <span class="s-name">تيك توك</span>
+            </a>
+            <a href="https://www.instagram.com/sakan.alrooh.app" class="social-card" target="_blank">
+                <span class="s-icon">📸</span>
+                <span class="s-name">إنستغرام</span>
+            </a>
+            <a href="https://www.facebook.com/sakan.alrooh.app" class="social-card" target="_blank">
+                <span class="s-icon">📘</span>
+                <span class="s-name">فيسبوك</span>
+            </a>
+        </div>
+
+        <!-- Share via WhatsApp -->
+        <a href="https://api.whatsapp.com/send?text=%D8%A3%D8%AC%D9%85%D9%84%20%D8%AA%D8%B7%D8%A8%D9%8A%D9%82%20%D9%82%D8%B1%D8%A2%D9%86%D9%8A%20%D9%88%D8%A3%D8%B0%D9%83%D8%A7%D8%B1%20%D8%AE%D8%A7%D9%84%D9%8A%20%D9%85%D9%86%20%D8%A7%D9%84%D8%A5%D8%B9%D9%84%D8%A7%D9%86%D8%A7%D8%AA%20%D9%84%D9%88%D8%AC%D9%87%20%D8%A7%D9%84%D9%84%D9%87%20%D8%AA%D8%B9%D8%A7%D9%84%D9%89%20%D9%84%D8%AA%D8%B3%D9%83%D9%8A%D9%86%20%D8%A7%D9%84%D9%82%D9%84%D9%88%D8%A8%20%D8%B3%D9%83%D9%86%20%D8%A7%D9%84%D8%B1%D9%88%D8%AD%20%F0%9F%8C%99%20%D8%AD%D9%85%D9%91%D9%84%D9%87%20%D9%85%D8%AC%D8%A7%D9%86%D8%A7%D9%8B%20%D9%85%D9%86%20%D9%87%D9%86%D8%A7%3A%20https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dcom.nooralhoda.official.app" class="share-banner" target="_blank">
+            <span>💬 شارك التطبيق على واتساب واكسب أجر صدقة جارية</span>
+        </a>
+
+        <!-- Footer -->
+        <div class="footer">
+            جميع الحقوق محفوظة لوجه الله تعالى © 2026<br>
+            <span class="sub-gold">تطبيق «سكن الروح» (Sakan Al-Rooh)</span>
+        </div>
+    </div>
+
+    <!-- Smart Device Detection Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var ua = navigator.userAgent || navigator.vendor || window.opera;
+            var isIOS = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+            var isHuawei = /Huawei|Honor/i.test(ua);
+            var isAndroid = /Android/i.test(ua);
+
+            var callout = document.getElementById('deviceCallout');
+            var dTitle = document.getElementById('detectedTitle');
+            var dAction = document.getElementById('detectedAction');
+            var dBtn = document.getElementById('detectedBtn');
+
+            var btnGoogle = document.getElementById('btnGooglePlay');
+            var btnHuawei = document.getElementById('btnHuawei');
+            var btnApple = document.getElementById('btnApple');
+
+            if (isIOS) {
+                callout.style.display = 'flex';
+                dTitle.innerText = '🍎 جهازك آيفون / آيباد (iOS)';
+                dAction.innerText = 'نسخة الآيفون قادمة قريباً على App Store بإذن الله 🤍';
+                dBtn.style.display = 'none';
+            } else if (isHuawei) {
+                callout.style.display = 'flex';
+                dTitle.innerText = '🔴 جهازك هواوي / هونر';
+                dAction.innerText = 'التحميل من Huawei AppGallery';
+                dBtn.href = btnHuawei.href;
+                btnHuawei.classList.add('highlighted');
+            } else if (isAndroid) {
+                callout.style.display = 'flex';
+                dTitle.innerText = '🤖 جهازك أندرويد (Android)';
+                dAction.innerText = 'التحميل من Google Play Store';
+                dBtn.href = btnGoogle.href;
+                btnGoogle.classList.add('highlighted');
+            }
+        });
+    </script>
+</body>
+</html>

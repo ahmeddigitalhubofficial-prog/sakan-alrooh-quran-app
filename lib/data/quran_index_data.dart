@@ -1,0 +1,417 @@
+class SurahIndexItem {
+  final int id;
+  final String name;
+  final int page;
+  final int verses;
+  final String revelationType; // 'مكية' or 'مدنية'
+
+  const SurahIndexItem({
+    required this.id,
+    required this.name,
+    required this.page,
+    required this.verses,
+    required this.revelationType,
+  });
+}
+
+class JuzIndexItem {
+  final int juzNumber;
+  final int page;
+  final String startingSurahName;
+  final int startingVerse;
+
+  const JuzIndexItem({
+    required this.juzNumber,
+    required this.page,
+    required this.startingSurahName,
+    required this.startingVerse,
+  });
+}
+
+class SajdahIndexItem {
+  final int sajdahNumber;
+  final String surahName;
+  final int surahNumber;
+  final int verse;
+  final int page;
+  final String revelationType; // 'مكية' or 'مدنية'
+
+  const SajdahIndexItem({
+    required this.sajdahNumber,
+    required this.surahName,
+    required this.surahNumber,
+    required this.verse,
+    required this.page,
+    required this.revelationType,
+  });
+}
+
+// Complete data mappings matching the standard Medina Mushaf pages
+const List<SurahIndexItem> quranSurahs = [
+  SurahIndexItem(id: 1, name: 'الفاتحة', page: 1, verses: 7, revelationType: 'مكية'),
+  SurahIndexItem(id: 2, name: 'البقرة', page: 2, verses: 286, revelationType: 'مدنية'),
+  SurahIndexItem(id: 3, name: 'آل عمران', page: 50, verses: 200, revelationType: 'مدنية'),
+  SurahIndexItem(id: 4, name: 'النساء', page: 77, verses: 176, revelationType: 'مدنية'),
+  SurahIndexItem(id: 5, name: 'المائدة', page: 106, verses: 120, revelationType: 'مدنية'),
+  SurahIndexItem(id: 6, name: 'الأنعام', page: 128, verses: 165, revelationType: 'مكية'),
+  SurahIndexItem(id: 7, name: 'الأعراف', page: 151, verses: 206, revelationType: 'مكية'),
+  SurahIndexItem(id: 8, name: 'الأنفال', page: 177, verses: 75, revelationType: 'مدنية'),
+  SurahIndexItem(id: 9, name: 'التوبة', page: 187, verses: 129, revelationType: 'مدنية'),
+  SurahIndexItem(id: 10, name: 'يونس', page: 208, verses: 109, revelationType: 'مكية'),
+  SurahIndexItem(id: 11, name: 'هود', page: 221, verses: 123, revelationType: 'مكية'),
+  SurahIndexItem(id: 12, name: 'يوسف', page: 235, verses: 111, revelationType: 'مكية'),
+  SurahIndexItem(id: 13, name: 'الرعد', page: 249, verses: 43, revelationType: 'مدنية'),
+  SurahIndexItem(id: 14, name: 'ابراهيم', page: 255, verses: 52, revelationType: 'مكية'),
+  SurahIndexItem(id: 15, name: 'الحجر', page: 262, verses: 99, revelationType: 'مكية'),
+  SurahIndexItem(id: 16, name: 'النحل', page: 267, verses: 128, revelationType: 'مكية'),
+  SurahIndexItem(id: 17, name: 'الإسراء', page: 282, verses: 111, revelationType: 'مكية'),
+  SurahIndexItem(id: 18, name: 'الكهف', page: 293, verses: 110, revelationType: 'مكية'),
+  SurahIndexItem(id: 19, name: 'مريم', page: 305, verses: 98, revelationType: 'مكية'),
+  SurahIndexItem(id: 20, name: 'طه', page: 312, verses: 135, revelationType: 'مكية'),
+  SurahIndexItem(id: 21, name: 'الأنبياء', page: 322, verses: 112, revelationType: 'مكية'),
+  SurahIndexItem(id: 22, name: 'الحج', page: 332, verses: 78, revelationType: 'مدنية'),
+  SurahIndexItem(id: 23, name: 'المؤمنون', page: 342, verses: 118, revelationType: 'مكية'),
+  SurahIndexItem(id: 24, name: 'النور', page: 350, verses: 64, revelationType: 'مدنية'),
+  SurahIndexItem(id: 25, name: 'الفرقان', page: 359, verses: 77, revelationType: 'مكية'),
+  SurahIndexItem(id: 26, name: 'الشعراء', page: 367, verses: 227, revelationType: 'مكية'),
+  SurahIndexItem(id: 27, name: 'النمل', page: 377, verses: 93, revelationType: 'مكية'),
+  SurahIndexItem(id: 28, name: 'القصص', page: 385, verses: 88, revelationType: 'مكية'),
+  SurahIndexItem(id: 29, name: 'العنكبوت', page: 396, verses: 69, revelationType: 'مكية'),
+  SurahIndexItem(id: 30, name: 'الروم', page: 404, verses: 60, revelationType: 'مكية'),
+  SurahIndexItem(id: 31, name: 'لقمان', page: 411, verses: 34, revelationType: 'مكية'),
+  SurahIndexItem(id: 32, name: 'السجدة', page: 415, verses: 30, revelationType: 'مكية'),
+  SurahIndexItem(id: 33, name: 'الأحزاب', page: 418, verses: 73, revelationType: 'مدنية'),
+  SurahIndexItem(id: 34, name: 'سبإ', page: 428, verses: 54, revelationType: 'مكية'),
+  SurahIndexItem(id: 35, name: 'فاطر', page: 434, verses: 45, revelationType: 'مكية'),
+  SurahIndexItem(id: 36, name: 'يس', page: 440, verses: 83, revelationType: 'مكية'),
+  SurahIndexItem(id: 37, name: 'الصافات', page: 446, verses: 182, revelationType: 'مكية'),
+  SurahIndexItem(id: 38, name: 'ص', page: 453, verses: 88, revelationType: 'مكية'),
+  SurahIndexItem(id: 39, name: 'الزمر', page: 458, verses: 75, revelationType: 'مكية'),
+  SurahIndexItem(id: 40, name: 'غافر', page: 467, verses: 85, revelationType: 'مكية'),
+  SurahIndexItem(id: 41, name: 'فصلت', page: 477, verses: 54, revelationType: 'مكية'),
+  SurahIndexItem(id: 42, name: 'الشورى', page: 483, verses: 53, revelationType: 'مكية'),
+  SurahIndexItem(id: 43, name: 'الزخرف', page: 489, verses: 89, revelationType: 'مكية'),
+  SurahIndexItem(id: 44, name: 'الدخان', page: 496, verses: 59, revelationType: 'مكية'),
+  SurahIndexItem(id: 45, name: 'الجاثية', page: 499, verses: 37, revelationType: 'مكية'),
+  SurahIndexItem(id: 46, name: 'الأحقاف', page: 502, verses: 35, revelationType: 'مكية'),
+  SurahIndexItem(id: 47, name: 'محمد', page: 507, verses: 38, revelationType: 'مدنية'),
+  SurahIndexItem(id: 48, name: 'الفتح', page: 511, verses: 29, revelationType: 'مدنية'),
+  SurahIndexItem(id: 49, name: 'الحجرات', page: 515, verses: 18, revelationType: 'مدنية'),
+  SurahIndexItem(id: 50, name: 'ق', page: 518, verses: 45, revelationType: 'مكية'),
+  SurahIndexItem(id: 51, name: 'الذاريات', page: 520, verses: 60, revelationType: 'مكية'),
+  SurahIndexItem(id: 52, name: 'الطور', page: 523, verses: 49, revelationType: 'مكية'),
+  SurahIndexItem(id: 53, name: 'النجم', page: 526, verses: 62, revelationType: 'مكية'),
+  SurahIndexItem(id: 54, name: 'القمر', page: 528, verses: 55, revelationType: 'مكية'),
+  SurahIndexItem(id: 55, name: 'الرحمن', page: 531, verses: 78, revelationType: 'مدنية'),
+  SurahIndexItem(id: 56, name: 'الواقعة', page: 534, verses: 96, revelationType: 'مكية'),
+  SurahIndexItem(id: 57, name: 'الحديد', page: 537, verses: 29, revelationType: 'مدنية'),
+  SurahIndexItem(id: 58, name: 'المجادلة', page: 542, verses: 22, revelationType: 'مدنية'),
+  SurahIndexItem(id: 59, name: 'الحشر', page: 545, verses: 24, revelationType: 'مدنية'),
+  SurahIndexItem(id: 60, name: 'الممتحنة', page: 549, verses: 13, revelationType: 'مدنية'),
+  SurahIndexItem(id: 61, name: 'الصف', page: 551, verses: 14, revelationType: 'مدنية'),
+  SurahIndexItem(id: 62, name: 'الجمعة', page: 553, verses: 11, revelationType: 'مدنية'),
+  SurahIndexItem(id: 63, name: 'المنافقون', page: 554, verses: 11, revelationType: 'مدنية'),
+  SurahIndexItem(id: 64, name: 'التغابن', page: 556, verses: 18, revelationType: 'مدنية'),
+  SurahIndexItem(id: 65, name: 'الطلاق', page: 558, verses: 12, revelationType: 'مدنية'),
+  SurahIndexItem(id: 66, name: 'التحريم', page: 560, verses: 12, revelationType: 'مدنية'),
+  SurahIndexItem(id: 67, name: 'الملك', page: 562, verses: 30, revelationType: 'مكية'),
+  SurahIndexItem(id: 68, name: 'القلم', page: 564, verses: 52, revelationType: 'مكية'),
+  SurahIndexItem(id: 69, name: 'الحاقة', page: 566, verses: 52, revelationType: 'مكية'),
+  SurahIndexItem(id: 70, name: 'المعارج', page: 568, verses: 44, revelationType: 'مكية'),
+  SurahIndexItem(id: 71, name: 'نوح', page: 570, verses: 28, revelationType: 'مكية'),
+  SurahIndexItem(id: 72, name: 'الجن', page: 572, verses: 28, revelationType: 'مكية'),
+  SurahIndexItem(id: 73, name: 'المزمل', page: 574, verses: 20, revelationType: 'مكية'),
+  SurahIndexItem(id: 74, name: 'المدثر', page: 575, verses: 56, revelationType: 'مكية'),
+  SurahIndexItem(id: 75, name: 'القيامة', page: 577, verses: 40, revelationType: 'مكية'),
+  SurahIndexItem(id: 76, name: 'الانسان', page: 578, verses: 31, revelationType: 'مدنية'),
+  SurahIndexItem(id: 77, name: 'المرسلات', page: 580, verses: 50, revelationType: 'مكية'),
+  SurahIndexItem(id: 78, name: 'النبأ', page: 582, verses: 40, revelationType: 'مكية'),
+  SurahIndexItem(id: 79, name: 'النازعات', page: 583, verses: 46, revelationType: 'مكية'),
+  SurahIndexItem(id: 80, name: 'عبس', page: 585, verses: 42, revelationType: 'مكية'),
+  SurahIndexItem(id: 81, name: 'التكوير', page: 586, verses: 29, revelationType: 'مكية'),
+  SurahIndexItem(id: 82, name: 'الإنفطار', page: 587, verses: 19, revelationType: 'مكية'),
+  SurahIndexItem(id: 83, name: 'المطففين', page: 587, verses: 36, revelationType: 'مكية'),
+  SurahIndexItem(id: 84, name: 'الإنشقاق', page: 589, verses: 25, revelationType: 'مكية'),
+  SurahIndexItem(id: 85, name: 'البروج', page: 590, verses: 22, revelationType: 'مكية'),
+  SurahIndexItem(id: 86, name: 'الطارق', page: 591, verses: 17, revelationType: 'مكية'),
+  SurahIndexItem(id: 87, name: 'الأعلى', page: 591, verses: 19, revelationType: 'مكية'),
+  SurahIndexItem(id: 88, name: 'الغاشية', page: 592, verses: 26, revelationType: 'مكية'),
+  SurahIndexItem(id: 89, name: 'الفجر', page: 593, verses: 30, revelationType: 'مكية'),
+  SurahIndexItem(id: 90, name: 'البلد', page: 594, verses: 20, revelationType: 'مكية'),
+  SurahIndexItem(id: 91, name: 'الشمس', page: 595, verses: 15, revelationType: 'مكية'),
+  SurahIndexItem(id: 92, name: 'الليل', page: 595, verses: 21, revelationType: 'مكية'),
+  SurahIndexItem(id: 93, name: 'الضحى', page: 596, verses: 11, revelationType: 'مكية'),
+  SurahIndexItem(id: 94, name: 'الشرح', page: 596, verses: 8, revelationType: 'مكية'),
+  SurahIndexItem(id: 95, name: 'التين', page: 597, verses: 8, revelationType: 'مكية'),
+  SurahIndexItem(id: 96, name: 'العلق', page: 597, verses: 19, revelationType: 'مكية'),
+  SurahIndexItem(id: 97, name: 'القدر', page: 598, verses: 5, revelationType: 'مكية'),
+  SurahIndexItem(id: 98, name: 'البينة', page: 598, verses: 8, revelationType: 'مدنية'),
+  SurahIndexItem(id: 99, name: 'الزلزلة', page: 599, verses: 8, revelationType: 'مدنية'),
+  SurahIndexItem(id: 100, name: 'العاديات', page: 599, verses: 11, revelationType: 'مكية'),
+  SurahIndexItem(id: 101, name: 'القارعة', page: 600, verses: 11, revelationType: 'مكية'),
+  SurahIndexItem(id: 102, name: 'التكاثر', page: 600, verses: 8, revelationType: 'مكية'),
+  SurahIndexItem(id: 103, name: 'العصر', page: 601, verses: 3, revelationType: 'مكية'),
+  SurahIndexItem(id: 104, name: 'الهمزة', page: 601, verses: 9, revelationType: 'مكية'),
+  SurahIndexItem(id: 105, name: 'الفيل', page: 601, verses: 5, revelationType: 'مكية'),
+  SurahIndexItem(id: 106, name: 'قريش', page: 602, verses: 4, revelationType: 'مكية'),
+  SurahIndexItem(id: 107, name: 'الماعون', page: 602, verses: 7, revelationType: 'مكية'),
+  SurahIndexItem(id: 108, name: 'الكوثر', page: 602, verses: 3, revelationType: 'مكية'),
+  SurahIndexItem(id: 109, name: 'الكافرون', page: 603, verses: 6, revelationType: 'مكية'),
+  SurahIndexItem(id: 110, name: 'النصر', page: 603, verses: 3, revelationType: 'مدنية'),
+  SurahIndexItem(id: 111, name: 'المسد', page: 603, verses: 5, revelationType: 'مكية'),
+  SurahIndexItem(id: 112, name: 'الإخلاص', page: 604, verses: 4, revelationType: 'مكية'),
+  SurahIndexItem(id: 113, name: 'الفلق', page: 604, verses: 5, revelationType: 'مكية'),
+  SurahIndexItem(id: 114, name: 'الناس', page: 604, verses: 6, revelationType: 'مكية'),
+];
+
+const List<JuzIndexItem> quranJuzs = [
+  JuzIndexItem(juzNumber: 1, page: 1, startingSurahName: 'الفاتحة', startingVerse: 1),
+  JuzIndexItem(juzNumber: 2, page: 22, startingSurahName: 'البقرة', startingVerse: 142),
+  JuzIndexItem(juzNumber: 3, page: 42, startingSurahName: 'البقرة', startingVerse: 253),
+  JuzIndexItem(juzNumber: 4, page: 62, startingSurahName: 'آل عمران', startingVerse: 93),
+  JuzIndexItem(juzNumber: 5, page: 82, startingSurahName: 'النساء', startingVerse: 24),
+  JuzIndexItem(juzNumber: 6, page: 102, startingSurahName: 'النساء', startingVerse: 148),
+  JuzIndexItem(juzNumber: 7, page: 121, startingSurahName: 'المائدة', startingVerse: 82),
+  JuzIndexItem(juzNumber: 8, page: 142, startingSurahName: 'الأنعام', startingVerse: 111),
+  JuzIndexItem(juzNumber: 9, page: 162, startingSurahName: 'الأعراف', startingVerse: 88),
+  JuzIndexItem(juzNumber: 10, page: 182, startingSurahName: 'الأنفال', startingVerse: 41),
+  JuzIndexItem(juzNumber: 11, page: 201, startingSurahName: 'التوبة', startingVerse: 92),
+  JuzIndexItem(juzNumber: 12, page: 222, startingSurahName: 'هود', startingVerse: 6),
+  JuzIndexItem(juzNumber: 13, page: 242, startingSurahName: 'يوسف', startingVerse: 53),
+  JuzIndexItem(juzNumber: 14, page: 262, startingSurahName: 'الحجر', startingVerse: 1),
+  JuzIndexItem(juzNumber: 15, page: 282, startingSurahName: 'الإسراء', startingVerse: 1),
+  JuzIndexItem(juzNumber: 16, page: 302, startingSurahName: 'الكهف', startingVerse: 75),
+  JuzIndexItem(juzNumber: 17, page: 322, startingSurahName: 'الأنبياء', startingVerse: 1),
+  JuzIndexItem(juzNumber: 18, page: 342, startingSurahName: 'المؤمنون', startingVerse: 1),
+  JuzIndexItem(juzNumber: 19, page: 362, startingSurahName: 'الفرقان', startingVerse: 21),
+  JuzIndexItem(juzNumber: 20, page: 382, startingSurahName: 'النمل', startingVerse: 56),
+  JuzIndexItem(juzNumber: 21, page: 402, startingSurahName: 'العنكبوت', startingVerse: 46),
+  JuzIndexItem(juzNumber: 22, page: 422, startingSurahName: 'الأحزاب', startingVerse: 31),
+  JuzIndexItem(juzNumber: 23, page: 442, startingSurahName: 'يس', startingVerse: 28),
+  JuzIndexItem(juzNumber: 24, page: 462, startingSurahName: 'الزمر', startingVerse: 32),
+  JuzIndexItem(juzNumber: 25, page: 482, startingSurahName: 'فصلت', startingVerse: 47),
+  JuzIndexItem(juzNumber: 26, page: 502, startingSurahName: 'الأحقاف', startingVerse: 1),
+  JuzIndexItem(juzNumber: 27, page: 522, startingSurahName: 'الذاريات', startingVerse: 31),
+  JuzIndexItem(juzNumber: 28, page: 542, startingSurahName: 'المجادلة', startingVerse: 1),
+  JuzIndexItem(juzNumber: 29, page: 562, startingSurahName: 'الملك', startingVerse: 1),
+  JuzIndexItem(juzNumber: 30, page: 582, startingSurahName: 'النبأ', startingVerse: 1),
+];
+
+const List<SajdahIndexItem> quranSajdahs = [
+  SajdahIndexItem(sajdahNumber: 1, surahName: 'الأعراف', surahNumber: 7, verse: 206, page: 176, revelationType: 'مكية'),
+  SajdahIndexItem(sajdahNumber: 2, surahName: 'الرعد', surahNumber: 13, verse: 15, page: 251, revelationType: 'مدنية'),
+  SajdahIndexItem(sajdahNumber: 3, surahName: 'النحل', surahNumber: 16, verse: 49, page: 272, revelationType: 'مكية'),
+  SajdahIndexItem(sajdahNumber: 4, surahName: 'الإسراء', surahNumber: 17, verse: 109, page: 293, revelationType: 'مكية'),
+  SajdahIndexItem(sajdahNumber: 5, surahName: 'مريم', surahNumber: 19, verse: 58, page: 309, revelationType: 'مكية'),
+  SajdahIndexItem(sajdahNumber: 6, surahName: 'الحج', surahNumber: 22, verse: 18, page: 334, revelationType: 'مدنية'),
+  SajdahIndexItem(sajdahNumber: 7, surahName: 'الحج', surahNumber: 22, verse: 77, page: 341, revelationType: 'مدنية'),
+  SajdahIndexItem(sajdahNumber: 8, surahName: 'الفرقان', surahNumber: 25, verse: 60, page: 365, revelationType: 'مكية'),
+  SajdahIndexItem(sajdahNumber: 9, surahName: 'النمل', surahNumber: 27, verse: 26, page: 379, revelationType: 'مكية'),
+  SajdahIndexItem(sajdahNumber: 10, surahName: 'السجدة', surahNumber: 32, verse: 15, page: 416, revelationType: 'مكية'),
+  SajdahIndexItem(sajdahNumber: 11, surahName: 'ص', surahNumber: 38, verse: 24, page: 454, revelationType: 'مكية'),
+  SajdahIndexItem(sajdahNumber: 12, surahName: 'فصلت', surahNumber: 41, verse: 38, page: 480, revelationType: 'مكية'),
+  SajdahIndexItem(sajdahNumber: 13, surahName: 'النجم', surahNumber: 53, verse: 62, page: 528, revelationType: 'مكية'),
+  SajdahIndexItem(sajdahNumber: 14, surahName: 'الانشقاق', surahNumber: 84, verse: 21, page: 589, revelationType: 'مكية'),
+  SajdahIndexItem(sajdahNumber: 15, surahName: 'العلق', surahNumber: 96, verse: 19, page: 597, revelationType: 'مكية'),
+];
+
+class QuranTopicItem {
+  final String title;
+  final String category;
+  final int surahNumber;
+  final String surahName;
+  final int verseStart;
+  final int verseEnd;
+  final int page;
+  final String summary;
+
+  const QuranTopicItem({
+    required this.title,
+    required this.category,
+    required this.surahNumber,
+    required this.surahName,
+    required this.verseStart,
+    required this.verseEnd,
+    required this.page,
+    required this.summary,
+  });
+}
+
+const List<QuranTopicItem> quranTopics = [
+  // 1. قصص الأنبياء
+  QuranTopicItem(
+    title: 'قصة موسى عليه السلام مع فرعون والسحرة',
+    category: 'قصص الأنبياء 📜',
+    surahNumber: 20,
+    surahName: 'طه',
+    verseStart: 9,
+    verseEnd: 79,
+    page: 312,
+    summary: 'نداء الله لموسى بالوادي المقدس طوى، ومعجزتا العصا واليد، ومواجهة سحرة فرعون وإيمانهم.',
+  ),
+  QuranTopicItem(
+    title: 'قصة يوسف عليه السلام كاملة (أحسن القصص)',
+    category: 'قصص الأنبياء 📜',
+    surahNumber: 12,
+    surahName: 'يوسف',
+    verseStart: 1,
+    verseEnd: 101,
+    page: 235,
+    summary: 'رؤيا يوسف، ومكر إخوته، وقصر العزيز، والصبر في السجن، والتمكين في الأرض ولقاء الأهل.',
+  ),
+  QuranTopicItem(
+    title: 'قصة إبراهيم عليه السلام ومحاججة قومه وبناء الكعبة',
+    category: 'قصص الأنبياء 📜',
+    surahNumber: 2,
+    surahName: 'البقرة',
+    verseStart: 124,
+    verseEnd: 132,
+    page: 19,
+    summary: 'ابتلاء إبراهيم بكلمات، ورفع قواعد البيت العتيق مع إسماعيل، ودعاؤه بالبركة والأمن.',
+  ),
+  QuranTopicItem(
+    title: 'قصة مريم البتول وميلاد عيسى عليه السلام',
+    category: 'قصص الأنبياء 📜',
+    surahNumber: 19,
+    surahName: 'مريم',
+    verseStart: 16,
+    verseEnd: 36,
+    page: 306,
+    summary: 'بشارة جبريل لمريم، والمخاض تحت جذع النخلة، وكلام عيسى في المهد صبياً.',
+  ),
+  QuranTopicItem(
+    title: 'قصة أصحاب الكهف والفتية المؤمنين',
+    category: 'قصص القرآن 📖',
+    surahNumber: 18,
+    surahName: 'الكهف',
+    verseStart: 9,
+    verseEnd: 26,
+    page: 294,
+    summary: 'لجوء الفتية إلى الغار فراراً بدينهم، ونومهم ثلاثمائة سنين وازدادوا تسعاً، وآية البعث.',
+  ),
+  QuranTopicItem(
+    title: 'قصة ذي القرنين ورحلاته في مشارق الأرض ومغاربها',
+    category: 'قصص القرآن 📖',
+    surahNumber: 18,
+    surahName: 'الكهف',
+    verseStart: 83,
+    verseEnd: 98,
+    page: 302,
+    summary: 'تمكين ذي القرنين في الأرض، وبناء الردم الحديدي بين الجبلين ضد يأجوج ومأجوج.',
+  ),
+  QuranTopicItem(
+    title: 'قصة يونس عليه السلام في بطن الحوت',
+    category: 'قصص الأنبياء 📜',
+    surahNumber: 21,
+    surahName: 'الأنبياء',
+    verseStart: 87,
+    verseEnd: 88,
+    page: 329,
+    summary: 'دعاء ذي النون في الظلمات: "لا إله إلا أنت سبحانك إني كنت من الظالمين" ونجاته من الغم.',
+  ),
+  // 2. العقيدة والإيمان
+  QuranTopicItem(
+    title: 'آية الكرسي وتوحيد الألوهية والربوبية',
+    category: 'العقيدة والإيمان 🕊️',
+    surahNumber: 2,
+    surahName: 'البقرة',
+    verseStart: 255,
+    verseEnd: 257,
+    page: 42,
+    summary: 'أعظم آية في القرآن الكريم، وتفرد الله بالحي القيوم وسعة كرسيه وعظمته.',
+  ),
+  QuranTopicItem(
+    title: 'صفات عباد الرحمن في سورة الفرقان',
+    category: 'العقيدة والإيمان 🕊️',
+    surahNumber: 25,
+    surahName: 'الفرقان',
+    verseStart: 63,
+    verseEnd: 77,
+    page: 365,
+    summary: 'المشية بالهون، وقيام الليل سجداً وقياماً، والدعاء بصرف عذاب جهنم، والإنفاق باعتدال.',
+  ),
+  QuranTopicItem(
+    title: 'خواتيم سورة الحشر وأسماء الله الحسنى',
+    category: 'العقيدة والإيمان 🕊️',
+    surahNumber: 59,
+    surahName: 'الحشر',
+    verseStart: 21,
+    verseEnd: 24,
+    page: 548,
+    summary: 'لو أنزلنا هذا القرآن على جبل لرأيته خاشعاً، وبيان أسماء الله الحسنى وصفاته العلا.',
+  ),
+  // 3. الأخلاق والمعاملات
+  QuranTopicItem(
+    title: 'آداب الأخلاق والنهي عن الغيبة والتجسس والسخرية',
+    category: 'الأخلاق والآداب 🌸',
+    surahNumber: 49,
+    surahName: 'الحجرات',
+    verseStart: 9,
+    verseEnd: 13,
+    page: 516,
+    summary: 'سورة الأخلاق الكريمة: الإصلاح بين المؤمنين، والنهي عن التنابز بالألقاب والتجسس والغيبة.',
+  ),
+  QuranTopicItem(
+    title: 'بر الوالدين وحقوق الأقارب والإحسان',
+    category: 'الأخلاق والآداب 🌸',
+    surahNumber: 17,
+    surahName: 'الإسراء',
+    verseStart: 23,
+    verseEnd: 38,
+    page: 284,
+    summary: 'وقضى ربك ألا تعبدوا إلا إياه وبالوالدين إحساناً، وخفض جناح الذل لهما من الرحمة.',
+  ),
+  QuranTopicItem(
+    title: 'وصايا لقمان الحكيم لابنه',
+    category: 'الأخلاق والآداب 🌸',
+    surahNumber: 31,
+    surahName: 'لقمان',
+    verseStart: 12,
+    verseEnd: 19,
+    page: 412,
+    summary: 'التحذير من الشرك، وإقامة الصلاة، والأمر بالمعروف، وخفض الصوت والتواضع في المشي.',
+  ),
+  // 4. الرزق والفرج والسكينة
+  QuranTopicItem(
+    title: 'سعة الرزق والاستغفار في سورة نوح والطلاق',
+    category: 'الرزق والفرج 💰',
+    surahNumber: 71,
+    surahName: 'نوح',
+    verseStart: 10,
+    verseEnd: 20,
+    page: 570,
+    summary: 'استغفروا ربكم إنه كان غفاراً يرسل السماء عليكم مدراراً، ومن يتق الله يجعل له مخرجاً.',
+  ),
+  QuranTopicItem(
+    title: 'آيات السكينة وانشراح الصدر واليسر بعد العسر',
+    category: 'السكينة والرجاء 🌿',
+    surahNumber: 94,
+    surahName: 'الشرح',
+    verseStart: 1,
+    verseEnd: 8,
+    page: 596,
+    summary: 'ألم نشرح لك صدرك، ورفع الذكر، وتكرار البشارة: إن مع العسر يسراً.',
+  ),
+  // 5. الجنة ونعيمها
+  QuranTopicItem(
+    title: 'وصف الجنة ونعيم أهلها في سورة الرحمن والواقعة',
+    category: 'الجنة والنعيم 🌴',
+    surahNumber: 56,
+    surahName: 'الواقعة',
+    verseStart: 10,
+    verseEnd: 40,
+    page: 534,
+    summary: 'السابقون السابقون أولئك المقربون في جنات النعيم، وأصحاب اليمين في سدر مخضود.',
+  ),
+  QuranTopicItem(
+    title: 'سعة رحمة الله ومغفرة الذنوب للمستغفرين',
+    category: 'السكينة والرجاء 🌿',
+    surahNumber: 39,
+    surahName: 'الزمر',
+    verseStart: 53,
+    verseEnd: 59,
+    page: 464,
+    summary: 'قل يا عبادي الذين أسرفوا على أنفسهم لا تقنطوا من رحمة الله إن الله يغفر الذنوب جميعاً.',
+  ),
+];
+

@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - Sakan Al-Rooh | سياسة الخصوصية - سكن الروح</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #10B981;
+            --primary-dark: #059669;
+            --gold: #D4AF37;
+            --bg-dark: #07131D;
+            --card-bg: #0E1E2C;
+            --card-inner: #16293A;
+            --text-main: #F8FAFC;
+            --text-muted: #94A3B8;
+            --border: #23394D;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Cairo', 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.8;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--border);
+        }
+
+        .lang-switch {
+            display: flex;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .lang-btn {
+            background: var(--card-inner);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            padding: 0.5rem 1.25rem;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 700;
+            font-family: inherit;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+        }
+
+        .lang-btn.active, .lang-btn:hover {
+            background: var(--gold);
+            color: #000;
+            border-color: var(--gold);
+        }
+
+        .header {
+            text-align: center;
+            padding-bottom: 1.75rem;
+            border-bottom: 2px solid var(--border);
+            margin-bottom: 2rem;
+        }
+
+        .dev-badge {
+            display: inline-block;
+            background: rgba(212, 175, 55, 0.15);
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            padding: 0.35rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-top: 0.75rem;
+        }
+
+        h1 {
+            color: var(--gold);
+            font-size: 1.9rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .meta-info {
+            color: var(--text-muted);
+            font-size: 0.92rem;
+            margin-top: 0.5rem;
+            line-height: 1.6;
+        }
+
+        .section {
+            margin-bottom: 2rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 1.5rem;
+            border-radius: 14px;
+        }
+
+        h2 {
+            color: #38BDF8;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        p, li {
+            color: #CBD5E1;
+            font-size: 1.02rem;
+            margin-bottom: 0.75rem;
+        }
+
+        ul {
+            padding-right: 1.5rem;
+            padding-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        .highlight-box {
+            background: rgba(16, 185, 129, 0.1);
+            border-right: 4px solid var(--primary);
+            border-left: 4px solid var(--primary);
+            padding: 1.25rem;
+            border-radius: 10px;
+            margin: 1.5rem 0;
+        }
+
+        .footer {
+            margin-top: 2.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .lang-content {
+            display: none;
+        }
+
+        .lang-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Language Switcher -->
+        <div class="lang-switch">
+            <button class="lang-btn active" onclick="setLang('ar')">العربية 🇸🇦</button>
+            <button class="lang-btn" onclick="setLang('en')">English 🌐</button>
+            <button class="lang-btn" onclick="setLang('zh')">简体中文 🇨🇳</button>
+        </div>
+
+        <!-- ================= Arabic Version ================= -->
+        <div id="content-ar" class="lang-content active" dir="rtl">
+            <div class="header">
+                <div style="font-size: 3rem; margin-bottom: 0.5rem;">🕊️</div>
+                <h1>وثيقة سياسة الخصوصية وحماية البيانات</h1>
+                <p style="font-size: 1.2rem; font-weight: 700; color: var(--gold); margin-top: 0.3rem;">تطبيق: سكن الروح (Sakan Al-Rooh)</p>
+                <div class="dev-badge">اسم المطور: Ahmed Digitalhub (Ahmed Ibrahem Mohamed)</div>
+                <p class="meta-info">
+                    البريد الإلكتروني الرسمي: <strong>ahmed.digitalhub.official@gmail.com</strong><br>
+                    تاريخ آخر تحديث: 3 سبتمبر 2026 • يتوافق مع إرشادات Huawei AppGallery و Google Play
+                </p>
+            </div>
+
+            <div class="highlight-box">
+                <p>تلتزم إدارة تطبيق <strong>سكن الروح (Sakan Al-Rooh)</strong>، المطور بواسطة <strong>Ahmed Digitalhub (Ahmed Ibrahem Mohamed)</strong>، بحماية خصوصيتك وحقوق بياناتك الشخصية إلى أقصى حد. هذا التطبيق إسلامي صدقة جارية، خالٍ تماماً من الإعلانات ومن أي بيع أو مشاركة للبيانات مع أطراف خارجية.</p>
+            </div>
+
+            <div class="section">
+                <h2>1. الأذونات والصلاحيات والغرض منها (Permissions & Purposes)</h2>
+                <ul>
+                    <li><strong>الموقع الجغرافي (Fine & Coarse Location):</strong> يُستخدم محلياً وحصرياً لحساب مواقيت الصلاة الفلكية الدقيقة وتحديد اتجاه القبلة بالبوصلة وفق خطوط الطول والعرض. <em>لا يتم رفع أو تخزين أو تتبع موقعك الجغرافي خارج جهازك إطلاقاً.</em></li>
+                    <li><strong>الميكروفون وتسجيل الصوت (Record Audio):</strong> يُطلب فقط في ميزة «تسميع وتدريب تلاوة القرآن» لتسجيل تلاوتك والاستماع إليها لتقييم حفظك ذاتياً. تظل التسجيلات مؤقتة ومحفوظة محلياً على جهازك.</li>
+                    <li><strong>الصور والذاكرة التخزينية (Read & Write Storage):</strong> تُستخدم لتنزيل التلاوات الصوتية للمصحف الشريف للاستماع بدون إنترنت، وحفظ بطاقات الآيات المصممة في معرض صورك.</li>
+                    <li><strong>الكاميرا (Camera):</strong> تُستخدم حصرياً في ميزة «القبلة بالواقع المعزز AR» لعرض الكعبة وفي ميزة «استوديو البطاقات» عند رغبة المستخدم في التقاط صورة خلفية لبطاقة الذكر. لا يتم تسجيل أو رفع أي صور.</li>
+                    <li><strong>حساب هواوي (Huawei ID) والمزامنة السحابية:</strong> ميزة اختيارية لمزامنة علامات القراءة وعداد الأذكار وقصر الجنة بين أجهزتك. لا يتم تخزين سوى المعرف الرقمي وبيانات التقدم التعبدي.</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>2. ما لا نقوم به ببياناتك مطلقاً</h2>
+                <ul>
+                    <li>لا نبيع أو نؤجر أو نشارك أي بيانات شخصية مع أي جهات خارجية أو شبكات إعلانية.</li>
+                    <li>التطبيق خالٍ 100% من الإعلانات التجارية الموجهة أو غير الموجهة.</li>
+                    <li>لا نطلب أي بيانات مالية أو أرقام بطاقات مصرفية.</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>3. حقوق المستخدم وحذف البيانات (Data Deletion)</h2>
+                <ul>
+                    <li>يمتلك المستخدم التحكم الكامل؛ يمكنك مسح وتصفير كافة بياناتك التراكمية بنقرة واحدة من خيار <strong>«إعادة ضبط البيانات»</strong> داخل شاشة الإعدادات.</li>
+                    <li>إلغاء تثبيت التطبيق يمسح كافة البيانات المخزنة محلياً بالكامل.</li>
+                    <li>يمكنك مراسلتنا في أي وقت لطلب مسح أي بيانات سحابية عبر البريد: <strong>ahmed.digitalhub.official@gmail.com</strong>.</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>4. معلومات المطور والاتصال القانوني</h2>
+                <p>• <strong>اسم التطبيق:</strong> سكن الروح (Sakan Al-Rooh)</p>
+                <p>• <strong>اسم المطور:</strong> Ahmed Digitalhub (Ahmed Ibrahem Mohamed)</p>
+                <p>• <strong>البريد الإلكتروني:</strong> ahmed.digitalhub.official@gmail.com</p>
+            </div>
+        </div>
+
+        <!-- ================= English Version ================= -->
+        <div id="content-en" class="lang-content" dir="ltr">
+            <div class="header">
+                <div style="font-size: 3rem; margin-bottom: 0.5rem;">🕊️</div>
+                <h1>Privacy Policy & Data Protection</h1>
+                <p style="font-size: 1.2rem; font-weight: 700; color: var(--gold); margin-top: 0.3rem;">Application: Sakan Al-Rooh (سكن الروح)</p>
+                <div class="dev-badge">Developer Name: Ahmed Digitalhub (Ahmed Ibrahem Mohamed)</div>
+                <p class="meta-info">
+                    Official Contact Email: <strong>ahmed.digitalhub.official@gmail.com</strong><br>
+                    Last Updated: September 3, 2026 • Compliant with Huawei AppGallery & Google Play Policies
+                </p>
+            </div>
+
+            <div class="highlight-box">
+                <p><strong>Sakan Al-Rooh (سكن الروح)</strong>, developed by <strong>Ahmed Digitalhub (Ahmed Ibrahem Mohamed)</strong> ("we", "our", or "us"), is deeply committed to protecting your privacy. Our app is a non-profit Islamic charitable project (Sadaqah Jariyah), 100% ad-free, and does not sell or rent user data to any third party.</p>
+            </div>
+
+            <div class="section">
+                <h2>1. Permissions Collected and Stated Purposes</h2>
+                <ul>
+                    <li><strong>Location Data (Fine & Coarse GPS):</strong> Processed strictly on-device to calculate astronomical prayer times and determine Qibla compass direction. <em>Coordinates are never tracked, transmitted, or stored on external servers.</em></li>
+                    <li><strong>Audio & Microphone (Record Audio):</strong> Requested solely for the optional "Quran Recitation Practice" feature, allowing users to record and self-evaluate their recitation. Recordings remain local and temporary.</li>
+                    <li><strong>Storage & Media:</strong> Used to download Quranic audio recitations for offline listening and save custom Islamic greeting cards to your device photo gallery.</li>
+                    <li><strong>Camera:</strong> Used exclusively for Augmented Reality (AR) Qibla visualizer and capturing card backgrounds in Card Studio. No photos or videos are uploaded.</li>
+                    <li><strong>Huawei ID & Account Data:</strong> Optional cloud synchronization for bookmarks, khatma goals, and dhikr counts. Only technical IDs and worship progress counters are synchronized.</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>2. What We Never Do</h2>
+                <ul>
+                    <li>We DO NOT sell, monetize, or rent any personal data to third parties or advertising brokers.</li>
+                    <li>The app is completely free of commercial advertisements and ad-trackers.</li>
+                    <li>We DO NOT collect payment information, banking details, or phone numbers.</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>3. User Rights & Data Deletion</h2>
+                <ul>
+                    <li>Users have full autonomy to erase all stored local data instantly via the "Reset App Data" option inside Settings.</li>
+                    <li>Uninstalling the app immediately deletes all local preferences and offline caches.</li>
+                    <li>For cloud sync data deletion, contact us directly at <strong>ahmed.digitalhub.official@gmail.com</strong>.</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>4. Developer & Legal Contact Information</h2>
+                <p>• <strong>App Name:</strong> Sakan Al-Rooh (سكن الروح)</p>
+                <p>• <strong>Developer Name:</strong> Ahmed Digitalhub (Ahmed Ibrahem Mohamed)</p>
+                <p>• <strong>Support Email:</strong> ahmed.digitalhub.official@gmail.com</p>
+            </div>
+        </div>
+
+        <!-- ================= Chinese Version ================= -->
+        <div id="content-zh" class="lang-content" dir="ltr">
+            <div class="header">
+                <div style="font-size: 3rem; margin-bottom: 0.5rem;">🕊️</div>
+                <h1>隐私政策与个人信息保护声明</h1>
+                <p style="font-size: 1.2rem; font-weight: 700; color: var(--gold); margin-top: 0.3rem;">应用程序：Sakan Al-Rooh (سكن الروح)</p>
+                <div class="dev-badge">开发者姓名：Ahmed Digitalhub (Ahmed Ibrahem Mohamed)</div>
+                <p class="meta-info">
+                    官方支持邮箱：<strong>ahmed.digitalhub.official@gmail.com</strong><br>
+                    最后更新日期：2026年9月3日 • 符合华为应用市场 (Huawei AppGallery) 审核规范
+                </p>
+            </div>
+
+            <div class="highlight-box">
+                <p>由 <strong>Ahmed Digitalhub (Ahmed Ibrahem Mohamed)</strong> 开发的 <strong>Sakan Al-Rooh (سكن الروح)</strong> 承诺严格保护用户的个人信息与隐私安全。本应用为完全免费、无广告的伊斯兰文化辅助工具，绝不会向任何第三方出售或滥用用户数据。</p>
+            </div>
+
+            <div class="section">
+                <h2>1. 申请的权限与使用目的</h2>
+                <ul>
+                    <li><strong>地理位置信息 (GPS 定位)：</strong>仅在本地设备计算礼拜时刻与朝向指南针方位，绝不在外部服务器存储或跟踪任何位置信息。</li>
+                    <li><strong>录音与麦克风 (Record Audio)：</strong>仅用于“诵读背诵自测”功能，供用户自测背诵，录音文件仅存储在本地设备中。</li>
+                    <li><strong>存储与相册权限：</strong>用于离线下载音频文件以及保存用户在卡片工坊中制作的问候图片至本地相册。</li>
+                    <li><strong>相机权限：</strong>仅在增强现实 (AR) 朝向指引及自定义卡片背景拍照时调用，不收集或上传任何图像。</li>
+                    <li><strong>华为账号 (Huawei ID)：</strong>用户自愿登录，用于多设备间云端同步阅读进度和计数器，仅同步数字标识。</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>2. 数据安全与用户权利 (撤回与删除)</h2>
+                <ul>
+                    <li>用户可随时在应用内“设置 -> 重置应用数据”中一键清除所有本地数据。</li>
+                    <li>卸载应用将自动彻底清除所有本地存储内容。</li>
+                    <li>如需注销或删除关联云端数据，请发送邮件至：<strong>ahmed.digitalhub.official@gmail.com</strong>。</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>3. 开发者联系方式</h2>
+                <p>• <strong>应用名称：</strong>Sakan Al-Rooh (سكن الروح)</p>
+                <p>• <strong>开发者名称：</strong>Ahmed Digitalhub (Ahmed Ibrahem Mohamed)</p>
+                <p>• <strong>联系邮箱：</strong>ahmed.digitalhub.official@gmail.com</p>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>© 2026 Sakan Al-Rooh (سكن الروح) • Developed by Ahmed Digitalhub (Ahmed Ibrahem Mohamed) • All Rights Reserved</p>
+        </div>
+    </div>
+
+    <script>
+        function setLang(lang) {
+            document.querySelectorAll('.lang-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.lang-btn').forEach(el => el.classList.remove('active'));
+            
+            document.getElementById('content-' + lang).classList.add('active');
+            
+            const btns = document.querySelectorAll('.lang-btn');
+            if (lang === 'ar') btns[0].classList.add('active');
+            else if (lang === 'en') btns[1].classList.add('active');
+            else if (lang === 'zh') btns[2].classList.add('active');
+        }
+    </script>
+</body>
+</html>

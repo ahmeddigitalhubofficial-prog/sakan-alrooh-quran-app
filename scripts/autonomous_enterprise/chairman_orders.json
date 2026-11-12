@@ -1,0 +1,59 @@
+[
+  {
+    "timestamp": "2026-10-18 14:17:33",
+    "type": "direct_chairman_instruction",
+    "text": "ايه اخر التحديثات اللي تمت من اخر بناء اصدار 1.1.6",
+    "details": {},
+    "status": "executed_and_replied",
+    "executed_at": "2026-10-18 14:18:41"
+  },
+  {
+    "timestamp": "2026-10-18 14:19:42",
+    "type": "direct_chairman_instruction",
+    "text": "مش بس فيه حاجات قديمة تمت من قبل شوف كل الملفات و التعديلات السابقة",
+    "details": {},
+    "status": "dispatched_to_developer_ide"
+  },
+  {
+    "timestamp": "2026-10-18 20:03:30",
+    "type": "execute_plan_now",
+    "text": "بدء تنفيذ خطة العمل الثلاثية المعتمدة",
+    "details": {},
+    "status": "dispatched_to_developer_ide"
+  },
+  {
+    "timestamp": "2026-10-18 20:31:07",
+    "type": "approve_publish",
+    "text": "اعتماد ونشر الحملة التسويقية رسمياً",
+    "details": {},
+    "status": "dispatched_to_developer_ide"
+  },
+  {
+    "timestamp": "2026-10-18 23:00:45",
+    "type": "schedule_full_week",
+    "text": "جدولة حملة الأسبوع كاملاً (7 أيام)",
+    "details": {},
+    "status": "dispatched_to_developer_ide"
+  },
+  {
+    "timestamp": "2026-10-18 23:43:25",
+    "type": "schedule_full_week",
+    "text": "جدولة حملة الأسبوع كاملاً (7 أيام)",
+    "details": {},
+    "status": "dispatched_to_developer_ide"
+  },
+  {
+    "timestamp": "2026-10-18 23:46:45",
+    "type": "schedule_full_week",
+    "text": "جدولة حملة الأسبوع كاملاً (7 أيام)",
+    "details": {},
+    "status": "dispatched_to_developer_ide"
+  },
+  {
+    "timestamp": "2026-10-24T06:32:12.303652",
+    "type": "schedule_campaign_days",
+    "instruction": "جدولة 10 أيام متتالية في الموعد الذهبي",
+    "details": {},
+    "status": "acknowledged"
+  }
+]

@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الختمة القرآنية التشاركية - تطبيق نور الهدى</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0F5A3E;
+            --primary-dark: #0A3C2A;
+            --accent: #D4AF37;
+            --accent-light: #FFE082;
+            --bg: #0D1612;
+            --card-bg: rgba(20, 38, 30, 0.85);
+            --border: rgba(212, 175, 55, 0.25);
+            --text: #F5F5F5;
+            --text-muted: #A0B2A6;
+            --green-glow: #00E676;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(15, 90, 62, 0.4) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(212, 175, 55, 0.15) 0%, transparent 40%);
+            padding-bottom: 60px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 20px 20px;
+        }
+
+        .logo-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(212, 175, 55, 0.12);
+            border: 1px solid var(--border);
+            padding: 6px 18px;
+            border-radius: 30px;
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #FFFFFF;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .khatma-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 24px;
+            margin: 20px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .khatma-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .khatma-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--accent-light);
+        }
+
+        .progress-container {
+            margin: 15px 0;
+        }
+
+        .progress-bar-bg {
+            background: rgba(255,255,255,0.1);
+            height: 12px;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar-fill {
+            background: linear-gradient(90deg, var(--accent), var(--green-glow));
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .progress-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 6px;
+        }
+
+        /* 30 Parts Grid */
+        .parts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .part-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 14px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            position: relative;
+        }
+
+        .part-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent);
+            background: rgba(212, 175, 55, 0.1);
+        }
+
+        .part-card.available {
+            border-color: rgba(0, 230, 118, 0.3);
+        }
+
+        .part-card.reserved {
+            background: rgba(255, 152, 0, 0.12);
+            border-color: rgba(255, 152, 0, 0.4);
+        }
+
+        .part-card.completed {
+            background: rgba(212, 175, 55, 0.18);
+            border-color: var(--accent);
+        }
+
+        .part-num {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #FFF;
+        }
+
+        .part-status {
+            font-size: 0.75rem;
+            margin-top: 4px;
+            color: var(--text-muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .part-card.available .part-status { color: #69F0AE; }
+        .part-card.reserved .part-status { color: #FFB74D; }
+        .part-card.completed .part-status { color: var(--accent-light); font-weight: bold; }
+
+        /* Actions Button */
+        .actions-row {
+            display: flex;
+            gap: 12px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            flex: 1;
+            min-width: 200px;
+            padding: 14px 20px;
+            border-radius: 16px;
+            border: none;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .btn-whatsapp {
+            background: #25D366;
+            color: #FFFFFF;
+        }
+
+        .btn-whatsapp:hover {
+            background: #20BA5A;
+            transform: scale(1.02);
+        }
+
+        .btn-app {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: #FFFFFF;
+        }
+
+        .btn-app:hover {
+            opacity: 0.95;
+            transform: scale(1.02);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.75);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            z-index: 999;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-card {
+            background: #14261E;
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 24px;
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+        }
+
+        .modal-input {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(0,0,0,0.3);
+            color: #FFF;
+            font-size: 1rem;
+            margin: 15px 0;
+            outline: none;
+            text-align: center;
+        }
+
+        .modal-input:focus {
+            border-color: var(--accent);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <div class="logo-badge">
+                <span>📖</span>
+                <span>تطبيق نور الهدى الإسلامي</span>
+            </div>
+            <h1 id="khatmaName">الختمة القرآنية المباركة</h1>
+            <p class="subtitle">شارك الأجر مع العائلة والأصدقاء واحجز جزءك لقراءته وإتمام الختمة معاً</p>
+        </header>
+
+        <div class="khatma-card">
+            <div class="khatma-header">
+                <div class="khatma-title" id="khatmaGoal">ختمة مهداة لروح المرحوم بإذن الله 🤲</div>
+                <div class="logo-badge" id="completedBadge">0 / 30 جزء مكتمل</div>
+            </div>
+
+            <div class="progress-container">
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" id="progressBar"></div>
+                </div>
+                <div class="progress-stats">
+                    <span id="progressPercent">0% مكتمل</span>
+                    <span id="availablePartsCount">30 جزء متاح للحجز</span>
+                </div>
+            </div>
+
+            <!-- 30 Parts -->
+            <div class="parts-grid" id="partsGrid"></div>
+
+            <div class="actions-row">
+                <a href="#" class="btn btn-whatsapp" id="shareWhatsappBtn">
+                    <span>📲</span>
+                    <span>مشاركة الختمة على واتساب</span>
+                </a>
+                <a href="https://play.google.com/store/apps/details?id=com.nooralhoda.official.app" target="_blank" class="btn btn-app">
+                    <span>🌟</span>
+                    <span>تحميل تطبيق نور الهدى</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reserve Modal -->
+    <div class="modal-overlay" id="reserveModal">
+        <div class="modal-card">
+            <h3 style="color: var(--accent); margin-bottom: 8px;" id="modalPartTitle">حجز الجزء</h3>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">اكتب اسمك لحجز هذا الجزء والبدء في تلاوته:</p>
+            <input type="text" id="participantName" class="modal-input" placeholder="اسمك الكريم (مثال: أحمد)">
+            <div style="display: flex; gap: 10px;">
+                <button class="btn btn-app" onclick="confirmReserve()" style="flex: 2;">تأكيد الحجز ✨</button>
+                <button class="btn" onclick="closeModal()" style="background: rgba(255,255,255,0.1); color: #FFF; flex: 1;">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Complete Action Modal -->
+    <div class="modal-overlay" id="completeModal">
+        <div class="modal-card">
+            <h3 style="color: var(--accent); margin-bottom: 8px;" id="completePartTitle">إتمام القراءة</h3>
+            <p style="color: var(--text-muted); font-size: 0.9rem;" id="completePartSubtitle"></p>
+            <div style="display: flex; gap: 10px; margin-top: 20px;">
+                <button class="btn" style="background: var(--green-glow); color: #000;" onclick="markAsCompleted()">أتممت القراءة بحمد الله ✅</button>
+                <button class="btn" onclick="closeModal()" style="background: rgba(255,255,255,0.1); color: #FFF;">إغلاق</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // State
+        const khatmaId = new URLSearchParams(window.location.search).get('id') || 'general';
+        const storageKey = 'noor_khatma_' + khatmaId;
+        
+        let parts = JSON.parse(localStorage.getItem(storageKey)) || Array.from({length: 30}, (_, i) => ({
+            number: i + 1,
+            status: 'available', // available, reserved, completed
+            assignedTo: ''
+        }));
+
+        let activePartIndex = -1;
+
+        function saveState() {
+            localStorage.setItem(storageKey, JSON.stringify(parts));
+            renderGrid();
+        }
+
+        function renderGrid() {
+            const grid = document.getElementById('partsGrid');
+            grid.innerHTML = '';
+            let completedCount = 0;
+            let reservedCount = 0;
+
+            parts.forEach((part, index) => {
+                if (part.status === 'completed') completedCount++;
+                if (part.status === 'reserved') reservedCount++;
+
+                const card = document.createElement('div');
+                card.className = `part-card ${part.status}`;
+                
+                let statusText = 'متاح للحجز 🟢';
+                if (part.status === 'reserved') statusText = `محجوز: ${part.assignedTo} 👤`;
+                if (part.status === 'completed') statusText = `مكتمل (${part.assignedTo}) ✨`;
+
+                card.innerHTML = `
+                    <div class="part-num">الجزء ${part.number}</div>
+                    <div class="part-status">${statusText}</div>
+                `;
+
+                card.onclick = () => handlePartClick(index);
+                grid.appendChild(card);
+            });
+
+            // Update Progress
+            const percent = Math.round((completedCount / 30) * 100);
+            document.getElementById('progressBar').style.width = percent + '%';
+            document.getElementById('progressPercent').innerText = percent + '% مكتمل';
+            document.getElementById('completedBadge').innerText = `${completedCount} / 30 جزء مكتمل`;
+            document.getElementById('availablePartsCount').innerText = `${30 - completedCount - reservedCount} جزء متاح`;
+
+            // Update Share Link
+            const shareText = `📖 ندعوكم للمشاركة في الختمة القرآنية المباركة عبر الرابط:\n${window.location.href}\n\nالأجزاء المكتملة: ${completedCount} / 30\nتطبيق نور الهدى 🌙`;
+            document.getElementById('shareWhatsappBtn').href = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`;
+        }
+
+        function handlePartClick(index) {
+            activePartIndex = index;
+            const part = parts[index];
+            if (part.status === 'available') {
+                document.getElementById('modalPartTitle').innerText = `حجز الجزء ${part.number}`;
+                document.getElementById('participantName').value = '';
+                document.getElementById('reserveModal').style.display = 'flex';
+            } else if (part.status === 'reserved') {
+                document.getElementById('completePartTitle').innerText = `الجزء ${part.number}`;
+                document.getElementById('completePartSubtitle').innerText = `هذا الجزء محجوز لـ (${part.assignedTo}). هل أتممت قراءته؟`;
+                document.getElementById('completeModal').style.display = 'flex';
+            }
+        }
+
+        function confirmReserve() {
+            const name = document.getElementById('participantName').value.trim() || 'فاعل خير';
+            parts[activePartIndex].status = 'reserved';
+            parts[activePartIndex].assignedTo = name;
+            closeModal();
+            saveState();
+        }
+
+        function markAsCompleted() {
+            parts[activePartIndex].status = 'completed';
+            closeModal();
+            saveState();
+        }
+
+        function closeModal() {
+            document.getElementById('reserveModal').style.display = 'none';
+            document.getElementById('completeModal').style.display = 'none';
+        }
+
+        // Init
+        renderGrid();
+    </script>
+</body>
+</html>

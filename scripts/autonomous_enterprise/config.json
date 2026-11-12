@@ -1,0 +1,52 @@
+{
+  "bot_token": "8602505124:AAGBLZAogAeDlsjNnDSwpH9O1ri84CaIbZY",
+  "bot_username": "SakanAlRoohExecBot",
+  "bot_name": "المكتب التنفيذي لسكن الروح",
+  "chairman_chat_id": 8114686643,
+  "target_buffer_days": 10,
+  "auto_refill_enabled": true,
+  "app_name_ar": "سكن الروح",
+  "app_name_en": "Sakan Al-Rooh",
+  "package_name": "com.nooralhoda.official.app",
+  "store_urls": {
+    "universal_bio": "https://linktr.ee/sakan.alrooh.app",
+    "google_play": "https://play.google.com/store/apps/details?id=com.nooralhoda.official.app",
+    "huawei_appgallery": "https://appgallery.huawei.com/app/C118816285"
+  },
+  "social_channels": {
+    "youtube": "https://www.youtube.com/@SakanAl-Rooh",
+    "tiktok": "https://www.tiktok.com/@sakan.alrooh.app",
+    "instagram": "https://www.instagram.com/sakan.alrooh.app",
+    "facebook": "https://www.facebook.com/profile.php?id=61595603427400"
+  },
+  "executive_team": {
+    "md": "المدير العام التنفيذي للمنظومة",
+    "growth": "رئيس قطاع النمو والانتشار الفيروسي",
+    "media": "مدير الإنتاج المرئي وصناعة المحتوى",
+    "aso": "كبير مستشاري تصدر المتاجر الدولية (ASO)",
+    "qa": "كبير مهندسي الجودة والاعتمادية",
+    "cxo": "مسؤول تجربة وسعادة المستخدمين عالمياً",
+    "devops": "كبير مهندسي السحاب والتحديثات الفورية (DevOps)",
+    "analytics": "محلل البيانات الضخمة وسلوك المستخدمين",
+    "notifications": "خبير هندسة العادات والإشعارات الذكية",
+    "partnerships": "مسؤول الشراكات والانتشار الرقمي",
+    "sharia_auditor": "هيئة المراجعة الشرعية واللغوية"
+  },
+  "buffer": {
+    "api_key": "EGCEc9vYeQaDlVjkpUTqtxTHV-gE3vG4MT66unik129",
+    "organization_id": "6ad4af479953859049c7ccbe",
+    "account_id": "6ad4af479953859049c7ccba"
+  },
+  "cloudinary": {
+    "cloud_name": "bmp3hs5g",
+    "api_key": "958446428664755",
+    "api_secret": "c2ZJUkD0HUqpJYukYgjkaqzXEiU",
+    "url": "cloudinary://958446428664755:c2ZJUkD0HUqpJYukYgjkaqzXEiU@bmp3hs5g"
+  },
+  "sim_ai": {
+    "api_key": "sk-sim-6rgZwk_7lhy4_JilCqrgGkE4KZWwm_oe",
+    "workspace_id": "6c8f6d21-2a7c-402e-8d73-9cbe498f1adb",
+    "workflow_id": "b43039c3-3fa0-469e-bcd0-37c6d097e4ef",
+    "workflow_url": "https://www.sim.ai/workspace/6c8f6d21-2a7c-402e-8d73-9cbe498f1adb/w/b43039c3-3fa0-469e-bcd0-37c6d097e4ef"
+  }
+}

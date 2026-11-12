@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">سكن الروح - Sakan Al-Rooh</string>
+    <string name="widget_name">سكن الروح - مواقيت الصلاة (كبير)</string>
+    <string name="widget_description">عرض الصلاة القادمة والوقت المتبقي ومواقيت اليوم بدقة على شاشة هاتفك</string>
+    <string name="widget_compact_name">سكن الروح - الصلاة القادمة (موجز)</string>
+    <string name="widget_compact_description">ودجت مربعة أنيقة تعرض الصلاة القادمة والوقت المتبقي</string>
+</resources>
