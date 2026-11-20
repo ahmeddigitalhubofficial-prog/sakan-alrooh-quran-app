@@ -22,6 +22,10 @@ class PlatformServiceHub {
   static bool get isCompileTimeHuawei => compileTimeTargetStore == 'huawei';
   static bool get isCompileTimeGoogle => compileTimeTargetStore == 'google';
 
+  static bool get isHuawei => isCompileTimeHuawei || _ecosystem.isHuawei;
+  static bool get isApple => isCompileTimeApple || _ecosystem.isApple;
+  static bool get isGoogle => isCompileTimeGoogle || _ecosystem.isGoogle;
+
   // --- روابط المتاجر الرسمية لتطبيق سكن الروح ---
   static const String googlePlayUrl =
       'https://play.google.com/store/apps/details?id=com.nooralhoda.official.app';
@@ -130,6 +134,18 @@ $huaweiAppGalleryUrl''';
     if (isCompileTimeGoogle) {
       return '''• متجر Google Play:
 $googlePlayUrl''';
+    }
+
+    // إذا كان الجهاز يعمل بنظام هواوي، نضع متجر هواوي أولاً
+    if (_ecosystem.isHuawei) {
+      return '''• متجر Huawei AppGallery (لهواتف هواوي):
+$huaweiAppGalleryUrl
+
+• متجر Google Play (أندرويد):
+$googlePlayUrl
+
+• رابط التحميل الشامل لكافة الأجهزة وقنواتنا:
+https://linktr.ee/sakan.alrooh.app''';
     }
 
     // الوضع العام الحالي للمستخدمين: Google Play و Huawei AppGallery ورابط التحميل الشامل

@@ -813,8 +813,35 @@ def check_and_auto_refill(chat_id=None):
         return
 
     try:
-        occupied = md.buffer.get_occupied_dates()
         today_str = datetime.now().strftime("%Y-%m-%d")
+
+        # 1. نظام الترميم التلقائي للأيام الناقصة (Incomplete Dates Auto-Healing)
+        incomplete = md.buffer.get_incomplete_dates() if hasattr(md.buffer, "get_incomplete_dates") else {}
+        if incomplete:
+            print(f"🔧 Auto-Healing active: Found {len(incomplete)} incomplete date(s). Re-syncing missing platforms...")
+            for d_str, info in incomplete.items():
+                if d_str >= today_str:
+                    txt = info.get("text", "")
+                    matched_day_num = None
+                    for c_idx, c_day in enumerate(CAMPAIGN_DAYS, start=1):
+                        clean_title = c_day.get("title", "").replace("🌙", "").strip()[:20]
+                        if clean_title and clean_title in txt:
+                            matched_day_num = c_idx
+                            break
+                    if matched_day_num:
+                        pkg = md.prepare_daily_package(matched_day_num)
+                        res = md.buffer.publish_post(
+                            pkg["caption"],
+                            channel_ids=info["missing_channels"],
+                            media_path=pkg["reel_path"],
+                            due_at=info["due_at"],
+                            mode="customScheduled"
+                        )
+                        if res.get("success"):
+                            print(f"✅ Healed missing platforms for {d_str} (Day #{matched_day_num})")
+
+        # 2. فحص الأيام المحجوزة بالكامل وإضافة أيام جديدة لنهاية الطابور
+        occupied = md.buffer.get_occupied_dates()
         future_occupied = [d for d in occupied if d >= today_str]
 
         target_buffer_days = CONFIG.get("target_buffer_days", 10)
@@ -839,6 +866,18 @@ def check_and_auto_refill(chat_id=None):
                 next_day_num = last_day + 1
                 if next_day_num > len(CAMPAIGN_DAYS):
                     next_day_num = 1
+
+                # تنبيه وتفعيل التوليد التلقائي للدفعة التالية بناءً على توجيهات رئيس مجلس الإدارة (الأيام 50 و 55)
+                if next_day_num in [50, 55] and chat_id:
+                    try:
+                        send_message(
+                            chat_id,
+                            f"🔔 **تنبيه مخزون المحتوى الاستراتيجي (اليوم #{next_day_num}):**\n"
+                            "استناداً للأمر الإداري الدائم لرئيس مجلس الإدارة، اقتربت الدفعة الأولى من نهايتها؛ "
+                            "وجاهزية محرك التوليد الآلي نشطة الآن لإنتاج دفعة الـ 60 فيديو الإضافية القادمة لضمان استمرار النشر طوال العام بلا انقطاع! 🎬🌟"
+                        )
+                    except Exception:
+                        pass
 
                 pkg = md.prepare_daily_package(next_day_num)
                 res = md.publish_to_buffer(pkg["caption"], media_path=pkg["reel_path"], due_at=slot["due_at"], mode="customScheduled")

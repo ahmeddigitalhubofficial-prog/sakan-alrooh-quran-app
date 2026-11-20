@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'app_share_service.dart';
+import 'notification_service.dart';
 import 'platform_service_hub.dart';
 
 class AppReviewService {
@@ -163,6 +164,13 @@ class AppReviewService {
   /// Request in-app review dialog or open store listing if unavailable
   static Future<void> requestReview() async {
     try {
+      if (PlatformServiceHub.isHuawei) {
+        await PlatformServiceHub.openCurrentStoreListing();
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setBool(_hasReviewedKey, true);
+        return;
+      }
+
       final isAvailable = await _inAppReview.isAvailable();
       if (isAvailable) {
         await _inAppReview.requestReview();
@@ -180,6 +188,13 @@ class AppReviewService {
   /// Open Google Play / Huawei AppGallery / Apple App Store page directly with URL fallback
   static Future<void> openStoreListing() async {
     try {
+      if (PlatformServiceHub.isHuawei) {
+        await PlatformServiceHub.openCurrentStoreListing();
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setBool(_hasReviewedKey, true);
+        return;
+      }
+
       await _inAppReview.openStoreListing();
       final prefs = await SharedPreferences.getInstance();
       await prefs.setBool(_hasReviewedKey, true);
@@ -201,7 +216,12 @@ class AppReviewService {
       await prefs.setInt(_reviewPromptCountKey, count);
 
       if (count == 3 || count == 10 || count == 25 || count == 50) {
-        if (await _inAppReview.isAvailable()) {
+        if (PlatformServiceHub.isHuawei) {
+          final context = NotificationService.navigatorKey.currentContext;
+          if (context != null && context.mounted) {
+            showRatingDialog(context);
+          }
+        } else if (await _inAppReview.isAvailable()) {
           await _inAppReview.requestReview();
         }
       }

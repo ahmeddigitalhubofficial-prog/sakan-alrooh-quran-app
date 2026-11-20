@@ -55,5 +55,13 @@
     "instruction": "جدولة 10 أيام متتالية في الموعد الذهبي",
     "details": {},
     "status": "acknowledged"
+  },
+  {
+    "timestamp": "2026-11-15T12:38:00.000000",
+    "type": "standing_directive_perpetual_content_pipeline",
+    "instruction": "عند وصول جدول النشر إلى اليوم 50 أو 55، يتم تلقائياً ودون انتظار أي طلب يدوي تشغيل محرك التوليد لبناء دفعة جديدة من 60 فيديو ريلز إضافي، ورفعها لـ Cloudinary، لضمان استمرار النشر اليومي الآلي طوال العام دون انقطاع.",
+    "trigger_threshold_days": [50, 55],
+    "target_batch_size": 60,
+    "status": "active_standing_policy"
   }
 ]

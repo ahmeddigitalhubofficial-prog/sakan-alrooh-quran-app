@@ -353,6 +353,44 @@ class BufferPublisher:
                     pass
         return occupied
 
+    def get_incomplete_dates(self):
+        """
+        محرك الكشف عن الجدولة الجزئية (Anti-Desync Scanner):
+        يبحث عن أي يوم مجدول على بعض المنصات (مثل فيسبوك) لكنه ناقص على منصات أخرى (مثل إنستغرام أو تيك توك)
+        """
+        from datetime import datetime, timezone, timedelta
+        posts = self.get_scheduled_posts()
+        channels = self.get_connected_channels()
+        all_ch_ids = {c["id"] for c in channels}
+        posts_by_date = {}
+
+        for p in posts:
+            due_at = p.get("dueAt")
+            ch_id = p.get("channelId")
+            if due_at and ch_id:
+                try:
+                    dt = datetime.fromisoformat(due_at.replace("Z", "+00:00"))
+                    local_dt = dt.astimezone(timezone(timedelta(hours=3)))
+                    d_str = local_dt.strftime("%Y-%m-%d")
+                    posts_by_date.setdefault(d_str, []).append(p)
+                except Exception:
+                    pass
+
+        incomplete = {}
+        for d_str, d_posts in posts_by_date.items():
+            present_cids = {p.get("channelId") for p in d_posts}
+            missing_cids = all_ch_ids - present_cids
+            if missing_cids:
+                sample_post = d_posts[0]
+                incomplete[d_str] = {
+                    "due_at": sample_post.get("dueAt"),
+                    "text": sample_post.get("text"),
+                    "missing_channels": list(missing_cids),
+                    "present_channels": list(present_cids),
+                    "sample_post": sample_post
+                }
+        return incomplete
+
     def get_next_available_slots(self, count=1, start_from_days_ahead=0):
         """
         البحث الذكي عن الأيام الخالية تماماً من أي جدولة سابقة:

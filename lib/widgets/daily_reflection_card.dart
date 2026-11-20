@@ -121,21 +121,41 @@ class _DailyReflectionCardState extends State<DailyReflectionCard> {
                   ),
                 ],
               ),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
-                decoration: BoxDecoration(
-                  color: theme.accentColor.withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.circular(12.r),
-                  border: Border.all(color: theme.accentColor.withValues(alpha: 0.3)),
-                ),
-                child: Text(
-                  item.moodCategory,
-                  style: GoogleFonts.cairo(
-                    color: theme.accentColor,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 11.sp,
+              Row(
+                children: [
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
+                    decoration: BoxDecoration(
+                      color: theme.accentColor.withValues(alpha: 0.15),
+                      borderRadius: BorderRadius.circular(12.r),
+                      border: Border.all(color: theme.accentColor.withValues(alpha: 0.3)),
+                    ),
+                    child: Text(
+                      item.moodCategory,
+                      style: GoogleFonts.cairo(
+                        color: theme.accentColor,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 11.sp,
+                      ),
+                    ),
                   ),
-                ),
+                  SizedBox(width: 6.w),
+                  InkWell(
+                    borderRadius: BorderRadius.circular(10.r),
+                    onTap: () {
+                      HapticFeedback.lightImpact();
+                      DailyReflectionService.nextReflection();
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.all(4.w),
+                      child: Icon(
+                        Icons.refresh_rounded,
+                        color: theme.accentColor,
+                        size: 19.sp,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
@@ -230,7 +250,7 @@ class _DailyReflectionCardState extends State<DailyReflectionCard> {
                 onPressed: () {
                   HapticFeedback.lightImpact();
                   Share.share(
-                    'رسالة لقلبك اليوم 🕊️\n\n${item.verseArabic}\n(${item.surahAndVerse})\n\n💡 ${item.reflection}\n\nتطبيق نور الهدى 🌙',
+                    'رسالة لقلبك اليوم 🕊️\n\n${item.verseArabic}\n(${item.surahAndVerse})\n\n💡 ${item.reflection}\n\nتطبيق سكن الروح 🌙',
                   );
                 },
               ),

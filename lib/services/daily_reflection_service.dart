@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../data/daily_reflections_data.dart';
 import 'notification_service.dart';
 
 class DailyReflection {
@@ -63,78 +64,19 @@ class DailyReflectionService {
   static const String _prefKeyCachedReflection = 'cached_daily_reflection';
   static const String _prefKeyLastNotifiedDate = 'last_notified_reflection_date';
 
-  static const List<DailyReflection> reflections = [
-    DailyReflection(
-      id: 1,
-      verseArabic: '﴿ وَتَوَكَّلْ عَلَى الْحَيِّ الَّذِي لَا يَمُوتُ ﴾',
-      surahAndVerse: 'سورة الفرقان - آية 58',
-      reflection:
-          'مهما تعلقت بآمال الدنيا وانقطعت بك الأسباب، تذكّر أن لك رباً حياً قيوماً لا يعجزه شيء في الأرض ولا في السماء، فسلّم أمرك إليه واطمئن.',
-      moodCategory: 'طمأنينة',
-      audioUrl: 'https://everyayah.com/data/Alafasy_128kbps/025058.mp3',
-    ),
-    DailyReflection(
-      id: 2,
-      verseArabic: '﴿ لَا تَدْرِي لَعَلَّ اللَّهَ يُحْدِثُ بَعْدَ ذَٰلِكَ أَمْرًا ﴾',
-      surahAndVerse: 'سورة الطلاق - آية 1',
-      reflection:
-          'في كل لحظة يأس، قد يكون الفرج يرتّب لك في الخفاء بطريقة تفوق كل حساباتك البشرية، فأحسن الظن بربك.',
-      moodCategory: 'تفريج هم',
-      audioUrl: 'https://everyayah.com/data/Alafasy_128kbps/065001.mp3',
-    ),
-    DailyReflection(
-      id: 3,
-      verseArabic: '﴿ فَإِنَّ مَعَ الْعُسْرِ يُسْرًا ۝ إِنَّ مَعَ الْعُسْرِ يُسْرًا ﴾',
-      surahAndVerse: 'سورة الشرح - آية 5-6',
-      reflection:
-          'لم يقل الله "بعد العسر" بل "مع العسر"؛ فمع كل ضيق ينزل اللطف واليسر ملازماً له، ولن يغلب عسر يسرين.',
-      moodCategory: 'تيسير',
-      audioUrl: 'https://everyayah.com/data/Alafasy_128kbps/094005.mp3',
-    ),
-    DailyReflection(
-      id: 4,
-      verseArabic: '﴿ وَقَالَ رَبُّكُمُ ادْعُونِي أَسْتَجِبْ لَكُمْ ﴾',
-      surahAndVerse: 'سورة غافر - آية 60',
-      reflection:
-          'ما ألهمك الله الدعاء إلا وهو يريد أن يعطيك، فابسط يدك واطرق بابه بيقين ولا تستعجل الإجابة.',
-      moodCategory: 'طمأنينة',
-      audioUrl: 'https://everyayah.com/data/Alafasy_128kbps/040060.mp3',
-    ),
-    DailyReflection(
-      id: 5,
-      verseArabic: '﴿ وَلَئِن شَكَرْتُمْ لَأَزِيدَنَّكُمْ ﴾',
-      surahAndVerse: 'سورة إبراهيم - آية 7',
-      reflection:
-          'الشكر قيد النعم الموجودة وصيد النعم المفقودة، فكلما حمدت الله على عافيتك ورزقك فاض عليك بمزيد فضله.',
-      moodCategory: 'شكر',
-      audioUrl: 'https://everyayah.com/data/Alafasy_128kbps/014007.mp3',
-    ),
-    DailyReflection(
-      id: 6,
-      verseArabic:
-          '﴿ وَمَن يَتَّقِ اللَّهَ يَجْعَل لَّهُ مَخْرَجًا ۝ وَيَرْزُقْهُ مِنْ حَيْثُ لَا يَحْتَسِبُ ﴾',
-      surahAndVerse: 'سورة الطلاق - آية 2-3',
-      reflection:
-          'الأبواب المغلقة في وجهك ليست نهاية الطريق، فتقوى الله تفتح لك مخارج لم تخطر على بالك من أوسع الأبواب.',
-      moodCategory: 'تيسير',
-      audioUrl: 'https://everyayah.com/data/Alafasy_128kbps/065002.mp3',
-    ),
-    DailyReflection(
-      id: 7,
-      verseArabic:
-          '﴿ وَاسْتَغْفِرُوا رَبَّكُمْ ثُمَّ تُوبُوا إِلَيْهِ إِنَّ رَبِّي رَحِيمٌ وَدُودٌ ﴾',
-      surahAndVerse: 'سورة هود - آية 90',
-      reflection:
-          'الاستغفار يمحو ما مضى ويصلح ما بقي، وربك الرحيم الودود يفرح بتوبتك وإقبالك عليه أكثر من فرحك بعفوه.',
-      moodCategory: 'استغفار',
-      audioUrl: 'https://everyayah.com/data/Alafasy_128kbps/011090.mp3',
-    ),
-  ];
+  static List<DailyReflection> get reflections => kDailyReflectionsLibrary;
 
-  static DailyReflection getFallbackTodayReflection() {
-    final now = DateTime.now();
+  /// إرجاع خاطرة اليوم الافتراضية بشكل قطعي ومتغير يومياً طوال العام
+  static DailyReflection getFallbackTodayReflection([DateTime? targetDate]) {
+    final now = targetDate ?? DateTime.now();
     final dayOfYear = now.difference(DateTime(now.year, 1, 1)).inDays;
-    final index = dayOfYear % reflections.length;
+    final index = (dayOfYear + (now.year * 7)) % reflections.length;
+    return reflections[index];
+  }
+
+  /// إرجاع تدبر يوم محدد
+  static DailyReflection getReflectionByDay(int dayNumber) {
+    final index = (dayNumber - 1).abs() % reflections.length;
     return reflections[index];
   }
 
@@ -142,23 +84,47 @@ class DailyReflectionService {
   static final ValueNotifier<DailyReflection> currentReflectionNotifier =
       ValueNotifier<DailyReflection>(getFallbackTodayReflection());
 
-  /// إرجاع الخاطرة اليومية الحالية (سحابية أو محلية)
+  /// إرجاع الخاطرة اليومية الحالية (سحابية أو محلية) مع الفحص الذكي لتغير التاريخ
   static DailyReflection getTodayReflection() {
+    final todayStr = DateTime.now().toIso8601String().substring(0, 10);
+    final current = currentReflectionNotifier.value;
+    if (current.date != null && current.date != todayStr) {
+      currentReflectionNotifier.value = getFallbackTodayReflection();
+    }
     return currentReflectionNotifier.value;
+  }
+
+  /// التبديل التفاعلي إلى تدبر وخاطرة أخرى عند رغبة المستخدم
+  static void nextReflection() {
+    final current = currentReflectionNotifier.value;
+    final currentIndex = reflections.indexWhere((r) => r.id == current.id);
+    final nextIndex = (currentIndex + 1) % reflections.length;
+    currentReflectionNotifier.value = reflections[nextIndex];
   }
 
   /// تهيئة المزامنة السحابية للخاطرة اليومية مع Firebase Firestore
   static Future<void> initCloudSync() async {
     try {
       final prefs = await SharedPreferences.getInstance();
+      final todayStr = DateTime.now().toIso8601String().substring(0, 10);
 
-      // 1. تحميل الخاطرة المخزنة محلياً إن وجدت لسرعة العرض الفوري
+      // 1. تحميل الخاطرة المخزنة محلياً إذا كانت تخص اليوم الحالي فقط لسرعة العرض الفوري
       final cachedJson = prefs.getString(_prefKeyCachedReflection);
       if (cachedJson != null && cachedJson.isNotEmpty) {
         try {
           final Map<String, dynamic> data = jsonDecode(cachedJson);
-          currentReflectionNotifier.value = DailyReflection.fromJson(data);
-        } catch (_) {}
+          final cached = DailyReflection.fromJson(data);
+          if (cached.date == todayStr) {
+            currentReflectionNotifier.value = cached;
+          } else {
+            // يوم جديد! استخدم تدبر اليوم الجديد
+            currentReflectionNotifier.value = getFallbackTodayReflection();
+          }
+        } catch (_) {
+          currentReflectionNotifier.value = getFallbackTodayReflection();
+        }
+      } else {
+        currentReflectionNotifier.value = getFallbackTodayReflection();
       }
 
       // 2. الاستماع اللحظي لسحابة Firestore المباشرة (admin_dashboard / live_overview)
