@@ -114,6 +114,7 @@ class ManagingDirector:
             except Exception:
                 pass
 
+        universal_url = cfg_urls.get("universal_bio", "https://onelink.to/qas6hy")
         play_store_url = cfg_urls.get("google_play", "https://play.google.com/store/apps/details?id=com.nooralhoda.official.app")
         huawei_url = cfg_urls.get("huawei_appgallery", "https://appgallery.huawei.com/app/C118816285")
 
@@ -138,9 +139,12 @@ class ManagingDirector:
             f"👨‍👩‍👧‍👦 ختمة عائلية تشاركية برابط ويب مباشر للواتساب\n"
             f"━━━━━━━━━━━━━━━━━━━\n\n"
             f"📲 حمّل التطبيق الآن مجاناً لوجه الله:\n"
-            f"🔗 رابط التحميل لجميع الأجهزة في بايو الصفحة أعلى الحساب (Bio) ☝️\n"
+            f"✨ رابط التحميل الذكي لجميع الأجهزة: {universal_url}\n"
+            f"📷 أو وجّه كاميرا هاتفك نحو كود الـ QR بأعلى الفيديو ↖️ للتحميل المباشر\n"
+            f"🔗 رابط التحميل متاح أيضاً في بايو الحساب أعلى الصفحة (Bio) ☝️\n"
+            f"💬 أو اكتب (تم) بالتعليقات وهيصلك رابط التطبيق فوراً في ثانية!\n"
             f"🔍 أو ابحث في متجر جوجل بلاي أو هواوي عن: «سكن الروح»\n\n"
-            f"⬇️ روابط التحميل السريعة:\n"
+            f"⬇️ روابط المتاجر المباشرة:\n"
             f"🟢 Google Play (أندرويد):\n{play_store_url}\n"
             f"🔴 AppGallery (هواوي):\n{huawei_url}\n\n"
             f"•\n•\n•\n"

@@ -29,22 +29,25 @@ def main():
     assets_dir = os.path.join(root_dir, "store_assets")
     os.makedirs(assets_dir, exist_ok=True)
 
-    url = "https://linktr.ee/sakan.alrooh.app"
+    url = "https://onelink.to/qas6hy"
     font_bold = "C:/Windows/Fonts/tradbdo.ttf"
     font_sub = "C:/Windows/Fonts/tahomabd.ttf"
 
-    print("Generating ultra-HD QR Code...")
-    qr = qrcode.QRCode(
-        version=1,
-        error_correction=qrcode.constants.ERROR_CORRECT_H,
-        box_size=20,
-        border=2,
-    )
-    qr.add_data(url)
-    qr.make(fit=True)
-
-    # 1. Clean QR Code
-    qr_img = qr.make_image(fill_color="#0A2A20", back_color="#FFFFFF").convert("RGBA")
+    print("Loading ultra-HD QR Code...")
+    onelink_qr_path = os.path.join(assets_dir, "onelink_qr.png")
+    if os.path.exists(onelink_qr_path):
+        qr_img = Image.open(onelink_qr_path).convert("RGBA")
+        print(f"Loaded customized QR from: {onelink_qr_path}")
+    else:
+        qr = qrcode.QRCode(
+            version=1,
+            error_correction=qrcode.constants.ERROR_CORRECT_H,
+            box_size=20,
+            border=2,
+        )
+        qr.add_data(url)
+        qr.make(fit=True)
+        qr_img = qr.make_image(fill_color="#0A2A20", back_color="#FFFFFF").convert("RGBA")
     clean_qr_path = os.path.join(assets_dir, "qr_code_sakan_clean.png")
     qr_img.save(clean_qr_path, "PNG")
     print(f"Saved: {clean_qr_path}")

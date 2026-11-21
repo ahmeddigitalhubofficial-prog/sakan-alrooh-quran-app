@@ -110,33 +110,52 @@ class ReelDirector:
         final.paste(phone, (pad, pad), phone)
         return final
 
-    def _build_qr_badge(self, url="https://linktr.ee/sakan.alrooh.app", qr_size=135):
-        """بناء بادج QR مصغر وراقي للزاوية العلوية الآمنة مع إطار ذهبي"""
-        import qrcode
-        qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_M, box_size=6, border=1)
-        qr.add_data(url)
-        qr.make(fit=True)
-        qimg = qr.make_image(fill_color="#082218", back_color="#FFFFFF").convert("RGBA")
+    def _build_qr_badge(self, url="https://onelink.to/qas6hy", qr_size=155):
+        """بناء بطاقة QR متكاملة وواضحة جداً مستمرة طوال الفيديو مع دعوة صريحة للتحميل المباشر"""
+        local_qr_path = os.path.join(self.root_dir, "store_assets", "onelink_qr.png")
+        if os.path.exists(local_qr_path):
+            qimg = Image.open(local_qr_path).convert("RGBA")
+        else:
+            import qrcode
+            qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_M, box_size=6, border=1)
+            qr.add_data(url)
+            qr.make(fit=True)
+            qimg = qr.make_image(fill_color="#082218", back_color="#FFFFFF").convert("RGBA")
         qimg = qimg.resize((qr_size, qr_size), Image.Resampling.LANCZOS)
 
-        bw = qr_size + 16
-        bh = qr_size + 36
+        bw = qr_size + 24
+        bh = qr_size + 80
         badge = Image.new("RGBA", (bw, bh), (0, 0, 0, 0))
         bdraw = ImageDraw.Draw(badge)
-        bdraw.rounded_rectangle([(0, 0), (bw, bh)], radius=16, fill=(255, 255, 255, 248), outline=(218, 180, 75, 255), width=2)
-        badge.paste(qimg, (8, 6), qimg)
+        
+        # كرت أبيض نقي بإطار ذهبي أنيق
+        bdraw.rounded_rectangle([(0, 0), (bw, bh)], radius=22, fill=(255, 255, 255, 252), outline=(218, 180, 75, 255), width=3)
+        
+        # ترويسة البطاقة
+        f_title = self._get_font(self.font_sub_path, 16)
+        bdraw.text((bw // 2, 16), shape_ar("سكن الروح"), fill=(10, 42, 32), font=f_title, anchor="mm")
+        
+        # كود الـ QR
+        badge.paste(qimg, (12, 32), qimg if qimg.mode == 'RGBA' else None)
 
-        f_mini = self._get_font(self.font_sub_path, 15)
-        bdraw.text((bw // 2, qr_size + 18), shape_ar("امسح للتحميل 📲"), fill=(8, 34, 24), font=f_mini, anchor="mm")
+        # نصوص الدعوة الصريحة للتحميل تحت الكود مباشرة
+        f_cta = self._get_font(self.font_sub_path, 18)
+        f_sub = self._get_font(self.font_sub_path, 13)
+        bdraw.text((bw // 2, qr_size + 47), shape_ar("امسح للتحميل"), fill=(185, 25, 25), font=f_cta, anchor="mm")
+        bdraw.text((bw // 2, qr_size + 66), shape_ar("بدون إعلانات • مجاناً"), fill=(10, 42, 32), font=f_sub, anchor="mm")
         return badge
 
-    def _build_outro_qr_card(self, url="https://linktr.ee/sakan.alrooh.app", qr_size=320):
+    def _build_outro_qr_card(self, url="https://onelink.to/qas6hy", qr_size=320):
         """بناء كرت QR بارز وفخم لشاشة نهاية الفيديو للتحميل المباشر الفوري"""
-        import qrcode
-        qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_H, box_size=12, border=2)
-        qr.add_data(url)
-        qr.make(fit=True)
-        qimg = qr.make_image(fill_color="#082218", back_color="#FFFFFF").convert("RGBA")
+        local_qr_path = os.path.join(self.root_dir, "store_assets", "onelink_qr.png")
+        if os.path.exists(local_qr_path):
+            qimg = Image.open(local_qr_path).convert("RGBA")
+        else:
+            import qrcode
+            qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_H, box_size=12, border=2)
+            qr.add_data(url)
+            qr.make(fit=True)
+            qimg = qr.make_image(fill_color="#082218", back_color="#FFFFFF").convert("RGBA")
         qimg = qimg.resize((qr_size, qr_size), Image.Resampling.LANCZOS)
 
         cw = qr_size + 32
@@ -144,7 +163,7 @@ class ReelDirector:
         card = Image.new("RGBA", (cw, ch), (0, 0, 0, 0))
         cdraw = ImageDraw.Draw(card)
         cdraw.rounded_rectangle([(0, 0), (cw, ch)], radius=28, fill=(255, 255, 255, 255), outline=(218, 180, 75, 255), width=4)
-        card.paste(qimg, (16, 16), qimg)
+        card.paste(qimg, (16, 16), qimg if qimg.mode == 'RGBA' else None)
         return card
 
     def generate_daily_reel(self, campaign_data, day_num=1):
@@ -171,12 +190,12 @@ class ReelDirector:
         t_hook_end = min(4.0, audio_dur * 0.28)
         t_ayah_end = audio_dur
 
-        # تجهيز الصوت النقي مع تلاشٍ ناعم في آخر ثانية ونصف
+        # تجهيز الصوت النقي مع تلاشٍ ناعم في آخر ثانية ونصف ومده طوال مدة الفيديو
         master_audio = os.path.join(self.output_dir, f"pure_quran_{day_num}.mp3")
         cmd_audio = [
             FFMPEG, "-y",
             "-i", quran_audio_path,
-            "-af", f"atempo=1.03,afade=t=in:ss=0:d=0.5,afade=t=out:st={max(0.1, total_duration-1.5)}:d=1.5",
+            "-af", f"atempo=1.03,apad=whole_dur={total_duration},afade=t=in:ss=0:d=0.5,afade=t=out:st={max(0.1, total_duration-1.2)}:d=1.2",
             "-c:a", "libmp3lame",
             "-b:a", "192k",
             master_audio
@@ -287,49 +306,70 @@ class ReelDirector:
                 if app_icon:
                     frame.paste(app_icon, (self.width // 2 - 50, 1590), app_icon)
 
-                # عبارة تحفيز التعليق والتحميل من البايو
-                comment_cta = shape_ar("💬 اكتب (تم) بالتعليقات ليصلك الرابط فوراً • أو حمّل من البايو ☝️")
-                fdraw.text((self.width // 2, 1745), comment_cta, fill=(255, 240, 160), font=font_comment_hack, anchor="mm")
-
-                brand_label = shape_ar("سكن الروح 🌙 بدون أي إعلانات نهائياً • لوجه الله تعالى")
-                fdraw.text((self.width // 2, 1795), brand_label, fill=(245, 218, 125), font=font_badge, anchor="mm")
+                # ── استراتيجية الدعوة المتعددة الصريحة للتحميل (Explicit Multi-Stage Download CTA) ──
+                if t < audio_dur * 0.38:
+                    # المرحلة الأولى (0 - 38%): توجيه صريح لمسح الباركود والتحميل
+                    cta_primary = shape_ar("امسح كود الـ QR بأعلى الشاشة للتحميل المباشر")
+                    cta_sec = shape_ar("سكن الروح • تطبيقك القرآني المجاني بدون أي إعلانات")
+                    fdraw.text((self.width // 2, 1745), cta_primary, fill=(255, 240, 160), font=font_comment_hack, anchor="mm")
+                    fdraw.text((self.width // 2, 1795), cta_sec, fill=(245, 218, 125), font=font_badge, anchor="mm")
+                elif t < audio_dur * 0.72:
+                    # المرحلة الثانية (38% - 72%): إبراز ميزات التطبيق ورابط البايو
+                    cta_primary = shape_ar("حمّل التطبيق مجاناً من الرابط في البايو أو امسح الكود")
+                    cta_sec = shape_ar("المصحف المرتل وأذكار الصلاة كاملة أوفلاين بدون نت")
+                    fdraw.text((self.width // 2, 1745), cta_primary, fill=(255, 240, 160), font=font_comment_hack, anchor="mm")
+                    fdraw.text((self.width // 2, 1795), cta_sec, fill=(210, 240, 230), font=font_badge, anchor="mm")
+                else:
+                    # المرحلة الثالثة (72% - النهاية): دعوة تفجير التعليقات والتحميل الفوري
+                    cta_primary = shape_ar("وجّه كاميرا هاتفك نحو كود الـ QR لتحميل التطبيق فوراً")
+                    cta_sec = shape_ar("أو اكتب (تم) بالتعليقات ليصلك رابط التحميل في ثانية")
+                    fdraw.text((self.width // 2, 1745), cta_primary, fill=(255, 240, 160), font=font_comment_hack, anchor="mm")
+                    fdraw.text((self.width // 2, 1795), cta_sec, fill=(245, 218, 125), font=font_badge, anchor="mm")
 
                 store_label = shape_ar("متاح مجاناً على Google Play و Huawei AppGallery")
                 fdraw.text((self.width // 2, 1835), store_label, fill=(190, 215, 205), font=self._get_font(self.font_sub_path, 21), anchor="mm")
             else:
-                # ── شاشة الختام والتحويل المباشر للتحميل (High-Conversion Outro Screen) ──
+                # ── شاشة الختام الكبرى والتحويل المباشر للتحميل (High-Conversion Outro Screen) ──
                 # طبقة تعتيم زمردية هادئة
                 outro_dim = Image.new("RGBA", (self.width, self.height), (4, 18, 14, 235))
                 frame.paste(outro_dim, (0, 0), outro_dim)
 
                 if app_icon:
-                    frame.paste(app_icon, (self.width // 2 - 65, 300), app_icon)
+                    frame.paste(app_icon, (self.width // 2 - 65, 280), app_icon)
 
                 # العنوان والوصف
-                o_title = shape_ar("سكن الروح 🌙 رفيقك الإيماني")
-                fdraw.text((self.width // 2, 485), o_title, fill=(245, 218, 125), font=self._get_font(self.font_title_path, 52), anchor="mm")
+                o_title = shape_ar("سكن الروح • واحتك الإيمانية")
+                fdraw.text((self.width // 2, 460), o_title, fill=(245, 218, 125), font=self._get_font(self.font_title_path, 52), anchor="mm")
 
-                o_sub = shape_ar("بدون أي إعلانات نهائياً • لوجه الله تعالى")
-                fdraw.text((self.width // 2, 545), o_sub, fill=(255, 255, 255), font=self._get_font(self.font_sub_path, 30), anchor="mm")
+                o_sub = shape_ar("خالي 100% من أي إعلانات نهائياً • لوجه الله تعالى")
+                fdraw.text((self.width // 2, 520), o_sub, fill=(255, 255, 255), font=self._get_font(self.font_sub_path, 30), anchor="mm")
 
                 # كرت الـ QR الكبير المباشر
                 qcard_w, qcard_h = outro_qr_card.size
                 qcard_x = (self.width - qcard_w) // 2
-                qcard_y = 610
+                qcard_y = 585
                 frame.paste(outro_qr_card, (qcard_x, qcard_y), outro_qr_card)
 
+                # زر محاكي للتحميل (Interactive Simulated Button)
+                btn_w, btn_h = 620, 68
+                btn_x = (self.width - btn_w) // 2
+                btn_y = 960
+                fdraw.rounded_rectangle([(btn_x, btn_y), (btn_x + btn_w, btn_y + btn_h)], radius=34, fill=(218, 180, 75, 240))
+                btn_txt = shape_ar("حمّل التطبيق مجاناً الآن")
+                fdraw.text((self.width // 2, btn_y + btn_h // 2), btn_txt, fill=(10, 35, 26), font=self._get_font(self.font_title_path, 34), anchor="mm")
+
                 # نصوص التوجيه للتحميل
-                o_scan = shape_ar("امسح الكود بكاميرا هاتفك للتحميل المباشر 📲")
-                fdraw.text((self.width // 2, 1020), o_scan, fill=(255, 240, 160), font=self._get_font(self.font_title_path, 40), anchor="mm")
+                o_scan = shape_ar("امسح الكود بكاميرا هاتفك للتحميل المباشر")
+                fdraw.text((self.width // 2, 1075), o_scan, fill=(255, 240, 160), font=self._get_font(self.font_title_path, 38), anchor="mm")
 
-                o_bio = shape_ar("أو اضغط على الرابط في البايو أعلى الحساب ☝️")
-                fdraw.text((self.width // 2, 1085), o_bio, fill=(245, 218, 125), font=self._get_font(self.font_sub_path, 32), anchor="mm")
+                o_bio = shape_ar("أو اضغط على الرابط في البايو أعلى الحساب")
+                fdraw.text((self.width // 2, 1135), o_bio, fill=(245, 218, 125), font=self._get_font(self.font_sub_path, 30), anchor="mm")
 
-                o_comment = shape_ar("💬 اكتب (تم) بالتعليقات وهيصلك رابط التطبيق فوراً")
-                fdraw.text((self.width // 2, 1145), o_comment, fill=(210, 235, 225), font=self._get_font(self.font_sub_path, 28), anchor="mm")
+                o_comment = shape_ar("أو اكتب (تم) بالتعليقات وهيصلك رابط التطبيق فوراً")
+                fdraw.text((self.width // 2, 1190), o_comment, fill=(210, 235, 225), font=self._get_font(self.font_sub_path, 28), anchor="mm")
 
                 o_stores = shape_ar("متوفر مجاناً على Google Play و Huawei AppGallery")
-                fdraw.text((self.width // 2, 1205), o_stores, fill=(180, 210, 200), font=self._get_font(self.font_sub_path, 24), anchor="mm")
+                fdraw.text((self.width // 2, 1245), o_stores, fill=(180, 210, 200), font=self._get_font(self.font_sub_path, 24), anchor="mm")
 
             writer.append_data(np.array(frame))
 

@@ -30,6 +30,37 @@ class YouTubePublisher:
         self.client_secret_file = os.path.join(self.base_dir, "client_secret.json")
         self.youtube = None
 
+    def _curl_refresh_token(self):
+        """Reliable OAuth token refresh via curl to avoid Python 3.14 TLS SSLEOFError"""
+        try:
+            import subprocess
+            from datetime import datetime, timezone, timedelta
+            if not os.path.exists(self.token_file):
+                return False
+            with open(self.token_file, "r", encoding="utf-8") as f:
+                data = json.load(f)
+            if not data.get("refresh_token"):
+                return False
+            cmd = [
+                "curl.exe", "-s", "-X", "POST", "https://oauth2.googleapis.com/token",
+                "-d", f"client_id={data.get('client_id', '')}",
+                "-d", f"client_secret={data.get('client_secret', '')}",
+                "-d", f"refresh_token={data.get('refresh_token', '')}",
+                "-d", "grant_type=refresh_token"
+            ]
+            res = subprocess.check_output(cmd, timeout=15).decode("utf-8")
+            new_data = json.loads(res)
+            if "access_token" in new_data:
+                data["token"] = new_data["access_token"]
+                exp = datetime.now(timezone.utc) + timedelta(seconds=new_data.get("expires_in", 3600))
+                data["expiry"] = exp.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
+                with open(self.token_file, "w", encoding="utf-8") as f:
+                    json.dump(data, f, indent=2)
+                return True
+        except Exception as e:
+            print(f"Curl refresh error: {e}")
+        return False
+
     def is_authenticated(self):
         """Check if a valid YouTube OAuth token exists"""
         if not GOOGLE_AVAILABLE:
@@ -41,6 +72,8 @@ class YouTubePublisher:
             if creds and creds.valid:
                 return True
             if creds and creds.expired and creds.refresh_token:
+                if self._curl_refresh_token():
+                    return True
                 for attempt in range(3):
                     try:
                         creds.refresh(Request())
@@ -69,19 +102,22 @@ class YouTubePublisher:
 
         if not creds or not creds.valid:
             if creds and creds.expired and creds.refresh_token:
-                for attempt in range(3):
-                    try:
-                        creds.refresh(Request())
-                        with open(self.token_file, "w", encoding="utf-8") as token:
-                            token.write(creds.to_json())
-                        break
-                    except Exception as e:
-                        if attempt == 2:
-                            print(f"Error refreshing token: {e}")
-                            creds = None
-                        time.sleep(1)
+                if self._curl_refresh_token():
+                    creds = Credentials.from_authorized_user_file(self.token_file, SCOPES)
+                else:
+                    for attempt in range(3):
+                        try:
+                            creds.refresh(Request())
+                            with open(self.token_file, "w", encoding="utf-8") as token:
+                                token.write(creds.to_json())
+                            break
+                        except Exception as e:
+                            if attempt == 2:
+                                print(f"Error refreshing token: {e}")
+                                creds = None
+                            time.sleep(1)
 
-            if not creds:
+            if not creds or not creds.valid:
                 if not os.path.exists(self.client_secret_file):
                     candidates = [f for f in os.listdir(self.base_dir) if f.startswith("client_secret") and f.endswith(".json")]
                     if candidates:

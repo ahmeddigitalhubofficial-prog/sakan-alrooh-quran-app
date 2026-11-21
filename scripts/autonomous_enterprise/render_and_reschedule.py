@@ -1,6 +1,12 @@
 # -*- coding: utf-8 -*-
 """
-برنامج مسح وإعادة جدولة الـ 10 أيام في Buffer بالهوكات الصاروخية والتعليق الأول المثبت
+Autonomous Rescheduling Script:
+Re-renders and re-schedules 10 days (Days 15 to 24) in Buffer queue starting from today (Friday 20-11-2026).
+Applies:
+1. Continuous high-visibility QR badge in top-left.
+2. Dynamic 3-stage high-conversion CTAs.
+3. Dedicated 3.5s Outro Screen with large QR card and direct download button.
+4. Smart link https://onelink.to/qas6hy in captions & comments.
 """
 import os
 import sys
@@ -13,7 +19,6 @@ sys.path.append(CURRENT_DIR)
 from managing_director import ManagingDirector
 from specialists.reel_director import ReelDirector
 from specialists.campaign_calendar import get_campaign_day
-from specialists.buffer_publisher import BufferPublisher
 
 def get_due_at_golden_hour(offset_days=0):
     now = datetime.now(timezone.utc)
@@ -23,42 +28,50 @@ def get_due_at_golden_hour(offset_days=0):
     return target.strftime("%Y-%m-%dT%H:%M:%SZ")
 
 def main():
-    print(">>> Starting schedule purge and rescheduling with viral hooks...")
+    print(">>> Starting schedule purge and rescheduling with new continuous QR badge and multi-stage CTAs...")
     
     md = ManagingDirector(CURRENT_DIR)
     rd = ReelDirector()
     
     # 1. Clear old schedule from Buffer
-    print(">>> Clearing all pending posts from Buffer queue...")
+    print(">>> Clearing all old pending posts from Buffer queue...")
     del_res = md.clear_buffer_schedule()
-    print(del_res)
+    print("    Clear Result:", del_res)
     
-    # 2. Render days 5-14 with updated hooks
-    start_day = 5
+    # 2. Render and schedule Days 15 to 24 (10 consecutive days)
+    start_day = 15
     target_count = 10
     
     for i in range(target_count):
         day_num = start_day + i
         camp_data = get_campaign_day(day_num)
-        reel_file = os.path.join(rd.output_dir, f"reel_day_{day_num}.mp4")
+        print(f"\n==========================================")
+        print(f">>> Processing Day #{day_num}...")
+        print(f"    Hook: {camp_data['reel']['hook_text']}")
+        print(f"    Ayah: {camp_data['reel']['ayah_text']}")
         
-        if day_num != 5 or not os.path.exists(reel_file):
-            print(f">>> Rendering Reel for Day #{day_num} with hook: {camp_data['reel']['hook_text']}...")
-            rd.generate_daily_reel(camp_data, day_num)
+        # Render reel with new continuous QR badge and multi-stage CTAs
+        print(f">>> Rendering Reel for Day #{day_num}...")
+        rendered_reel = rd.generate_daily_reel(camp_data, day_num)
+        print(f"    Rendered: {rendered_reel}")
             
         due_at = get_due_at_golden_hour(offset_days=i)
         pkg = md.prepare_daily_package(day_num)
         
-        print(f">>> Scheduling Day #{day_num} for golden hour: {due_at}...")
+        print(f">>> Scheduling Day #{day_num} in Buffer for golden hour: {due_at}...")
         res = md.publish_to_buffer(
             pkg["caption"],
             media_path=pkg["reel_path"],
             due_at=due_at,
             mode="customScheduled"
         )
-        print(f"    Result: {res.get('success')} - Posts: {len(res.get('posts', []))}")
+        print(f"    Result: {res.get('success')} - Posts scheduled: {len(res.get('posts', []))}")
         
-    print("\n[SUCCESS] Successfully scheduled 10 full campaign days with viral hooks and pinned comments!")
+    print("\n==========================================")
+    print(">>> Fetching updated Buffer schedule summary...")
+    summary = md.get_buffer_schedule_summary()
+    print(summary)
+    print("\n[SUCCESS] Successfully scheduled 10 campaign days (Days 15-24) with new permanent QR badges and multi-stage CTAs!")
 
 if __name__ == "__main__":
     main()

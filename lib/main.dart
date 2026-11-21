@@ -70,11 +70,9 @@ Future<void> main() async {
     return CustomErrorReporter.buildErrorWidget(details);
   };
 
-  // 1. تأكيد تهيئة أدوات فلاتر الأساسية وتثبيت الاتجاه فوراً
+  // 1. تأكيد تهيئة أدوات فلاتر الأساسية وتفعيل وضع ملء الشاشة (Edge-to-Edge) ودعم الشاشات الكبيرة
   WidgetsFlutterBinding.ensureInitialized();
-  await SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-  ]);
+  await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 
   // 2. تشغيل واجهة التطبيق فوراً لظهور شاشة الـ Splash Screen في أول 100ms بدون أي شاشة سوداء أو بيضاء
   runApp(
