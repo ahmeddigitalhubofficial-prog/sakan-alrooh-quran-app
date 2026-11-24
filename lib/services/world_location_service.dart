@@ -325,14 +325,14 @@ class WorldLocationService {
     // 2. البديل الذكي الفوري: تحديد الموقع عبر مزود الإنترنت (IP Geolocation)
     try {
       final client = HttpClient()..connectionTimeout = const Duration(seconds: 3);
-      final request = await client.getUrl(Uri.parse('http://ip-api.com/json'));
+      final request = await client.getUrl(Uri.parse('https://ipwho.is/'));
       final response = await request.close().timeout(const Duration(seconds: 3));
       if (response.statusCode == 200) {
         final body = await response.transform(utf8.decoder).join();
         final data = json.decode(body);
-        if (data['status'] == 'success') {
-          final lat = (data['lat'] as num).toDouble();
-          final lon = (data['lon'] as num).toDouble();
+        if (data['success'] == true) {
+          final lat = (data['latitude'] as num).toDouble();
+          final lon = (data['longitude'] as num).toDouble();
           final cityEn = data['city'] ?? '';
           final countryEn = data['country'] ?? '';
 

@@ -751,6 +751,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     height: 15.h,
                   ),
                   _buildActionCard(
+                    title: 'حذف الحساب نهائياً 🗑️',
+                    subtitle: 'حذف حسابك السحابي وبيانات المزامنة المرتبطة به نهائياً',
+                    icon: Icons.person_remove_outlined,
+                    color: Colors.redAccent,
+                    onTap: () => _confirmDeleteAccount(context, theme),
+                    theme: theme,
+                  ),
+                  SizedBox(
+                    height: 15.h,
+                  ),
+                  _buildActionCard(
                     title: 'رفع ومزامنة بياناتي إلى السحابة ☁️',
                     subtitle: 'حفظ الختمة والأوراد والتسبيحات والشارات سحابياً لحمايتها من الضياع',
                     icon: Icons.cloud_upload_outlined,
@@ -1594,7 +1605,71 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
+  Future<void> _confirmDeleteAccount(BuildContext context, dynamic theme) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        backgroundColor: theme.cardColor,
+        title: Text(
+          'تأكيد حذف الحساب',
+          style: GoogleFonts.cairo(
+            color: theme.textColor,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        content: Text(
+          'سيتم حذف حسابك السحابي وجميع بيانات المزامنة المرتبطة به نهائياً ولا يمكن التراجع عن هذا الإجراء. هل تريد المتابعة؟',
+          style: GoogleFonts.cairo(color: theme.subtitleColor),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(false),
+            child: Text('إلغاء', style: GoogleFonts.cairo(color: theme.subtitleColor)),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.redAccent),
+            onPressed: () => Navigator.of(ctx).pop(true),
+            child: Text('حذف نهائي', style: GoogleFonts.cairo(color: Colors.white)),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed != true || !context.mounted) return;
+
+    try {
+      await AuthService.deleteAccount();
+      if (context.mounted) {
+        setState(() {});
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'تم حذف الحساب وبياناته السحابية بنجاح.',
+              style: GoogleFonts.cairo(),
+            ),
+            backgroundColor: Colors.green.shade800,
+          ),
+        );
+      }
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'تعذر حذف الحساب: ${e.toString().replaceAll("Exception: ", "")}',
+              style: GoogleFonts.cairo(),
+            ),
+            backgroundColor: Colors.red.shade800,
+          ),
+        );
+      }
+    }
+  }
+
   Widget _buildCheckUpdateCard(dynamic theme) {
+    if (DeviceEcosystemService().isApple) {
+      return const SizedBox.shrink();
+    }
     return Material(
       color: Colors.transparent,
       child: InkWell(

@@ -8,12 +8,12 @@ workflows:
     name: iOS Production Release & TestFlight
     instance_type: mac_mini_m2
     max_build_duration: 60
+    integrations:
+      app_store_connect: codemagic
     environment:
       flutter: stable
       xcode: latest
       cocoapods: default
-      groups:
-        - app_store_credentials # المجموعة التي ستحتوي على مفاتيح أبل في إعدادات Codemagic
       vars:
         BUNDLE_ID: "com.nooralhoda.official.app"
         APP_NAME: "سكن الروح"
@@ -52,13 +52,11 @@ workflows:
     publishing:
       email:
         recipients:
-          - user@example.com # ضع بريدك الإلكتروني هنا لتلقي إشعار عند نجاح البناء
+          - ahmed.digitalhub.official@gmail.com
         notify:
           failure: true
           success: true
       app_store_connect:
-        api_key: $APP_STORE_CONNECT_PRIVATE_KEY
-        key_id: $APP_STORE_CONNECT_KEY_IDENTIFIER
-        issuer_id: $APP_STORE_CONNECT_ISSUER_ID
+        auth: integration
         submit_to_testflight: true
         submit_to_app_store: false # اتركه false حتى تراجع النسخة في TestFlight أولاً ثم تقدمها بيدك

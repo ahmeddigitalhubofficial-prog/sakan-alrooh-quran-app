@@ -34,7 +34,7 @@ class PlatformServiceHub {
       'https://appgallery.huawei.com/app/C118816285';
 
   static const String appleAppStoreUrl =
-      'https://apps.apple.com/app/id6742398451';
+      'https://apps.apple.com/app/id6838852673';
 
   static const String huaweiAppMarketScheme =
       'appmarket://details?id=com.nooralhoda.official.app';
@@ -118,8 +118,8 @@ class PlatformServiceHub {
 
   /// توليد قائمة روابط المتاجر بصيغة مهيئة لرسائل المشاركة (مع العزل التام بحسب المنصة)
   static String generateStoreLinksShareText() {
-    // إذا كان البناء مخصصاً لـ Apple، لا يُذكر سوى متجر أبل لتفادي رفض المراجعة
-    if (isCompileTimeApple) {
+    // إذا كان البناء مخصصاً لـ Apple أو الجهاز يعمل بنظام أبل، لا يُذكر سوى متجر أبل لتفادي رفض المراجعة
+    if (isCompileTimeApple || _ecosystem.isApple) {
       return '''• متجر Apple App Store:
 $appleAppStoreUrl''';
     }

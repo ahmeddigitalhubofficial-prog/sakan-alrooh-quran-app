@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -129,6 +130,48 @@ class AuthService {
       await _auth.signInAnonymously();
     } catch (e) {
       debugPrint('AuthService SignOut Error: $e');
+    }
+  }
+
+  /// حذف الحساب وجميع بياناته السحابية نهائياً (متطلب App Store Guideline 5.1.1(v))
+  static Future<void> deleteAccount() async {
+    final user = _auth.currentUser;
+    if (user == null) return;
+
+    final uid = user.uid;
+    try {
+      // حذف مستندات المستخدم في Firestore إن وجدت
+      await FirebaseFirestore.instance.collection('users').doc(uid).delete();
+    } catch (e) {
+      debugPrint('AuthService Firestore delete notice: $e');
+    }
+
+    try {
+      await user.delete();
+      await _googleSignIn.signOut();
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'requires-recent-login') {
+        // إعادة المصادقة قبل الحذف إذا كانت الجلسة قديمة
+        if (isLinkedWithApple) {
+          final appleProvider = OAuthProvider('apple.com');
+          await user.reauthenticateWithProvider(appleProvider);
+          await user.delete();
+          return;
+        } else if (isLinkedWithGoogle) {
+          final googleUser = await _googleSignIn.signIn();
+          if (googleUser != null) {
+            final googleAuth = await googleUser.authentication;
+            final cred = GoogleAuthProvider.credential(
+              accessToken: googleAuth.accessToken,
+              idToken: googleAuth.idToken,
+            );
+            await user.reauthenticateWithCredential(cred);
+            await user.delete();
+            return;
+          }
+        }
+      }
+      rethrow;
     }
   }
 }
