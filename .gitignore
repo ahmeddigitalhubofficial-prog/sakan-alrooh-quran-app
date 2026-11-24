@@ -61,3 +61,5 @@ archive/
 *.mp4
 analyze_out.txt
 .agents/
+
+scripts/autonomous_enterprise/youtube_token.json
