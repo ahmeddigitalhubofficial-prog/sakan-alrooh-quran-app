@@ -117,6 +117,8 @@ class ManagingDirector:
         universal_url = cfg_urls.get("universal_bio", "https://onelink.to/qas6hy")
         play_store_url = cfg_urls.get("google_play", "https://play.google.com/store/apps/details?id=com.nooralhoda.official.app")
         huawei_url = cfg_urls.get("huawei_appgallery", "https://appgallery.huawei.com/app/C118816285")
+        apple_url = cfg_urls.get("apple_app_store", "")
+        apple_line = f"🍏 App Store (آيفون وآيباد):\n{apple_url}\n" if apple_url else ""
 
         reel_info = camp_data.get("reel", {})
         r_hook = reel_info.get("hook_text", camp_data.get("title", ""))
@@ -145,6 +147,7 @@ class ManagingDirector:
             f"💬 أو اكتب (تم) بالتعليقات وهيصلك رابط التطبيق فوراً في ثانية!\n"
             f"🔍 أو ابحث في متجر جوجل بلاي أو هواوي عن: «سكن الروح»\n\n"
             f"⬇️ روابط المتاجر المباشرة:\n"
+            f"{apple_line}"
             f"🟢 Google Play (أندرويد):\n{play_store_url}\n"
             f"🔴 AppGallery (هواوي):\n{huawei_url}\n\n"
             f"•\n•\n•\n"
