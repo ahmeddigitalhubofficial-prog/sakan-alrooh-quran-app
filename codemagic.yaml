@@ -11,6 +11,8 @@ workflows:
     integrations:
       app_store_connect: codemagic
     environment:
+      groups:
+        - sakan al rooh
       ios_signing:
         distribution_type: app_store
         bundle_identifier: com.nooralhoda.official.app
