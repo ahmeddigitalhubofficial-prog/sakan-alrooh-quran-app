@@ -80,8 +80,11 @@ ${widget.story.summary}
       appBar: AppBar(
         backgroundColor: theme.primaryColor,
         elevation: 0,
+        titleSpacing: 0,
         title: Text(
           story.title,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: GoogleFonts.cairo(
             fontWeight: FontWeight.bold,
             fontSize: 16.sp,
@@ -89,18 +92,27 @@ ${widget.story.summary}
           ),
         ),
         actions: [
-          const Padding(padding: EdgeInsets.symmetric(horizontal: 6), child: QuickLanguageButton(isCompact: true)),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 4),
+            child: QuickLanguageButton(isCompact: true),
+          ),
           IconButton(
+            padding: EdgeInsets.symmetric(horizontal: 4.w),
+            constraints: const BoxConstraints(),
             icon: const Icon(Icons.remove_circle_outline_rounded),
             onPressed: () => _changeFontSize(false),
             tooltip: 'تصغير الخط',
           ),
           IconButton(
+            padding: EdgeInsets.symmetric(horizontal: 4.w),
+            constraints: const BoxConstraints(),
             icon: const Icon(Icons.add_circle_outline_rounded),
             onPressed: () => _changeFontSize(true),
             tooltip: 'تكبير الخط',
           ),
           IconButton(
+            padding: EdgeInsets.symmetric(horizontal: 6.w),
+            constraints: const BoxConstraints(),
             icon: const Icon(Icons.share_rounded),
             onPressed: () => _shareStoryQuote(theme),
             tooltip: 'مشاركة البطاقة الدعوية',

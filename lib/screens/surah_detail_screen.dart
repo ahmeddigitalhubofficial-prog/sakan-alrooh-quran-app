@@ -1516,113 +1516,135 @@ $tafsirText
         appBar: AppBar(
           elevation: 0,
           backgroundColor: theme.primaryColor,
-          centerTitle: true,
-          title: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              InkWell(
-                onTap: () => _changeFontSize(false),
-                borderRadius: BorderRadius.circular(20.r),
-                child: Container(
-                  padding: EdgeInsets.all(6.w),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.18),
-                    shape: BoxShape.circle,
-                  ),
-                  child: Icon(Icons.remove, size: 20.sp, color: Colors.white),
-                ),
-              ),
-              SizedBox(width: 10.w),
-              Text(
-                _activeSurahName,
-                style: GoogleFonts.cairo(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                  fontSize: 20.sp,
-                ),
-              ),
-              SizedBox(width: 10.w),
-              InkWell(
-                onTap: () => _changeFontSize(true),
-                borderRadius: BorderRadius.circular(20.r),
-                child: Container(
-                  padding: EdgeInsets.all(6.w),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.18),
-                    shape: BoxShape.circle,
-                  ),
-                  child: Icon(Icons.add, size: 20.sp, color: Colors.white),
-                ),
-              ),
-            ],
+          centerTitle: false,
+          titleSpacing: 0,
+          title: Text(
+            _activeSurahName,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: GoogleFonts.cairo(
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+              fontSize: 19.sp,
+            ),
           ),
           actions: [
-          const Padding(padding: EdgeInsets.symmetric(horizontal: 6), child: QuickLanguageButton(isCompact: true)),
-            IconButton(
-              icon: Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  Icon(
-                    Icons.g_translate_rounded,
-                    color: _selectedQuranTranslation != 'none' ? Colors.amberAccent : Colors.white,
-                    size: 22.sp,
-                  ),
-                  if (_selectedQuranTranslation != 'none')
-                    Positioned(
-                      top: -1,
-                      right: -1,
-                      child: Container(
-                        width: 7.r,
-                        height: 7.r,
-                        decoration: const BoxDecoration(
-                          color: Colors.amberAccent,
-                          shape: BoxShape.circle,
-                        ),
-                      ),
-                    ),
-                ],
-              ),
-              tooltip: context.tr('sd_translate_tooltip'),
-              onPressed: _showQuranTranslationSelectionSheet,
-            ),
-            IconButton(
-              icon: Icon(Icons.font_download_outlined, color: Colors.white, size: 22.sp),
-              tooltip: context.tr('sd_font_tooltip'),
-              onPressed: _showFontSelectionSheet,
-            ),
             InkWell(
-              onTap: _showReciterSelection,
-              borderRadius: BorderRadius.circular(16.r),
+              onTap: () => _changeFontSize(false),
+              borderRadius: BorderRadius.circular(20.r),
               child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
-                padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+                padding: EdgeInsets.all(6.w),
                 decoration: BoxDecoration(
-                  color: theme.accentColor.withValues(alpha: 0.25),
-                  borderRadius: BorderRadius.circular(16.r),
-                  border: Border.all(color: theme.accentColor, width: 1),
+                  color: Colors.white.withValues(alpha: 0.18),
+                  shape: BoxShape.circle,
                 ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(Icons.record_voice_over_rounded, color: Colors.amber, size: 18.sp),
-                    SizedBox(width: 4.w),
-                    ConstrainedBox(
-                      constraints: BoxConstraints(maxWidth: 90.w),
-                      child: AutoScrollText(
-                        _selectedReciterName,
-                        style: GoogleFonts.cairo(
-                          fontSize: 11.sp,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    Icon(Icons.arrow_drop_down, color: Colors.white, size: 18.sp),
-                  ],
-                ),
+                child: Icon(Icons.remove, size: 18.sp, color: Colors.white),
               ),
+            ),
+            SizedBox(width: 6.w),
+            InkWell(
+              onTap: () => _changeFontSize(true),
+              borderRadius: BorderRadius.circular(20.r),
+              child: Container(
+                padding: EdgeInsets.all(6.w),
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.18),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(Icons.add, size: 18.sp, color: Colors.white),
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 6),
+              child: QuickLanguageButton(isCompact: true),
             ),
           ],
+          bottom: PreferredSize(
+            preferredSize: Size.fromHeight(44.h),
+            child: Container(
+              height: 44.h,
+              padding: EdgeInsets.symmetric(horizontal: 12.w),
+              decoration: BoxDecoration(
+                color: Colors.black.withValues(alpha: 0.12),
+                border: Border(
+                  top: BorderSide(color: Colors.white.withValues(alpha: 0.1)),
+                ),
+              ),
+              child: Row(
+                children: [
+                  IconButton(
+                    padding: EdgeInsets.zero,
+                    constraints: BoxConstraints(minWidth: 36.w, minHeight: 36.h),
+                    icon: Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        Icon(
+                          Icons.g_translate_rounded,
+                          color: _selectedQuranTranslation != 'none' ? Colors.amberAccent : Colors.white,
+                          size: 20.sp,
+                        ),
+                        if (_selectedQuranTranslation != 'none')
+                          Positioned(
+                            top: -1,
+                            right: -1,
+                            child: Container(
+                              width: 7.r,
+                              height: 7.r,
+                              decoration: const BoxDecoration(
+                                color: Colors.amberAccent,
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+                    tooltip: context.tr('sd_translate_tooltip'),
+                    onPressed: _showQuranTranslationSelectionSheet,
+                  ),
+                  SizedBox(width: 6.w),
+                  IconButton(
+                    padding: EdgeInsets.zero,
+                    constraints: BoxConstraints(minWidth: 36.w, minHeight: 36.h),
+                    icon: Icon(Icons.font_download_outlined, color: Colors.white, size: 20.sp),
+                    tooltip: context.tr('sd_font_tooltip'),
+                    onPressed: _showFontSelectionSheet,
+                  ),
+                  const Spacer(),
+                  InkWell(
+                    onTap: _showReciterSelection,
+                    borderRadius: BorderRadius.circular(16.r),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
+                      decoration: BoxDecoration(
+                        color: theme.accentColor.withValues(alpha: 0.25),
+                        borderRadius: BorderRadius.circular(16.r),
+                        border: Border.all(color: theme.accentColor, width: 1),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.record_voice_over_rounded, color: Colors.amber, size: 17.sp),
+                          SizedBox(width: 6.w),
+                          ConstrainedBox(
+                            constraints: BoxConstraints(maxWidth: 140.w),
+                            child: AutoScrollText(
+                              _selectedReciterName,
+                              style: GoogleFonts.cairo(
+                                fontSize: 12.sp,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          Icon(Icons.arrow_drop_down, color: Colors.white, size: 18.sp),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ),
         body: Container(
           width: double.infinity,

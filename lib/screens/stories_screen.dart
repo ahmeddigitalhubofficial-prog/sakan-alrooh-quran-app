@@ -414,8 +414,11 @@ class _StoryReaderScreenState extends State<_StoryReaderScreen> {
         appBar: AppBar(
           backgroundColor: theme.primaryColor,
           elevation: 0,
+          titleSpacing: 0,
           title: Text(
             story.title,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: GoogleFonts.cairo(
                 fontWeight: FontWeight.bold, color: Colors.white),
           ),
