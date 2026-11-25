@@ -7,6 +7,7 @@ import 'package:share_plus/share_plus.dart';
 import '../core/localization/app_translations.dart';
 import '../models/good_deeds_challenge_manager.dart';
 
+import '../widgets/common/quick_language_button.dart';
 class GoodDeedsChallengeScreen extends StatelessWidget {
   const GoodDeedsChallengeScreen({super.key});
 
@@ -33,6 +34,7 @@ class GoodDeedsChallengeScreen extends StatelessWidget {
         ),
         centerTitle: true,
         actions: [
+          const Padding(padding: EdgeInsets.symmetric(horizontal: 6), child: QuickLanguageButton(isCompact: true)),
           IconButton(
             icon: const Icon(Icons.share_rounded, color: Color(0xFFE5C07B)),
             tooltip: context.tr('gdc_share_tooltip'),

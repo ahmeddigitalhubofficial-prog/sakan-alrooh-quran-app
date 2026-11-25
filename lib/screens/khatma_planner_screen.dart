@@ -16,6 +16,7 @@ import '../data/quran_index_data.dart';
 import '../widgets/common/auto_scroll_text.dart';
 import 'surah_detail_screen.dart';
 
+import '../widgets/common/quick_language_button.dart';
 class KhatmaPlannerScreen extends StatefulWidget {
   const KhatmaPlannerScreen({super.key});
 
@@ -643,7 +644,9 @@ class _KhatmaPlannerScreenState extends State<KhatmaPlannerScreen> {
                 Tab(text: context.tr('khatma_tab_shared')),
               ],
             ),
-          ),
+          
+          actions: const [Padding(padding: EdgeInsets.symmetric(horizontal: 8), child: QuickLanguageButton(isCompact: true))],
+        ),
           body: Container(
             width: double.infinity,
             height: double.infinity,

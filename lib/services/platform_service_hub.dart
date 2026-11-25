@@ -144,16 +144,22 @@ $huaweiAppGalleryUrl
 • متجر Google Play (أندرويد):
 $googlePlayUrl
 
+• متجر Apple App Store (آيفون وآيباد):
+$appleAppStoreUrl
+
 • رابط التحميل الشامل لكافة الأجهزة وقنواتنا:
 https://linktr.ee/sakan.alrooh.app''';
     }
 
-    // الوضع العام الحالي للمستخدمين: Google Play و Huawei AppGallery ورابط التحميل الشامل
+    // الوضع العام الحالي للمستخدمين: Google Play و Huawei AppGallery و Apple App Store ورابط التحميل الشامل
     return '''• متجر Google Play (أندرويد):
 $googlePlayUrl
 
 • متجر Huawei AppGallery (هواوي):
 $huaweiAppGalleryUrl
+
+• متجر Apple App Store (آيفون وآيباد):
+$appleAppStoreUrl
 
 • رابط التحميل الشامل لكافة الأجهزة وقنواتنا:
 https://linktr.ee/sakan.alrooh.app''';

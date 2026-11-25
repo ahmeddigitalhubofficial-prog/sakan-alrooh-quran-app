@@ -10,6 +10,7 @@ import '../core/localization/app_translations.dart';
 import '../core/localization/locale_manager.dart';
 import '../models/theme_manager.dart';
 
+import '../widgets/common/quick_language_button.dart';
 class ZakatCalculatorScreen extends StatefulWidget {
   const ZakatCalculatorScreen({super.key});
 
@@ -112,7 +113,9 @@ class _ZakatCalculatorScreenState extends State<ZakatCalculatorScreen> with Sing
           context.tr('zakat_title'),
           style: GoogleFonts.cairo(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 16.sp),
         ),
-      ),
+      
+          actions: const [Padding(padding: EdgeInsets.symmetric(horizontal: 8), child: QuickLanguageButton(isCompact: true))],
+        ),
       body: Directionality(
         textDirection: localeManager.textDirection,
         child: Column(

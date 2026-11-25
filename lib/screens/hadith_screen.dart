@@ -10,6 +10,7 @@ import '../data/hadith_data.dart';
 import '../models/hadith_model.dart';
 import '../models/theme_manager.dart';
 
+import '../widgets/common/quick_language_button.dart';
 class HadithScreen extends StatefulWidget {
   const HadithScreen({super.key});
 
@@ -61,6 +62,8 @@ class _HadithScreenState extends State<HadithScreen>
                   onPressed: () => setState(() => _selectedTopic = null),
                 )
               : null,
+        
+          actions: const [Padding(padding: EdgeInsets.symmetric(horizontal: 8), child: QuickLanguageButton(isCompact: true))],
         ),
         body: Container(
           decoration: BoxDecoration(

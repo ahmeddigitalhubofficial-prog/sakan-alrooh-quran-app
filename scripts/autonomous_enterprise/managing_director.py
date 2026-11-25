@@ -117,7 +117,7 @@ class ManagingDirector:
         universal_url = cfg_urls.get("universal_bio", "https://onelink.to/qas6hy")
         play_store_url = cfg_urls.get("google_play", "https://play.google.com/store/apps/details?id=com.nooralhoda.official.app")
         huawei_url = cfg_urls.get("huawei_appgallery", "https://appgallery.huawei.com/app/C118816285")
-        apple_url = cfg_urls.get("apple_app_store", "")
+        apple_url = cfg_urls.get("apple_app_store", "https://apps.apple.com/app/id6838852673")
         apple_line = f"🍏 App Store (آيفون وآيباد):\n{apple_url}\n" if apple_url else ""
 
         reel_info = camp_data.get("reel", {})

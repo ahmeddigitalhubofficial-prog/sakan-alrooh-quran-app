@@ -10,6 +10,7 @@ import '../models/theme_manager.dart';
 import '../widgets/common/auto_scroll_text.dart';
 import 'tasbih_screen.dart';
 
+import '../widgets/common/quick_language_button.dart';
 class NameOfAllah {
   final String name;
   final String meaning;
@@ -554,6 +555,8 @@ class _NamesOfAllahScreenState extends State<NamesOfAllahScreen> {
               color: Colors.white,
             ),
           ),
+        
+          actions: const [Padding(padding: EdgeInsets.symmetric(horizontal: 8), child: QuickLanguageButton(isCompact: true))],
         ),
         body: Container(
           decoration: BoxDecoration(

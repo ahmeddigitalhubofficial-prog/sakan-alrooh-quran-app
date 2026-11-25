@@ -9,6 +9,7 @@ import '../core/localization/app_translations.dart';
 import '../core/localization/locale_manager.dart';
 import '../models/theme_manager.dart';
 
+import '../widgets/common/quick_language_button.dart';
 class IslamicStoreScreen extends StatefulWidget {
   const IslamicStoreScreen({super.key});
 
@@ -120,7 +121,9 @@ class _IslamicStoreScreenState extends State<IslamicStoreScreen> with SingleTick
           context.tr('store_title'),
           style: GoogleFonts.cairo(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 17.sp),
         ),
-      ),
+      
+          actions: const [Padding(padding: EdgeInsets.symmetric(horizontal: 8), child: QuickLanguageButton(isCompact: true))],
+        ),
       body: Directionality(
         textDirection: Provider.of<LocaleManager>(context).textDirection,
         child: Column(

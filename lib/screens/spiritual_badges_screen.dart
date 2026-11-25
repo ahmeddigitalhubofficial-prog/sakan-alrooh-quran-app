@@ -11,6 +11,7 @@ import '../core/localization/app_translations.dart';
 import '../models/theme_manager.dart';
 import '../models/task_manager.dart';
 
+import '../widgets/common/quick_language_button.dart';
 enum BadgeRank { none, bronze, silver, gold, diamond }
 
 class TierTarget {
@@ -526,7 +527,9 @@ class SpiritualBadgesScreen extends StatelessWidget {
             color: Colors.white,
           ),
         ),
-      ),
+      
+          actions: const [Padding(padding: EdgeInsets.symmetric(horizontal: 8), child: QuickLanguageButton(isCompact: true))],
+        ),
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(

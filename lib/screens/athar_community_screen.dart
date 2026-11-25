@@ -11,6 +11,7 @@ import '../models/athar_post_model.dart';
 import '../services/athar_moderation_service.dart';
 import 'card_studio_screen.dart';
 
+import '../widgets/common/quick_language_button.dart';
 class AtharCommunityScreen extends StatefulWidget {
   const AtharCommunityScreen({super.key});
 
@@ -198,6 +199,7 @@ class _AtharCommunityScreenState extends State<AtharCommunityScreen> {
           ],
         ),
         actions: [
+          const Padding(padding: EdgeInsets.symmetric(horizontal: 6), child: QuickLanguageButton(isCompact: true)),
           IconButton(
             tooltip: context.tr('guidelines_title'),
             icon: const Icon(Icons.verified_user_outlined, color: AppColors.gold),

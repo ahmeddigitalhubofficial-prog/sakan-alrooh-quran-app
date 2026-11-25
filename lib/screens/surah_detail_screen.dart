@@ -23,6 +23,7 @@ import '../services/tafsir_service.dart';
 import '../widgets/common/auto_scroll_text.dart';
 import 'card_studio_screen.dart';
 
+import '../widgets/common/quick_language_button.dart';
 class Reciter {
   final String name;
   final String subfolder;
@@ -1556,6 +1557,7 @@ $tafsirText
             ],
           ),
           actions: [
+          const Padding(padding: EdgeInsets.symmetric(horizontal: 6), child: QuickLanguageButton(isCompact: true)),
             IconButton(
               icon: Stack(
                 clipBehavior: Clip.none,

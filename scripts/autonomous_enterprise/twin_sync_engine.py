@@ -105,7 +105,8 @@ def run_twin_schedule(max_youtube_uploads=6):
             "📲 حمل تطبيق «سكن الروح» مجاناً وبدون أي إعلانات لوجه الله:\n"
             "🔗 الرابط الشامل لجميع الأجهزة: https://linktr.ee/sakan.alrooh.app\n"
             "🟢 متجر Google Play: https://play.google.com/store/apps/details?id=com.nooralhoda.official.app\n"
-            "🔴 متجر Huawei AppGallery: https://appgallery.huawei.com/app/C118816285\n\n"
+            "🔴 متجر Huawei AppGallery: https://appgallery.huawei.com/app/C118816285\n"
+            "🍏 متجر Apple App Store: https://apps.apple.com/app/id6838852673\n\n"
             "#سكن_الروح #قرآن #أذكار #تلاوات_خاشعة #Shorts #Quran"
         )
         yt_res = yp.upload_shorts(

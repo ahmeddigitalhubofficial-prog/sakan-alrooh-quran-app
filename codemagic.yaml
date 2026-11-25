@@ -31,10 +31,19 @@ workflows:
       - name: 3. Install CocoaPods
         script: |
           cd ios && pod install --repo-update
-      - name: 4. Build iOS IPA Release
+      - name: 4. Install Shorebird CLI
         script: |
-          # بناء حزمة الإنتاج IPA الموقعة والجاهزة لمتجر أبل مع عزل تام وتطهير من خدمات المتاجر الأخرى
-          flutter build ipa --release \
+          curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | sh
+      - name: 5. Build iOS IPA Release with Shorebird
+        script: |
+          export PATH="$HOME/.shorebird/bin:$PATH"
+          if [ -z "$SHOREBIRD_TOKEN" ]; then
+            echo "ERROR: SHOREBIRD_TOKEN is not set in Codemagic Environment Variables."
+            echo "Run 'shorebird tokens create' locally (or open console.shorebird.dev) and add SHOREBIRD_TOKEN in Codemagic."
+            exit 1
+          fi
+          # بناء حزمة الإنتاج IPA الموقعة عبر Shorebird لدعم التحديثات الفورية OTA على iOS مستقبلاً
+          shorebird release ios \
             --dart-define=TARGET_STORE=apple \
             --export-options-plist=/Users/builder/export_options.plist
     artifacts:

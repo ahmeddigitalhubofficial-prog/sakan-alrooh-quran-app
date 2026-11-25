@@ -6,6 +6,7 @@ import '../core/localization/app_translations.dart';
 import '../services/quran_card_generator_service.dart';
 import '../services/in_app_telemetry_service.dart';
 
+import '../widgets/common/quick_language_button.dart';
 class CardStudioScreen extends StatefulWidget {
   final String? initialText;
   final String? initialSource;
@@ -160,6 +161,7 @@ class _CardStudioScreenState extends State<CardStudioScreen> {
         ),
         centerTitle: true,
         actions: [
+          const Padding(padding: EdgeInsets.symmetric(horizontal: 6), child: QuickLanguageButton(isCompact: true)),
           IconButton(
             icon: const Icon(Icons.auto_awesome_rounded, color: Color(0xFFE5C07B)),
             tooltip: context.tr('studio_presets_tooltip'),

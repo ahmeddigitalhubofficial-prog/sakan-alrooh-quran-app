@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import '../core/localization/app_translations.dart';
 import '../models/theme_manager.dart';
 
+import '../widgets/common/quick_language_button.dart';
 class ChangelogEntry {
   final String version;
   final String date;
@@ -182,6 +183,8 @@ class _ChangelogScreenState extends State<ChangelogScreen> {
             ),
           ),
           centerTitle: true,
+        
+          actions: const [Padding(padding: EdgeInsets.symmetric(horizontal: 8), child: QuickLanguageButton(isCompact: true))],
         ),
         body: Container(
           decoration: BoxDecoration(

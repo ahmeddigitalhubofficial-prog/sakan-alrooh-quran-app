@@ -14,6 +14,7 @@ import '../models/theme_manager.dart';
 import '../services/in_app_telemetry_service.dart';
 import '../widgets/common/auto_scroll_text.dart';
 
+import '../widgets/common/quick_language_button.dart';
 class SleepTrack {
   final String id;
   final String title;
@@ -351,6 +352,7 @@ class _SpiritualSleepScreenState extends State<SpiritualSleepScreen>
           ),
         ),
         actions: [
+          const Padding(padding: EdgeInsets.symmetric(horizontal: 6), child: QuickLanguageButton(isCompact: true)),
           IconButton(
             icon: Icon(
               _sleepTimerMinutes > 0 ? Icons.timer : Icons.timer_outlined,

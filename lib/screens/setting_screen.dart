@@ -336,15 +336,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     height: 15.h,
                   ),
                   _buildSectionTitle(
-                    'إعدادات الصلاة',
+                    context.tr('set_prayer_sec'),
                     theme,
                   ),
                   SizedBox(
                     height: 15.h,
                   ),
                   _buildSwitchCard(
-                    title: 'تفعيل الأذان',
-                    subtitle: 'تشغيل تنبيهات الأذان',
+                    title: context.tr('set_azan_title'),
+                    subtitle: context.tr('set_azan_sub'),
                     value: _azanEnabled,
                     onChanged: (value) async {
                       setState(() {
@@ -408,8 +408,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     height: 15.h,
                   ),
                   _buildSwitchCard(
-                    title: 'التذكير اليومي',
-                    subtitle: 'إشعارات بالأذكار والورد',
+                    title: context.tr('set_daily_rem_title'),
+                    subtitle: context.tr('set_daily_rem_sub'),
                     value: _dailyReminder,
                     onChanged: (value) async {
                       setState(() {
@@ -426,15 +426,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     height: 35.h,
                   ),
                   _buildSectionTitle(
-                    'إعدادات الموقع الجغرافي',
+                    context.tr('set_loc_sec'),
                     theme,
                   ),
                   SizedBox(
                     height: 15.h,
                   ),
                   _buildSwitchCard(
-                    title: 'تحديد الموقع تلقائياً (GPS)',
-                    subtitle: 'تفعيل الـ GPS لحساب المواقيت والقبلة',
+                    title: context.tr('set_gps_title'),
+                    subtitle: context.tr('set_gps_sub'),
                     value: _useGPS,
                     onChanged: (value) async {
                       await _toggleGPS(value);
@@ -456,15 +456,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     height: 35.h,
                   ),
                   _buildSectionTitle(
-                    'الصوت والاهتزاز',
+                    context.tr('set_sound_sec'),
                     theme,
                   ),
                   SizedBox(
                     height: 15.h,
                   ),
                   _buildSwitchCard(
-                    title: 'صوت السبحة',
-                    subtitle: 'تشغيل صوت عند التسبيح',
+                    title: context.tr('set_tasbih_sound_title'),
+                    subtitle: context.tr('set_tasbih_sound_sub'),
                     value: _tasbihSound,
                     onChanged: (value) async {
                       setState(() {
@@ -480,8 +480,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     height: 15.h,
                   ),
                   _buildSwitchCard(
-                    title: 'الاهتزاز',
-                    subtitle: 'اهتزاز عند الضغط',
+                    title: context.tr('set_vib_title'),
+                    subtitle: context.tr('set_vib_sub'),
                     value: _vibration,
                     onChanged: (value) async {
                       setState(() {
@@ -497,7 +497,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     height: 35.h,
                   ),
                   _buildSectionTitle(
-                    'الثيمات',
+                    context.tr('set_themes_sec'),
                     theme,
                   ),
                   SizedBox(
@@ -511,7 +511,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     height: 35.h,
                   ),
                   _buildSectionTitle(
-                    'القرآن',
+                    context.tr('set_quran_sec'),
                     theme,
                   ),
                   SizedBox(
@@ -524,8 +524,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     height: 15.h,
                   ),
                   _buildSwitchCard(
-                    title: 'حفظ آخر قراءة',
-                    subtitle: 'استكمال القراءة تلقائيًا',
+                    title: context.tr('set_last_read_title'),
+                    subtitle: context.tr('set_last_read_sub'),
                     value: _saveLastRead,
                     onChanged: (value) async {
                       setState(() {
@@ -541,15 +541,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     height: 35.h,
                   ),
                   _buildSectionTitle(
-                    'البيانات',
+                    context.tr('set_data_sec'),
                     theme,
                   ),
                   SizedBox(
                     height: 15.h,
                   ),
                   _buildActionCard(
-                    title: 'إعادة ضبط البيانات',
-                    subtitle: 'حذف بيانات السبحة والورد فقط',
+                    title: context.tr('set_reset_title'),
+                    subtitle: context.tr('set_reset_sub'),
                     icon: Icons.delete_outline_rounded,
                     color: Colors.redAccent,
                     onTap: () async {
@@ -615,7 +615,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
 
                   _buildSectionTitle(
-                    'المزامنة وحفظ البيانات سحابياً ☁️',
+                    context.tr('set_cloud_sec'),
                     theme,
                   ),
                   SizedBox(
@@ -751,8 +751,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     height: 15.h,
                   ),
                   _buildActionCard(
-                    title: 'حذف الحساب نهائياً 🗑️',
-                    subtitle: 'حذف حسابك السحابي وبيانات المزامنة المرتبطة به نهائياً',
+                    title: context.tr('set_del_acc_title'),
+                    subtitle: context.tr('set_del_acc_sub'),
                     icon: Icons.person_remove_outlined,
                     color: Colors.redAccent,
                     onTap: () => _confirmDeleteAccount(context, theme),
@@ -833,14 +833,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
 
                   _buildSectionTitle(
-                    'الدليل التعريفي والتعليمات',
+                    context.tr('set_guide_sec'),
                     theme,
                   ),
                   SizedBox(
                     height: 15.h,
                   ),
                   _buildSwitchCard(
-                    title: 'عرض الدليل عند الإقلاع',
+                    title: context.tr('set_show_guide_title'),
                     subtitle: 'عرض جولة تعليمية بالخصائص عند أول تشغيل',
                     value: _showTutorialOnStartup,
                     onChanged: (value) async {

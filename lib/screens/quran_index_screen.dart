@@ -13,6 +13,7 @@ import '../widgets/islamic_number_badge.dart';
 import '../data/quran_index_data.dart';
 import 'surah_detail_screen.dart';
 
+import '../widgets/common/quick_language_button.dart';
 class QuranIndexScreen extends StatefulWidget {
   /// Callback invoked when a user selects a page in the index.
   /// Passes the 1-indexed destination page number (1 to 604).
@@ -176,6 +177,8 @@ class _QuranIndexScreenState extends State<QuranIndexScreen> with SingleTickerPr
               Tab(text: context.tr('qidx_tab_search')),
             ],
           ),
+        
+          actions: const [Padding(padding: EdgeInsets.symmetric(horizontal: 8), child: QuickLanguageButton(isCompact: true))],
         ),
         body: Container(
           decoration: BoxDecoration(

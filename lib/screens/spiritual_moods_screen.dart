@@ -14,6 +14,7 @@ import '../widgets/common/auto_scroll_text.dart';
 import 'card_studio_screen.dart';
 import 'spiritual_sleep_screen.dart';
 
+import '../widgets/common/quick_language_button.dart';
 class MoodItem {
   final String id;
   final String title;
@@ -192,7 +193,9 @@ class SpiritualMoodsScreen extends StatelessWidget {
           context.tr('moods_title'),
           style: GoogleFonts.cairo(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 16.sp),
         ),
-      ),
+      
+          actions: const [Padding(padding: EdgeInsets.symmetric(horizontal: 8), child: QuickLanguageButton(isCompact: true))],
+        ),
       body: Directionality(
         textDirection: Provider.of<LocaleManager>(context).textDirection,
         child: SingleChildScrollView(

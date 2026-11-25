@@ -14,6 +14,7 @@ import '../models/theme_manager.dart';
 import '../core/helpers/app_lifecycle_helper.dart';
 import '../widgets/common/auto_scroll_text.dart';
 
+import '../widgets/common/quick_language_button.dart';
 class RadioStation {
   final String id;
   final String name;
@@ -422,6 +423,7 @@ class _IslamicRadioScreenState extends State<IslamicRadioScreen>
           style: GoogleFonts.cairo(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 16.sp),
         ),
         actions: [
+          const Padding(padding: EdgeInsets.symmetric(horizontal: 6), child: QuickLanguageButton(isCompact: true)),
           IconButton(
             icon: Icon(
               _sleepSecondsRemaining > 0 ? Icons.bedtime_rounded : Icons.bedtime_outlined,

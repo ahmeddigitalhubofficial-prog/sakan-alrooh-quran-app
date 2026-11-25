@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 
 import '../models/theme_manager.dart';
 
+import '../widgets/common/quick_language_button.dart';
 class PrivacyPolicyScreen extends StatefulWidget {
   const PrivacyPolicyScreen({super.key});
 
@@ -67,7 +68,9 @@ class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen>
             Tab(text: 'English 🌐'),
           ],
         ),
-      ),
+      
+          actions: const [Padding(padding: EdgeInsets.symmetric(horizontal: 8), child: QuickLanguageButton(isCompact: true))],
+        ),
       body: TabBarView(
         controller: _tabController,
         children: [

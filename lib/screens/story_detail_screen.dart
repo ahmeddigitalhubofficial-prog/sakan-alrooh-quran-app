@@ -12,6 +12,7 @@ import '../models/quran_library_model.dart';
 import '../models/theme_manager.dart';
 import 'surah_detail_screen.dart';
 
+import '../widgets/common/quick_language_button.dart';
 class StoryDetailScreen extends StatefulWidget {
   final QuranLibraryStory story;
 
@@ -88,6 +89,7 @@ ${widget.story.summary}
           ),
         ),
         actions: [
+          const Padding(padding: EdgeInsets.symmetric(horizontal: 6), child: QuickLanguageButton(isCompact: true)),
           IconButton(
             icon: const Icon(Icons.remove_circle_outline_rounded),
             onPressed: () => _changeFontSize(false),

@@ -578,7 +578,7 @@ def process_update(update):
                 "📲 **الروابط الرسمية لتطبيق «سكن الروح» على المتاجر المعتمدة:**\n\n"
                 f"🟢 **Google Play:**\n{urls.get('google_play', 'https://play.google.com/store/apps/details?id=com.nooralhoda.official.app')}\n\n"
                 f"🔴 **Huawei AppGallery:**\n{urls.get('huawei_appgallery', 'https://appgallery.huawei.com/app/C118816285')}\n\n"
-                "⚪ **Apple AppStore:**\nقيد التجهيز والإطلاق قريباً بإذن الله ⏳"
+                f"🍏 **Apple AppStore:**\n{urls.get('apple_app_store', 'https://apps.apple.com/app/id6838852673')}"
             )
             send_message(chat_id, store_msg, get_devops_keyboard())
 
@@ -701,7 +701,7 @@ def process_update(update):
                     "📲 **الروابط الرسمية لسكن الروح:**\n\n"
                     f"🟢 Google Play: {urls.get('google_play')}\n\n"
                     f"🔴 Huawei AppGallery: {urls.get('huawei_appgallery')}\n\n"
-                    "⚪ Apple AppStore: قيد التجهيز والإطلاق قريباً بإذن الله ⏳"
+                    f"🍏 Apple AppStore: {urls.get('apple_app_store', 'https://apps.apple.com/app/id6838852673')}"
                 )
                 send_message(chat_id, store_msg, get_main_keyboard())
             else:

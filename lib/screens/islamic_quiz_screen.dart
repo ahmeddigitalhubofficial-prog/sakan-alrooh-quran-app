@@ -7,6 +7,7 @@ import 'package:share_plus/share_plus.dart';
 import '../core/localization/app_translations.dart';
 import '../models/quiz_manager.dart';
 
+import '../widgets/common/quick_language_button.dart';
 class IslamicQuizScreen extends StatefulWidget {
   const IslamicQuizScreen({super.key});
 
@@ -57,6 +58,7 @@ class _IslamicQuizScreenState extends State<IslamicQuizScreen> {
         ),
         centerTitle: true,
         actions: [
+          const Padding(padding: EdgeInsets.symmetric(horizontal: 6), child: QuickLanguageButton(isCompact: true)),
           IconButton(
             icon: const Icon(Icons.share_rounded, color: Color(0xFFE5C07B)),
             tooltip: context.tr('quiz_challenge_tooltip'),

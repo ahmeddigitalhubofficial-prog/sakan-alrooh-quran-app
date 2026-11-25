@@ -12,6 +12,7 @@ import '../models/theme_manager.dart';
 import 'fasting_tracker_screen.dart';
 import 'zakat_calculator_screen.dart';
 
+import '../widgets/common/quick_language_button.dart';
 class CalendarScreen extends StatefulWidget {
   const CalendarScreen({super.key});
 
@@ -152,6 +153,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
             ),
           ),
           actions: [
+          const Padding(padding: EdgeInsets.symmetric(horizontal: 6), child: QuickLanguageButton(isCompact: true)),
             IconButton(
               icon: Icon(
                 _isConverting ? Icons.calendar_month : Icons.published_with_changes_rounded,

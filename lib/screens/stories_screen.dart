@@ -13,6 +13,7 @@ import '../models/story_chapter.dart';
 import '../models/theme_manager.dart';
 import '../widgets/common/auto_scroll_text.dart';
 
+import '../widgets/common/quick_language_button.dart';
 class StoriesScreen extends StatefulWidget {
   const StoriesScreen({super.key});
 
@@ -101,6 +102,8 @@ class _StoriesScreenState extends State<StoriesScreen>
               Tab(text: 'الغزوات والسيرة', icon: Icon(Icons.shield_rounded)),
             ],
           ),
+        
+          actions: const [Padding(padding: EdgeInsets.symmetric(horizontal: 8), child: QuickLanguageButton(isCompact: true))],
         ),
         body: Container(
           decoration: BoxDecoration(

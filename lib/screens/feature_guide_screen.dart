@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 import '../core/localization/app_translations.dart';
 import '../models/theme_manager.dart';
 
+import '../widgets/common/quick_language_button.dart';
 class FeatureGuideItem {
   final String title;
   final String category;
@@ -304,7 +305,9 @@ class _FeatureGuideScreenState extends State<FeatureGuideScreen> {
             color: Colors.white,
           ),
         ),
-      ),
+      
+          actions: const [Padding(padding: EdgeInsets.symmetric(horizontal: 8), child: QuickLanguageButton(isCompact: true))],
+        ),
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(

@@ -11,6 +11,7 @@ import '../core/localization/app_translations.dart';
 import '../core/localization/locale_manager.dart';
 import '../models/theme_manager.dart';
 
+import '../widgets/common/quick_language_button.dart';
 class GreetingTemplate {
   final String id;
   final String title;
@@ -127,7 +128,9 @@ class _IslamicCardsScreenState extends State<IslamicCardsScreen> {
           context.tr('cards_title'),
           style: GoogleFonts.cairo(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 16.sp),
         ),
-      ),
+      
+          actions: const [Padding(padding: EdgeInsets.symmetric(horizontal: 8), child: QuickLanguageButton(isCompact: true))],
+        ),
       body: Directionality(
         textDirection: Provider.of<LocaleManager>(context).textDirection,
         child: SingleChildScrollView(

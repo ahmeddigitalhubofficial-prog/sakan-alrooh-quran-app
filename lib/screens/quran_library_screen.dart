@@ -13,6 +13,7 @@ import '../models/quran_library_model.dart';
 import '../models/theme_manager.dart';
 import 'story_detail_screen.dart';
 
+import '../widgets/common/quick_language_button.dart';
 class QuranLibraryScreen extends StatefulWidget {
   const QuranLibraryScreen({super.key});
 
@@ -62,7 +63,9 @@ class _QuranLibraryScreenState extends State<QuranLibraryScreen> {
             color: Colors.white,
           ),
         ),
-      ),
+      
+          actions: const [Padding(padding: EdgeInsets.symmetric(horizontal: 8), child: QuickLanguageButton(isCompact: true))],
+        ),
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
