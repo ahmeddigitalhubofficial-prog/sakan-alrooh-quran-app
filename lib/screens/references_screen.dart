@@ -8,6 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import '../core/localization/app_translations.dart';
 import '../models/theme_manager.dart';
 
 class ReferenceItem {
@@ -275,7 +276,7 @@ class _ReferencesScreenState extends State<ReferencesScreen>
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'المصادر والمراجع والمكتبات',
+          context.tr('refs_title'),
           style: GoogleFonts.cairo(
             color: theme.textColor,
             fontWeight: FontWeight.bold,

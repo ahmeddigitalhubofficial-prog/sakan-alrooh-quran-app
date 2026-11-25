@@ -6,6 +6,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart' hide TextDirection;
 import 'package:provider/provider.dart';
 
+import '../core/localization/app_translations.dart';
+import '../core/localization/locale_manager.dart';
 import '../models/theme_manager.dart';
 
 class ZakatCalculatorScreen extends StatefulWidget {
@@ -98,6 +100,8 @@ class _ZakatCalculatorScreenState extends State<ZakatCalculatorScreen> with Sing
   Widget build(BuildContext context) {
     final theme = Provider.of<AppThemeManager>(context).currentTheme;
 
+    final localeManager = Provider.of<LocaleManager>(context);
+
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
@@ -105,12 +109,12 @@ class _ZakatCalculatorScreenState extends State<ZakatCalculatorScreen> with Sing
         elevation: 0,
         centerTitle: true,
         title: Text(
-          'حاسبة الزكاة الذكية 💰',
+          context.tr('zakat_title'),
           style: GoogleFonts.cairo(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 16.sp),
         ),
       ),
       body: Directionality(
-        textDirection: TextDirection.rtl,
+        textDirection: localeManager.textDirection,
         child: Column(
           children: [
             // Tabs
@@ -120,11 +124,11 @@ class _ZakatCalculatorScreenState extends State<ZakatCalculatorScreen> with Sing
               labelColor: theme.accentColor,
               unselectedLabelColor: theme.subtitleColor,
               labelStyle: GoogleFonts.cairo(fontWeight: FontWeight.bold, fontSize: 12.sp),
-              tabs: const [
-                Tab(text: '💵 زكاة المال'),
-                Tab(text: '🥇 الذهب والفضة'),
-                Tab(text: '🏪 عروض التجارة'),
-                Tab(text: '🌾 زكاة الفطر'),
+              tabs: [
+                Tab(text: context.tr('zakat_tab_money')),
+                Tab(text: context.tr('zakat_tab_gold')),
+                Tab(text: context.tr('zakat_tab_trade')),
+                Tab(text: context.tr('zakat_tab_fitr')),
               ],
             ),
 
@@ -153,18 +157,18 @@ class _ZakatCalculatorScreenState extends State<ZakatCalculatorScreen> with Sing
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           _buildResultCard(
-            title: 'مقدار زكاة المال الواجبة (2.5%)',
+            title: context.tr('zakat_money_due'),
             zakatAmount: _moneyZakat,
             isNisabReached: _isMoneyNisabReached,
-            nisabText: 'النصاب الشرعي: ${_fmt.format(_moneyNisab)} ج.م (ما يعادل 85 جرام ذهب)',
+            nisabText: '${_fmt.format(_moneyNisab)} ${context.tr('zakat_currency')}',
             theme: theme,
           ),
           SizedBox(height: 16.h),
-          _buildInputField('سعر جرام الذهب عيار 21 اليوم (ج.م)', _goldPricePerGramController, theme),
-          _buildInputField('النقود السائلة والمدخرات النقدية', _cashController, theme),
-          _buildInputField('الأرصدة البنكية والودائع', _bankController, theme),
-          _buildInputField('أموال لك مرجوة السداد عند الغير', _loansToOthersController, theme),
-          _buildInputField('ديون واجبة السداد عليك (تُخصم)', _debtsController, theme),
+          _buildInputField(context.tr('zakat_gold_price'), _goldPricePerGramController, theme),
+          _buildInputField(context.tr('zakat_cash'), _cashController, theme),
+          _buildInputField(context.tr('zakat_bank'), _bankController, theme),
+          _buildInputField(context.tr('zakat_loans'), _loansToOthersController, theme),
+          _buildInputField(context.tr('zakat_debts'), _debtsController, theme),
           SizedBox(height: 20.h),
         ],
       ),
@@ -179,19 +183,19 @@ class _ZakatCalculatorScreenState extends State<ZakatCalculatorScreen> with Sing
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           _buildResultCard(
-            title: 'مقدار زكاة الذهب الواجبة',
+            title: context.tr('zakat_gold_due'),
             zakatAmount: _goldZakatValue,
-            customSubtext: _isGoldNisabReached ? 'الوزن الواجب إخراجه: ${_goldZakatGrams.toStringAsFixed(2)} جرام عيار 21' : null,
+            customSubtext: _isGoldNisabReached ? '${_goldZakatGrams.toStringAsFixed(2)} g (21K)' : null,
             isNisabReached: _isGoldNisabReached,
-            nisabText: 'نصاب الذهب الشرعي: 85 جرام (عيار 21 أو ما يعادله)',
+            nisabText: context.tr('zakat_gold_nisab'),
             theme: theme,
           ),
           SizedBox(height: 16.h),
-          _buildInputField('سعر جرام الذهب عيار 21 اليوم (ج.م)', _goldPricePerGramController, theme),
-          _buildInputField('وزن الذهب عيار 24 (جرام)', _gold24Controller, theme),
-          _buildInputField('وزن الذهب عيار 21 (جرام)', _gold21Controller, theme),
-          _buildInputField('وزن الذهب عيار 18 (جرام)', _gold18Controller, theme),
-          _buildInputField('وزن الفضة المدخرة (جرام - النصاب 595 جرام)', _silverController, theme),
+          _buildInputField(context.tr('zakat_gold_price'), _goldPricePerGramController, theme),
+          _buildInputField(context.tr('zakat_gold24'), _gold24Controller, theme),
+          _buildInputField(context.tr('zakat_gold21'), _gold21Controller, theme),
+          _buildInputField(context.tr('zakat_gold18'), _gold18Controller, theme),
+          _buildInputField(context.tr('zakat_silver'), _silverController, theme),
           SizedBox(height: 20.h),
         ],
       ),
@@ -206,15 +210,15 @@ class _ZakatCalculatorScreenState extends State<ZakatCalculatorScreen> with Sing
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           _buildResultCard(
-            title: 'مقدار زكاة عروض التجارة (2.5%)',
+            title: context.tr('zakat_trade_due'),
             zakatAmount: _tradeZakat,
             isNisabReached: _isTradeNisabReached,
-            nisabText: 'النصاب الشرعي: ${_fmt.format(_moneyNisab)} ج.م',
+            nisabText: '${_fmt.format(_moneyNisab)} ${context.tr('zakat_currency')}',
             theme: theme,
           ),
           SizedBox(height: 16.h),
-          _buildInputField('قيمة البضائع المعدة للبيع بسعر السوق الحالي', _goodsController, theme),
-          _buildInputField('السيولة النقدية المتوفرة في التجارة', _tradeCashController, theme),
+          _buildInputField(context.tr('zakat_goods'), _goodsController, theme),
+          _buildInputField(context.tr('zakat_trade_cash'), _tradeCashController, theme),
           SizedBox(height: 20.h),
         ],
       ),
@@ -229,10 +233,10 @@ class _ZakatCalculatorScreenState extends State<ZakatCalculatorScreen> with Sing
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           _buildResultCard(
-            title: 'إجمالي زكاة الفطر الواجبة',
+            title: context.tr('zakat_fitr_due'),
             zakatAmount: _fitrTotalZakat,
             isNisabReached: true,
-            nisabText: 'تُخرج عن النفس وعن كل من تلزمك نفقته قبل صلاة العيد',
+            nisabText: context.tr('zakat_fitr_nisab'),
             theme: theme,
           ),
           SizedBox(height: 20.h),
@@ -247,7 +251,7 @@ class _ZakatCalculatorScreenState extends State<ZakatCalculatorScreen> with Sing
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'عدد أفراد الأسرة المكلف بالإنفاق عليهم:',
+                  context.tr('zakat_family_label'),
                   style: GoogleFonts.cairo(color: theme.textColor, fontWeight: FontWeight.bold, fontSize: 13.sp),
                 ),
                 SizedBox(height: 14.h),
@@ -255,7 +259,7 @@ class _ZakatCalculatorScreenState extends State<ZakatCalculatorScreen> with Sing
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '$_familyMembers أفراد',
+                      '$_familyMembers ${context.tr('zakat_members')}',
                       style: GoogleFonts.cairo(color: theme.accentColor, fontWeight: FontWeight.bold, fontSize: 20.sp),
                     ),
                     Row(
@@ -327,7 +331,7 @@ class _ZakatCalculatorScreenState extends State<ZakatCalculatorScreen> with Sing
           ),
           SizedBox(height: 8.h),
           Text(
-            '${_fmt.format(zakatAmount)} ج.م',
+            '${_fmt.format(zakatAmount)} ${context.tr('zakat_currency')}',
             style: GoogleFonts.cairo(
               color: isNisabReached ? const Color(0xFF69F0AE) : Colors.white,
               fontSize: 28.sp,
@@ -346,7 +350,7 @@ class _ZakatCalculatorScreenState extends State<ZakatCalculatorScreen> with Sing
               borderRadius: BorderRadius.circular(12.r),
             ),
             child: Text(
-              isNisabReached ? 'بلغ النصاب الشرعي وتجب فيه الزكاة ✓' : 'لم يبلغ النصاب الشرعي بعد (لا تجب فيه الزكاة)',
+              isNisabReached ? context.tr('zakat_nisab_reached') : context.tr('zakat_nisab_not_reached'),
               style: GoogleFonts.cairo(
                 color: isNisabReached ? const Color(0xFF69F0AE) : Colors.orangeAccent,
                 fontWeight: FontWeight.bold,

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
+import '../core/localization/app_translations.dart';
 import '../models/good_deeds_challenge_manager.dart';
 
 class GoodDeedsChallengeScreen extends StatelessWidget {
@@ -26,15 +27,15 @@ class GoodDeedsChallengeScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'تحدي الصحبة الصالحة 🏆',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 19),
+        title: Text(
+          context.tr('gdc_title'),
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 19),
         ),
         centerTitle: true,
         actions: [
           IconButton(
             icon: const Icon(Icons.share_rounded, color: Color(0xFFE5C07B)),
-            tooltip: 'مشاركة إنجاز اليوم',
+            tooltip: context.tr('gdc_share_tooltip'),
             onPressed: () => _shareDailyProgress(manager),
           ),
         ],
@@ -102,8 +103,8 @@ class GoodDeedsChallengeScreen extends StatelessWidget {
                   const SizedBox(height: 10),
                   Text(
                     manager.completedCount == quests.length
-                        ? '🎉 مبارك! أتممت جميع تحديات اليوم ونلت الأجر كاملاً'
-                        : 'أتممت ${manager.completedCount} من ${quests.length} مهام إيمانية اليوم',
+                        ? context.tr('gdc_all_done')
+                        : '${manager.completedCount} / ${quests.length}',
                     style: const TextStyle(color: Colors.white70, fontSize: 12),
                   ),
                 ],
@@ -111,8 +112,8 @@ class GoodDeedsChallengeScreen extends StatelessWidget {
             ),
             const SizedBox(height: 20),
 
-            const Text(
-              'مهام اليوم الإيمانية 🌿',
+            Text(
+              context.tr('gdc_today_tasks'),
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
             ),
             const SizedBox(height: 10),
@@ -186,7 +187,7 @@ class GoodDeedsChallengeScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Text(
-                            '+${q.pointsReward} حسنة',
+                            '+${q.pointsReward} ${context.tr('gdc_hasanah')}',
                             style: const TextStyle(
                               fontSize: 11,
                               fontWeight: FontWeight.bold,
@@ -206,9 +207,9 @@ class GoodDeedsChallengeScreen extends StatelessWidget {
             ElevatedButton.icon(
               onPressed: () => _shareDailyProgress(manager),
               icon: const Icon(Icons.celebration_rounded, size: 20),
-              label: const Text(
-                'شارك إنجازك وشجع أصدقاءك 📲',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+              label: Text(
+                context.tr('gdc_share_btn'),
+                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
               ),
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF25D366),

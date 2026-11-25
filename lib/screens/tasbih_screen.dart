@@ -10,6 +10,8 @@ import 'package:intl/intl.dart' hide TextDirection;
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../core/localization/app_translations.dart';
+import '../core/localization/locale_manager.dart';
 import '../models/theme_manager.dart';
 import '../models/task_manager.dart';
 import '../services/cloud_sync_service.dart';
@@ -555,7 +557,7 @@ class _TasbihScreenState extends State<TasbihScreen>
       context: context,
       builder: (BuildContext context) {
         return Directionality(
-          textDirection: TextDirection.rtl,
+          textDirection: Provider.of<LocaleManager>(context, listen: false).textDirection,
           child: AlertDialog(
             backgroundColor: const Color(0xFF102C3B),
             shape: RoundedRectangleBorder(
@@ -563,14 +565,14 @@ class _TasbihScreenState extends State<TasbihScreen>
               side: BorderSide(color: activeTheme.first.withValues(alpha: 0.3)),
             ),
             title: Text(
-              'تصفير العداد',
+              context.tr('tasbih_reset'),
               style: GoogleFonts.cairo(
                 color: activeTheme.first,
                 fontWeight: FontWeight.bold,
               ),
             ),
             content: Text(
-              'يرجى اختيار نوع التصفير المطلوب:',
+              context.tr('tasbih_reset_prompt'),
               style: GoogleFonts.cairo(
                 color: Colors.white,
                 fontSize: 16.sp,
@@ -582,7 +584,7 @@ class _TasbihScreenState extends State<TasbihScreen>
                   Navigator.pop(context);
                 },
                 child: Text(
-                  'إلغاء',
+                  context.tr('cancel'),
                   style: GoogleFonts.cairo(
                     color: Colors.white70,
                     fontWeight: FontWeight.bold,
@@ -595,7 +597,7 @@ class _TasbihScreenState extends State<TasbihScreen>
                   await _resetCounterOnly();
                 },
                 child: Text(
-                  'تصفير العداد الحالي',
+                  context.tr('tasbih_reset_current'),
                   style: GoogleFonts.cairo(
                     color: activeTheme.first,
                     fontWeight: FontWeight.bold,
@@ -608,7 +610,7 @@ class _TasbihScreenState extends State<TasbihScreen>
                   await _clearAllStats();
                 },
                 child: Text(
-                  'مسح الكل',
+                  context.tr('tasbih_clear_all'),
                   style: GoogleFonts.cairo(
                     color: Colors.redAccent,
                     fontWeight: FontWeight.bold,
@@ -663,7 +665,7 @@ class _TasbihScreenState extends State<TasbihScreen>
             ),
           ),
           title: Text(
-            '🏆 إنجاز جديد',
+            context.tr('tasbih_new_milestone'),
             style: GoogleFonts.cairo(
               color: const Color(
                 0xFFD4AF37,
@@ -672,7 +674,7 @@ class _TasbihScreenState extends State<TasbihScreen>
             ),
           ),
           content: Text(
-            'لقد وصلت إلى $value تسبيحة ✨',
+            '${context.tr('tasbih_reached_pre')} $value ${context.tr('tasbih_reached_post')}',
             style: GoogleFonts.cairo(
               color: Colors.white,
             ),
@@ -685,7 +687,7 @@ class _TasbihScreenState extends State<TasbihScreen>
                 );
               },
               child: Text(
-                'رائع',
+                context.tr('tasbih_awesome'),
                 style: GoogleFonts.cairo(
                   color: const Color(
                     0xFFD4AF37,
@@ -709,7 +711,7 @@ class _TasbihScreenState extends State<TasbihScreen>
           0xFFD4AF37,
         ),
         content: Text(
-          '🎉 تم إكمال الهدف بنجاح',
+          context.tr('tasbih_goal_done'),
           style: GoogleFonts.cairo(
             color: Colors.black,
             fontWeight: FontWeight.bold,
@@ -778,7 +780,7 @@ class _TasbihScreenState extends State<TasbihScreen>
                   height: 14.h,
                 ),
                 Text(
-                  'السبحة الإلكترونية',
+                  context.tr('tasbih_title'),
                   textAlign: TextAlign.center,
                   style: GoogleFonts.cairo(
                     color: Colors.white,
@@ -840,7 +842,7 @@ class _TasbihScreenState extends State<TasbihScreen>
                               borderRadius: BorderRadius.circular(12.r),
                             ),
                             child: Text(
-                              'العداد التقليدي',
+                              context.tr('tasbih_classic'),
                               textAlign: TextAlign.center,
                               style: GoogleFonts.cairo(
                                 color: !_is3DMode ? Colors.black : Colors.white70,
@@ -871,7 +873,7 @@ class _TasbihScreenState extends State<TasbihScreen>
                               borderRadius: BorderRadius.circular(12.r),
                             ),
                             child: Text(
-                              'سبحة تفاعلية 3D',
+                              context.tr('tasbih_3d'),
                               textAlign: TextAlign.center,
                               style: GoogleFonts.cairo(
                                 color: _is3DMode ? Colors.black : Colors.white70,
@@ -901,7 +903,7 @@ class _TasbihScreenState extends State<TasbihScreen>
                         Icon(Icons.edit_note_rounded, color: activeTheme.first, size: 20.sp),
                         SizedBox(width: 8.w),
                         Text(
-                          'تغيير الذكر: $_selectedDhikr',
+                          '${context.tr('tasbih_change_dhikr')}: $_selectedDhikr',
                           style: GoogleFonts.cairo(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -920,12 +922,12 @@ class _TasbihScreenState extends State<TasbihScreen>
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [33, 100, 1000, 0].map((t) {
                     final isSelected = _targetCount == t;
-                    final label = t == 0 ? 'مفتوح' : '$t';
+                    final label = t == 0 ? context.tr('tasbih_open_target') : '$t';
                     return Padding(
                       padding: EdgeInsets.symmetric(horizontal: 4.w),
                       child: ChoiceChip(
                         label: Text(
-                          t == 33 ? '$label (سُنّة)' : label,
+                          t == 33 ? '$label (${context.tr('tasbih_sunnah')})' : label,
                           style: GoogleFonts.cairo(
                             color: isSelected ? Colors.black : Colors.white,
                             fontWeight: FontWeight.bold,
@@ -1028,7 +1030,7 @@ class _TasbihScreenState extends State<TasbihScreen>
                   child: Column(
                     children: [
                       _buildStatTile(
-                        title: 'إجمالي التسبيحات',
+                        title: context.tr('tasbih_total'),
                         value: '$_totalAllTime',
                         color: activeTheme.first,
                       ),
@@ -1036,7 +1038,7 @@ class _TasbihScreenState extends State<TasbihScreen>
                         height: 14.h,
                       ),
                       _buildStatTile(
-                        title: 'تسبيحات اليوم',
+                        title: context.tr('tasbih_today'),
                         value: '$_dailyCount',
                         color: Colors.white,
                       ),
@@ -1044,7 +1046,7 @@ class _TasbihScreenState extends State<TasbihScreen>
                         height: 14.h,
                       ),
                       _buildStatTile(
-                        title: 'أيام الاستمرار',
+                        title: context.tr('tasbih_streak'),
                         value: '$_streakDays',
                         color: Colors.orange,
                       ),
@@ -1076,7 +1078,7 @@ class _TasbihScreenState extends State<TasbihScreen>
                           size: 22.sp,
                         ),
                         label: Text(
-                          'تصفير العداد',
+                          context.tr('tasbih_reset'),
                           style: GoogleFonts.cairo(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,

@@ -5,6 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import '../core/localization/app_translations.dart';
+import '../core/localization/locale_manager.dart';
 import '../models/theme_manager.dart';
 
 class IslamicStoreScreen extends StatefulWidget {
@@ -58,18 +60,18 @@ class _IslamicStoreScreenState extends State<IslamicStoreScreen> with SingleTick
                     Text('💎', style: TextStyle(fontSize: 24.sp)),
                     SizedBox(width: 8.w),
                     Text(
-                      'كيف تجمع نقاط الحسنات الإيمانية؟',
+                      context.tr('store_how_to_earn'),
                       style: GoogleFonts.cairo(color: theme.textColor, fontWeight: FontWeight.bold, fontSize: 16.sp),
                     ),
                   ],
                 ),
                 SizedBox(height: 14.h),
-                _buildEarnRule('🕌 أداء صلاة الفريضة في وقتها', '+50 حسنة', theme),
-                _buildEarnRule('🌅 قراءة أذكار الصباح أو المساء', '+40 حسنة', theme),
-                _buildEarnRule('📖 قراءة ورد القرآن الكريم', '+60 حسنة', theme),
-                _buildEarnRule('🌙 صيام يوم تطوع أو نافلة', '+100 حسنة', theme),
-                _buildEarnRule('📿 إتمام 100 تسبيحة في السبحة', '+20 حسنة', theme),
-                _buildEarnRule('🧠 الإجابة الصحيحة في مسابقة المعرفة', '+30 حسنة', theme),
+                _buildEarnRule(context.tr('store_rule_prayer'), '+50', theme),
+                _buildEarnRule(context.tr('store_rule_azkar'), '+40', theme),
+                _buildEarnRule(context.tr('store_rule_quran'), '+60', theme),
+                _buildEarnRule(context.tr('store_rule_fasting'), '+100', theme),
+                _buildEarnRule(context.tr('store_rule_tasbih'), '+20', theme),
+                _buildEarnRule(context.tr('store_rule_quiz'), '+30', theme),
                 SizedBox(height: 16.h),
               ],
             ),
@@ -115,12 +117,12 @@ class _IslamicStoreScreenState extends State<IslamicStoreScreen> with SingleTick
         elevation: 0,
         centerTitle: true,
         title: Text(
-          'متجر زاد المؤمن 💎',
+          context.tr('store_title'),
           style: GoogleFonts.cairo(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 17.sp),
         ),
       ),
       body: Directionality(
-        textDirection: TextDirection.rtl,
+        textDirection: Provider.of<LocaleManager>(context).textDirection,
         child: Column(
           children: [
             // 1. Balance Header Card
@@ -150,7 +152,7 @@ class _IslamicStoreScreenState extends State<IslamicStoreScreen> with SingleTick
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'رصيدك من الحسنات:',
+                        context.tr('store_balance'),
                         style: GoogleFonts.cairo(color: Colors.white70, fontSize: 12.sp),
                       ),
                       Row(
@@ -164,7 +166,7 @@ class _IslamicStoreScreenState extends State<IslamicStoreScreen> with SingleTick
                             ),
                           ),
                           SizedBox(width: 6.w),
-                          Text('حسنة 💎', style: GoogleFonts.cairo(color: Colors.white70, fontSize: 13.sp)),
+                          Text(context.tr('store_unit'), style: GoogleFonts.cairo(color: Colors.white70, fontSize: 13.sp)),
                         ],
                       ),
                     ],
@@ -173,7 +175,7 @@ class _IslamicStoreScreenState extends State<IslamicStoreScreen> with SingleTick
                     onPressed: () => _showHowToEarnPoints(context, theme),
                     icon: const Icon(Icons.help_outline_rounded, size: 16, color: Colors.black),
                     label: Text(
-                      'كيف أكسب؟',
+                      context.tr('store_how_btn'),
                       style: GoogleFonts.cairo(fontWeight: FontWeight.bold, fontSize: 11.sp),
                     ),
                     style: ElevatedButton.styleFrom(
@@ -194,10 +196,10 @@ class _IslamicStoreScreenState extends State<IslamicStoreScreen> with SingleTick
               unselectedLabelColor: theme.subtitleColor,
               labelStyle: GoogleFonts.cairo(fontWeight: FontWeight.bold, fontSize: 13.sp),
               unselectedLabelStyle: GoogleFonts.cairo(fontSize: 12.sp),
-              tabs: const [
-                Tab(text: '🎨 الثيمات (10)'),
-                Tab(text: '📜 المصحف (10)'),
-                Tab(text: '📿 السبحة 3D (10)'),
+              tabs: [
+                Tab(text: context.tr('store_tab_themes')),
+                Tab(text: context.tr('store_tab_quran')),
+                Tab(text: context.tr('store_tab_tasbih')),
               ],
             ),
 

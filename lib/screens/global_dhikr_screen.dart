@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
+import '../core/localization/app_translations.dart';
 import '../models/global_dhikr_manager.dart';
 
 class GlobalDhikrScreen extends StatefulWidget {
@@ -40,15 +41,15 @@ class _GlobalDhikrScreenState extends State<GlobalDhikrScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'عداد الأذكار الجماعي 📿',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 19),
+        title: Text(
+          context.tr('gd_title'),
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 19),
         ),
         centerTitle: true,
         actions: [
           IconButton(
             icon: const Icon(Icons.share_rounded, color: Color(0xFFE5C07B)),
-            tooltip: 'دعوة الأصدقاء للحملة',
+            tooltip: context.tr('gd_invite_tooltip'),
             onPressed: () => _shareCampaign(activeCamp),
           ),
         ],
@@ -155,7 +156,7 @@ class _GlobalDhikrScreenState extends State<GlobalDhikrScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'الإنجاز: ${(activeCamp.progress * 100).toStringAsFixed(1)}%',
+                        '${context.tr('gd_progress')}: ${(activeCamp.progress * 100).toStringAsFixed(1)}%',
                         style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
                       ),
                       Text(
@@ -183,7 +184,7 @@ class _GlobalDhikrScreenState extends State<GlobalDhikrScreen> {
                   const Icon(Icons.favorite_rounded, color: Color(0xFF2E7D32), size: 20),
                   const SizedBox(width: 8),
                   Text(
-                    'مساهمتك أنت في هذه الحملة: ${activeCamp.userContribution} تسبيحة',
+                    '${context.tr('gd_your_contrib')}: ${activeCamp.userContribution}',
                     style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: Color(0xFF2E7D32)),
                   ),
                 ],
@@ -211,22 +212,22 @@ class _GlobalDhikrScreenState extends State<GlobalDhikrScreen> {
                       ),
                     ],
                   ),
-                  child: const Column(
+                  child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.touch_app_rounded, color: Colors.white, size: 36),
-                      SizedBox(height: 6),
+                      const Icon(Icons.touch_app_rounded, color: Colors.white, size: 36),
+                      const SizedBox(height: 6),
                       Text(
-                        'اضغط للتسبيح',
-                        style: TextStyle(
+                        context.tr('gd_tap_tasbih'),
+                        style: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
                         ),
                       ),
                       Text(
-                        '+1 تسبيحة للأمة',
-                        style: TextStyle(color: Colors.white70, fontSize: 11),
+                        context.tr('gd_plus_one'),
+                        style: const TextStyle(color: Colors.white70, fontSize: 11),
                       ),
                     ],
                   ),
@@ -239,9 +240,9 @@ class _GlobalDhikrScreenState extends State<GlobalDhikrScreen> {
             ElevatedButton.icon(
               onPressed: () => _shareCampaign(activeCamp),
               icon: const Icon(Icons.group_add_rounded, size: 20),
-              label: const Text(
-                'ادعُ أصدقاءك وعائلتك للمشاركة 📲',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+              label: Text(
+                context.tr('gd_invite_btn'),
+                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
               ),
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF25D366),

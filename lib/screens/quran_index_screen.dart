@@ -1,11 +1,13 @@
 import 'dart:ui';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:quran/quran.dart' as quran;
 
+import '../core/localization/app_translations.dart';
+import '../core/localization/locale_manager.dart';
 import '../models/theme_manager.dart';
 import '../widgets/islamic_number_badge.dart';
 import '../data/quran_index_data.dart';
@@ -134,9 +136,10 @@ class _QuranIndexScreenState extends State<QuranIndexScreen> with SingleTickerPr
   Widget build(BuildContext context) {
     final themeManager = Provider.of<AppThemeManager>(context);
     final theme = themeManager.currentTheme;
+    final localeManager = Provider.of<LocaleManager>(context);
 
     return Directionality(
-      textDirection: TextDirection.rtl,
+      textDirection: localeManager.textDirection,
       child: Scaffold(
         backgroundColor: theme.scaffoldBackgroundColor,
         appBar: AppBar(
@@ -144,7 +147,7 @@ class _QuranIndexScreenState extends State<QuranIndexScreen> with SingleTickerPr
           backgroundColor: theme.primaryColor,
           centerTitle: true,
           title: Text(
-            'فهرس القرآن الكريم',
+            context.tr('qidx_title'),
             style: GoogleFonts.cairo(
               fontWeight: FontWeight.bold,
               fontSize: 20.sp,
@@ -165,12 +168,12 @@ class _QuranIndexScreenState extends State<QuranIndexScreen> with SingleTickerPr
               fontWeight: FontWeight.normal,
               fontSize: 12.sp,
             ),
-            tabs: const [
-              Tab(text: 'السور'),
-              Tab(text: 'الأجزاء'),
-              Tab(text: 'الموضوعي'),
-              Tab(text: 'السجدات'),
-              Tab(text: 'بحث الآيات'),
+            tabs: [
+              Tab(text: context.tr('qidx_tab_surahs')),
+              Tab(text: context.tr('qidx_tab_juzs')),
+              Tab(text: context.tr('qidx_tab_topics')),
+              Tab(text: context.tr('qidx_tab_sajdahs')),
+              Tab(text: context.tr('qidx_tab_search')),
             ],
           ),
         ),
@@ -252,7 +255,7 @@ class _QuranIndexScreenState extends State<QuranIndexScreen> with SingleTickerPr
                         ),
                       ),
                       Text(
-                        'ص ${topic.page} • سورة ${topic.surahName}',
+                        '${context.tr('qidx_page_prefix')} ${topic.page} • ${context.tr('qidx_surah_prefix')} ${topic.surahName}',
                         style: GoogleFonts.cairo(color: theme.subtitleColor, fontSize: 11.sp),
                       ),
                     ],
@@ -280,7 +283,7 @@ class _QuranIndexScreenState extends State<QuranIndexScreen> with SingleTickerPr
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Text(
-                        'قراءة الآيات (${topic.verseStart} - ${topic.verseEnd})',
+                        '${context.tr('qidx_read_verses')} (${topic.verseStart} - ${topic.verseEnd})',
                         style: GoogleFonts.cairo(color: theme.accentColor, fontWeight: FontWeight.bold, fontSize: 11.sp),
                       ),
                       SizedBox(width: 4.w),
@@ -318,9 +321,9 @@ class _QuranIndexScreenState extends State<QuranIndexScreen> with SingleTickerPr
                       theme: theme,
                       index: surah.id,
                       title: surah.name,
-                      subtitle: '${quran.getSurahName(surah.id)} • ${surah.verses} آية',
+                      subtitle: '${quran.getSurahName(surah.id)} • ${surah.verses} ${context.tr('qidx_ayah')}',
                       pageNumber: surah.page,
-                      badgeText: surah.revelationType,
+                      badgeText: isMeccan ? context.tr('meccan') : context.tr('medinan'),
                       badgeColor: isMeccan ? Colors.amber : Colors.green,
                       onTap: () => _handleItemTap(
                         surah.page,
@@ -353,12 +356,12 @@ class _QuranIndexScreenState extends State<QuranIndexScreen> with SingleTickerPr
         return _buildListTile(
           theme: theme,
           index: juz.juzNumber,
-          title: 'الجزء ${juz.juzNumber}',
-          subtitle: 'بداية من سورة ${juz.startingSurahName} (الآية ${juz.startingVerse})',
+          title: '${context.tr('qidx_juz')} ${juz.juzNumber}',
+          subtitle: '${context.tr('qidx_starts_from')} ${context.tr('qidx_surah_prefix')} ${juz.startingSurahName} (${context.tr('qidx_the_ayah')} ${juz.startingVerse})',
           pageNumber: juz.page,
           onTap: () => _handleItemTap(
             juz.page,
-            title: 'الجزء ${juz.juzNumber}',
+            title: '${context.tr('qidx_juz')} ${juz.juzNumber}',
             fallbackSurahId: matchingSurah.id,
             initialVerse: juz.startingVerse,
           ),
@@ -381,14 +384,14 @@ class _QuranIndexScreenState extends State<QuranIndexScreen> with SingleTickerPr
         return _buildListTile(
           theme: theme,
           index: sajdah.sajdahNumber,
-          title: 'سجدة التلاوة ${sajdah.sajdahNumber}',
-          subtitle: 'سورة ${sajdah.surahName} • الآية ${sajdah.verse}',
+          title: '${context.tr('qidx_sajdah')} ${sajdah.sajdahNumber}',
+          subtitle: '${context.tr('qidx_surah_prefix')} ${sajdah.surahName} • ${context.tr('qidx_the_ayah')} ${sajdah.verse}',
           pageNumber: sajdah.page,
-          badgeText: sajdah.revelationType,
+          badgeText: isMeccan ? context.tr('meccan') : context.tr('medinan'),
           badgeColor: isMeccan ? Colors.amber : Colors.green,
           onTap: () => _handleItemTap(
             sajdah.page,
-            title: 'سجدة ${sajdah.sajdahNumber}',
+            title: '${context.tr('qidx_sajdah_short')} ${sajdah.sajdahNumber}',
             fallbackSurahId: sajdah.surahNumber,
             initialVerse: sajdah.verse,
           ),
@@ -480,7 +483,7 @@ class _QuranIndexScreenState extends State<QuranIndexScreen> with SingleTickerPr
                 ),
               ),
               child: Text(
-                'صـ $pageNumber',
+                '${context.tr('qidx_page_prefix')} $pageNumber',
                 style: GoogleFonts.cairo(
                   color: theme.accentColor,
                   fontWeight: FontWeight.bold,
@@ -522,7 +525,7 @@ class _QuranIndexScreenState extends State<QuranIndexScreen> with SingleTickerPr
               onChanged: _filterSurahs,
               style: GoogleFonts.cairo(color: Colors.white),
               decoration: InputDecoration(
-                hintText: 'ابحث عن سورة بالاسم أو الرقم...',
+                hintText: context.tr('qidx_search_surah_hint'),
                 hintStyle: GoogleFonts.cairo(color: Colors.white38, fontSize: 13.sp),
                 prefixIcon: Icon(Icons.search_rounded, color: theme.accentColor, size: 22.sp),
                 suffixIcon: _searchController.text.isNotEmpty
@@ -548,7 +551,7 @@ class _QuranIndexScreenState extends State<QuranIndexScreen> with SingleTickerPr
   Widget _buildEmptyState(AppTheme theme) {
     return Center(
       child: Text(
-        'لم يتم العثور على نتائج للبحث',
+        context.tr('qidx_no_results'),
         style: GoogleFonts.cairo(
           color: theme.subtitleColor,
           fontSize: 14.sp,
@@ -584,8 +587,8 @@ class _QuranIndexScreenState extends State<QuranIndexScreen> with SingleTickerPr
                           SizedBox(height: 8.h),
                           Text(
                             _verseSearchController.text.trim().length < 2
-                                ? 'اكتب كلمة أو جملة للبحث في المصحف'
-                                : 'لا توجد نتائج مطابقة لبحثك',
+                                ? context.tr('qidx_type_to_search')
+                                : context.tr('qidx_no_matching_verses'),
                             style: GoogleFonts.cairo(
                               color: theme.subtitleColor,
                               fontSize: 13.sp,
@@ -642,7 +645,7 @@ class _QuranIndexScreenState extends State<QuranIndexScreen> with SingleTickerPr
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      'سورة ${result.surahName} • الآية ${result.verseNumber}',
+                                      '${context.tr('qidx_surah_prefix')} ${result.surahName} • ${context.tr('qidx_the_ayah')} ${result.verseNumber}',
                                       style: GoogleFonts.cairo(
                                         color: theme.subtitleColor,
                                         fontSize: 11.sp,
@@ -658,7 +661,7 @@ class _QuranIndexScreenState extends State<QuranIndexScreen> with SingleTickerPr
                                         ),
                                       ),
                                       child: Text(
-                                        'صـ $page',
+                                        '${context.tr('qidx_page_prefix')} $page',
                                         style: GoogleFonts.cairo(
                                           color: theme.accentColor,
                                           fontWeight: FontWeight.bold,
@@ -699,7 +702,7 @@ class _QuranIndexScreenState extends State<QuranIndexScreen> with SingleTickerPr
               onChanged: _searchVerses,
               style: GoogleFonts.cairo(color: Colors.white),
               decoration: InputDecoration(
-                hintText: 'ابحث عن أي كلمة أو آية بالقرآن الكريم...',
+                hintText: context.tr('qidx_search_verse_hint'),
                 hintStyle: GoogleFonts.cairo(color: Colors.white38, fontSize: 13.sp),
                 prefixIcon: Icon(Icons.search_rounded, color: theme.accentColor, size: 22.sp),
                 suffixIcon: _verseSearchController.text.isNotEmpty

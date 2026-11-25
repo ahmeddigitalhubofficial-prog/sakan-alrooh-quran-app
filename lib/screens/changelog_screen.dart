@@ -1,9 +1,10 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import '../core/localization/app_translations.dart';
 import '../models/theme_manager.dart';
 
 class ChangelogEntry {
@@ -173,7 +174,7 @@ class _ChangelogScreenState extends State<ChangelogScreen> {
             onPressed: () => Navigator.pop(context),
           ),
           title: Text(
-            'سجل التحديثات والتطويرات',
+            context.tr('changelog_title'),
             style: GoogleFonts.cairo(
               color: theme.textColor,
               fontWeight: FontWeight.bold,

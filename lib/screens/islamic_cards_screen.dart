@@ -7,6 +7,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../core/localization/app_translations.dart';
+import '../core/localization/locale_manager.dart';
 import '../models/theme_manager.dart';
 
 class GreetingTemplate {
@@ -122,12 +124,12 @@ class _IslamicCardsScreenState extends State<IslamicCardsScreen> {
         elevation: 0,
         centerTitle: true,
         title: Text(
-          'صانع بطاقات التهنئة الإسلامية 🎨',
+          context.tr('cards_title'),
           style: GoogleFonts.cairo(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 16.sp),
         ),
       ),
       body: Directionality(
-        textDirection: TextDirection.rtl,
+        textDirection: Provider.of<LocaleManager>(context).textDirection,
         child: SingleChildScrollView(
           padding: EdgeInsets.all(16.w),
           child: Column(
@@ -200,7 +202,7 @@ class _IslamicCardsScreenState extends State<IslamicCardsScreen> {
                 onPressed: _shareCard,
                 icon: const Icon(Icons.share_rounded, color: Colors.black),
                 label: Text(
-                  'مشاركة البطاقة عبر واتساب والتطبيقات 📤',
+                  context.tr('cards_share_btn'),
                   style: GoogleFonts.cairo(fontWeight: FontWeight.bold, fontSize: 14.sp),
                 ),
                 style: ElevatedButton.styleFrom(

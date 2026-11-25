@@ -13,6 +13,7 @@ import 'package:quran/quran.dart' as quran;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../core/constants/app_colors.dart';
+import '../core/localization/app_translations.dart';
 import '../core/utils/app_spacing.dart';
 import '../data/quran_divisions_data.dart';
 import '../models/theme_manager.dart';
@@ -146,7 +147,7 @@ class _SurahDetailScreenState extends State<SurahDetailScreen> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              'اختر خط المصحف الشريف ✒️',
+              context.tr('sd_choose_font'),
               style: GoogleFonts.cairo(
                 fontWeight: FontWeight.bold,
                 fontSize: 16.sp,
@@ -213,7 +214,7 @@ class _SurahDetailScreenState extends State<SurahDetailScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'سرعة التلاوة',
+                context.tr('sd_speed'),
                 style: GoogleFonts.cairo(
                   fontSize: 18.sp,
                   fontWeight: FontWeight.bold,
@@ -1320,7 +1321,7 @@ $tafsirText
                       SizedBox(width: 10.w),
                       Expanded(
                         child: Text(
-                          'التفسير الميسر (سورة $sName - آية $verseNumber)',
+                          '${context.tr('sd_tafsir')} (${context.tr('qidx_surah_prefix')} $sName - ${context.tr('qidx_ayah')} $verseNumber)',
                           style: GoogleFonts.cairo(
                             color: theme.textColor,
                             fontWeight: FontWeight.bold,
@@ -1349,7 +1350,7 @@ $tafsirText
                   ),
                   SizedBox(height: 16.h),
                   Text(
-                    'التفسير الميسر:',
+                    '${context.tr('sd_tafsir')}:',
                     style: GoogleFonts.cairo(
                       color: theme.accentColor,
                       fontWeight: FontWeight.bold,
@@ -1375,7 +1376,7 @@ $tafsirText
                         );
                       }
                       final tafsirText = snapshot.data ??
-                          'تعذر جلب التفسير، يرجى التأكد من الاتصال بالإنترنت والمحاولة مجدداً.';
+                          context.tr('sd_tafsir_error');
                       return Text(
                         tafsirText,
                         style: GoogleFonts.cairo(
@@ -1427,7 +1428,7 @@ $tafsirText
               child: Column(
                 children: [
                   Text(
-                    'اختر القارئ المفضل',
+                    context.tr('sd_choose_reciter'),
                     textAlign: TextAlign.center,
                     style: GoogleFonts.cairo(
                       fontSize: 18.sp,
@@ -1442,9 +1443,9 @@ $tafsirText
                     unselectedLabelColor: theme.subtitleColor,
                     labelStyle: GoogleFonts.cairo(fontWeight: FontWeight.bold, fontSize: 13.sp),
                     unselectedLabelStyle: GoogleFonts.cairo(fontSize: 12.sp),
-                    tabs: const [
-                      Tab(text: '🇪🇬 القراء المصريون'),
-                      Tab(text: '🇸🇦 القراء العرب والخليج'),
+                    tabs: [
+                      Tab(text: context.tr('sd_egypt_reciters')),
+                      Tab(text: context.tr('sd_arab_reciters')),
                     ],
                   ),
                   SizedBox(height: 10.h),
@@ -1579,12 +1580,12 @@ $tafsirText
                     ),
                 ],
               ),
-              tooltip: 'ترجمة معاني القرآن',
+              tooltip: context.tr('sd_translate_tooltip'),
               onPressed: _showQuranTranslationSelectionSheet,
             ),
             IconButton(
               icon: Icon(Icons.font_download_outlined, color: Colors.white, size: 22.sp),
-              tooltip: 'تغيير خط المصحف',
+              tooltip: context.tr('sd_font_tooltip'),
               onPressed: _showFontSelectionSheet,
             ),
             InkWell(
@@ -1654,7 +1655,7 @@ $tafsirText
                           Icon(Icons.menu_book_rounded, color: theme.accentColor, size: 16.sp),
                           SizedBox(width: 4.w),
                           Text(
-                            'سورة $_activeSurahName',
+                            '${context.tr('qidx_surah_prefix')} $_activeSurahName',
                             style: GoogleFonts.cairo(
                               fontSize: 13.sp,
                               fontWeight: FontWeight.bold,
@@ -1671,7 +1672,7 @@ $tafsirText
                           Icon(Icons.grid_3x3_rounded, color: theme.accentColor, size: 16.sp),
                           SizedBox(width: 4.w),
                           Text(
-                            'الجزء $_currentJuz',
+                            '${context.tr('sd_juz')} $_currentJuz',
                             style: GoogleFonts.cairo(
                               fontSize: 13.sp,
                               fontWeight: FontWeight.bold,
@@ -1688,7 +1689,7 @@ $tafsirText
                           Icon(Icons.pages_rounded, color: theme.accentColor, size: 16.sp),
                           SizedBox(width: 4.w),
                           Text(
-                            'الصفحة $_currentPage',
+                            '${context.tr('sd_page')} $_currentPage',
                             style: GoogleFonts.cairo(
                               fontSize: 13.sp,
                               fontWeight: FontWeight.bold,
@@ -1735,7 +1736,7 @@ $tafsirText
                               child: Column(
                                 children: [
                                   Text(
-                                    'سورة $sName',
+                                    '${context.tr('qidx_surah_prefix')} $sName',
                                     style: GoogleFonts.cairo(
                                       fontSize: 20.sp,
                                       fontWeight: FontWeight.bold,
@@ -1744,7 +1745,7 @@ $tafsirText
                                   ),
                                   SizedBox(height: 6.h),
                                   Text(
-                                    'نزولها: ${quran.getPlaceOfRevelation(surahNum) == 'Makkah' ? 'مكية' : 'مدنية'} | آياتها: $versesCount',
+                                    '${context.tr('sd_revelation')}: ${quran.getPlaceOfRevelation(surahNum) == 'Makkah' ? context.tr('meccan') : context.tr('medinan')} | ${context.tr('sd_verses')}: $versesCount',
                                     style: GoogleFonts.cairo(
                                       fontSize: 12.sp,
                                       color: theme.subtitleColor,
@@ -2124,7 +2125,7 @@ $tafsirText
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Text(
-                                      'جاري تحميل التلاوة...',
+                                      context.tr('sd_downloading'),
                                       style: GoogleFonts.cairo(
                                         fontSize: 11.sp,
                                         color: theme.accentColor,
@@ -2143,7 +2144,7 @@ $tafsirText
                                     ),
                                     SizedBox(height: 4.h),
                                     Text(
-                                      'تم تحميل $_downloadedCount من $_totalToDownload آية (${(_downloadProgress * 100).toInt()}%)',
+                                      '${context.tr('sd_downloaded_count')} $_downloadedCount ${context.tr('sd_of')} $_totalToDownload ${context.tr('qidx_ayah')} (${(_downloadProgress * 100).toInt()}%)',
                                       style: GoogleFonts.cairo(
                                         fontSize: 9.sp,
                                         color: theme.subtitleColor,
@@ -2158,7 +2159,7 @@ $tafsirText
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Text(
-                                        'القارئ الحالي',
+                                        context.tr('sd_current_reciter'),
                                         style: GoogleFonts.cairo(
                                           fontSize: 11.sp,
                                           color: theme.subtitleColor,
@@ -2197,7 +2198,7 @@ $tafsirText
                               color: theme.accentColor,
                               size: 24.sp,
                             ),
-                            tooltip: 'تأخير 10 ثوانٍ',
+                            tooltip: context.tr('sd_replay_10'),
                           ),
                           IconButton(
                             onPressed: _downloadCurrentSurah,
@@ -2211,8 +2212,8 @@ $tafsirText
                               size: 24.sp,
                             ),
                             tooltip: _currentSurahDownloaded
-                                ? 'السورة محملة بالكامل'
-                                : 'تحميل السورة للاستماع دون اتصال',
+                                ? context.tr('sd_surah_downloaded')
+                                : context.tr('sd_download_surah'),
                           ),
                         ],
                         SizedBox(width: 10.w),
@@ -2262,7 +2263,7 @@ $tafsirText
                             color: theme.accentColor,
                             size: 24.sp,
                           ),
-                          tooltip: 'تقديم 10 ثوانٍ',
+                          tooltip: context.tr('sd_forward_10'),
                         ),
                         SizedBox(width: 8.w),
                         InkWell(
@@ -2300,7 +2301,7 @@ $tafsirText
                             borderRadius: BorderRadius.circular(14.r),
                           ),
                           child: Text(
-                            _isPlaying ? 'جارٍ التشغيل' : 'متوقف',
+                            _isPlaying ? context.tr('sd_playing') : context.tr('sd_stopped'),
                             style: GoogleFonts.cairo(
                               fontSize: 11.sp,
                               color: _isPlaying

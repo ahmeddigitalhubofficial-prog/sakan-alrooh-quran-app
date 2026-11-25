@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import '../core/localization/app_translations.dart';
 import '../data/quran_library_database.dart';
 import '../models/quran_library_model.dart';
 import '../models/theme_manager.dart';
@@ -54,7 +55,7 @@ class _QuranLibraryScreenState extends State<QuranLibraryScreen> {
         backgroundColor: theme.primaryColor,
         elevation: 0,
         title: Text(
-          'موسوعة قصص القرآن وأسباب النزول',
+          context.tr('stories_title'),
           style: GoogleFonts.cairo(
             fontWeight: FontWeight.bold,
             fontSize: 16.sp,
@@ -84,7 +85,7 @@ class _QuranLibraryScreenState extends State<QuranLibraryScreen> {
                 },
                 style: GoogleFonts.cairo(color: theme.textColor),
                 decoration: InputDecoration(
-                  hintText: 'ابحث في الموسوعة باسم القصة، النبي، أو السورة...',
+                  hintText: context.tr('library_search_hint'),
                   hintStyle: GoogleFonts.cairo(
                     color: theme.subtitleColor.withValues(alpha: 0.7),
                     fontSize: 13.sp,

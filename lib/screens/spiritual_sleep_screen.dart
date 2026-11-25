@@ -8,6 +8,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:provider/provider.dart';
 
+import '../core/localization/app_translations.dart';
+import '../core/localization/locale_manager.dart';
 import '../models/theme_manager.dart';
 import '../services/in_app_telemetry_service.dart';
 import '../widgets/common/auto_scroll_text.dart';
@@ -341,7 +343,7 @@ class _SpiritualSleepScreenState extends State<SpiritualSleepScreen>
         elevation: 0,
         centerTitle: true,
         title: Text(
-          'محراب السكينة وصوتيات النوم 🌙',
+          context.tr('sleep_title'),
           style: GoogleFonts.cairo(
             fontWeight: FontWeight.bold,
             color: const Color(0xFFE0E6ED),
@@ -354,13 +356,13 @@ class _SpiritualSleepScreenState extends State<SpiritualSleepScreen>
               _sleepTimerMinutes > 0 ? Icons.timer : Icons.timer_outlined,
               color: _sleepTimerMinutes > 0 ? const Color(0xFFD4AF37) : Colors.white70,
             ),
-            tooltip: 'مؤقت النوم الذكي',
+            tooltip: context.tr('sleep_timer_tooltip'),
             onPressed: _showTimerModal,
           ),
         ],
       ),
       body: Directionality(
-        textDirection: TextDirection.rtl,
+        textDirection: Provider.of<LocaleManager>(context).textDirection,
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
           padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 12.h),

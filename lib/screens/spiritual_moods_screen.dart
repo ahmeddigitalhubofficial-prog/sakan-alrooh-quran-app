@@ -7,6 +7,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../core/localization/app_translations.dart';
+import '../core/localization/locale_manager.dart';
 import '../models/theme_manager.dart';
 import '../widgets/common/auto_scroll_text.dart';
 import 'card_studio_screen.dart';
@@ -187,12 +189,12 @@ class SpiritualMoodsScreen extends StatelessWidget {
         elevation: 0,
         centerTitle: true,
         title: Text(
-          'الملاذ الإيماني • بماذا تشعر؟ 🤍',
+          context.tr('moods_title'),
           style: GoogleFonts.cairo(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 16.sp),
         ),
       ),
       body: Directionality(
-        textDirection: TextDirection.rtl,
+        textDirection: Provider.of<LocaleManager>(context).textDirection,
         child: SingleChildScrollView(
           padding: EdgeInsets.all(16.w),
           child: Column(

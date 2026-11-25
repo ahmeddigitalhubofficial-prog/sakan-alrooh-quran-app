@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../core/localization/app_translations.dart';
+import '../core/localization/locale_manager.dart';
 import '../models/theme_manager.dart';
 import '../widgets/common/auto_scroll_text.dart';
 import 'tasbih_screen.dart';
@@ -539,14 +541,14 @@ class _NamesOfAllahScreenState extends State<NamesOfAllahScreen> {
     }).toList();
 
     return Directionality(
-      textDirection: TextDirection.rtl,
+      textDirection: Provider.of<LocaleManager>(context).textDirection,
       child: Scaffold(
         backgroundColor: theme.scaffoldBackgroundColor,
         appBar: AppBar(
           backgroundColor: theme.primaryColor,
           elevation: 0,
           title: Text(
-            'أسماء الله الحسنى',
+            context.tr('names_title'),
             style: GoogleFonts.cairo(
               fontWeight: FontWeight.bold,
               color: Colors.white,
@@ -577,7 +579,7 @@ class _NamesOfAllahScreenState extends State<NamesOfAllahScreen> {
                   child: TextField(
                     style: TextStyle(color: theme.textColor),
                     decoration: InputDecoration(
-                      hintText: 'ابحث عن اسم من أسماء الله الحسنى...',
+                      hintText: context.tr('names_search_hint'),
                       hintStyle: GoogleFonts.cairo(
                           color: theme.subtitleColor.withOpacity(0.6)),
                       prefixIcon: Icon(Icons.search, color: theme.accentColor),

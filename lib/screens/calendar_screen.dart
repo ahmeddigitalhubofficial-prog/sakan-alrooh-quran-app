@@ -7,6 +7,7 @@ import 'package:intl/intl.dart' hide TextDirection;
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../core/localization/app_translations.dart';
 import '../models/theme_manager.dart';
 import 'fasting_tracker_screen.dart';
 import 'zakat_calculator_screen.dart';
@@ -143,7 +144,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
           backgroundColor: theme.primaryColor,
           elevation: 0,
           title: Text(
-            'التقويم الإسلامي',
+            context.tr('cal_title'),
             style: GoogleFonts.cairo(
               fontWeight: FontWeight.bold,
               color: Colors.white,
@@ -156,7 +157,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 _isConverting ? Icons.calendar_month : Icons.published_with_changes_rounded,
                 color: Colors.white,
               ),
-              tooltip: _isConverting ? 'عرض التقويم' : 'محول التواريخ',
+              tooltip: _isConverting ? context.tr('cal_view_calendar') : context.tr('cal_converter'),
               onPressed: () {
                 setState(() {
                   _isConverting = !_isConverting;
@@ -204,7 +205,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'اليوم في التقويم الهجري',
+                                context.tr('cal_today_hijri'),
                                 style: GoogleFonts.cairo(
                                   color: theme.subtitleColor,
                                   fontSize: 12.sp,
@@ -230,7 +231,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: Text(
-                              _hijriOffset > 0 ? '+$_hijriOffset يوم' : '$_hijriOffset يوم',
+                              _hijriOffset > 0 ? '+$_hijriOffset ${context.tr('cal_day')}' : '$_hijriOffset ${context.tr('cal_day')}',
                               style: GoogleFonts.cairo(color: theme.accentColor, fontSize: 10.sp, fontWeight: FontWeight.bold),
                             ),
                           ),
@@ -261,7 +262,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                         ),
                         const SizedBox(width: 8),
                         Text(
-                          _isConverting ? 'العودة لعرض الشهر الكامل' : 'أداة البحث والتحويل بين الهجري والميلادي 🔄',
+                          _isConverting ? context.tr('cal_back_to_month') : context.tr('cal_search_convert'),
                           style: GoogleFonts.cairo(
                             color: theme.textColor,
                             fontWeight: FontWeight.bold,
@@ -562,7 +563,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 4.0),
                           child: Text(
-                            'المناسبات الإسلامية هذا الشهر',
+                            context.tr('cal_events_title'),
                             style: GoogleFonts.cairo(
                               color: theme.textColor,
                               fontSize: 16.sp,
@@ -679,7 +680,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
             if (_conversionMode == 0) ...[
               // Gregorian to Hijri
               Text(
-                'اختر التاريخ الميلادي للبحث والتحويل:',
+                context.tr('cal_pick_greg'),
                 style: GoogleFonts.cairo(color: theme.textColor, fontWeight: FontWeight.bold, fontSize: 14.sp),
               ),
               const SizedBox(height: 10),

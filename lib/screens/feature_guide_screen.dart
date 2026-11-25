@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import '../core/localization/app_translations.dart';
 import '../models/theme_manager.dart';
 
 class FeatureGuideItem {
@@ -297,7 +298,7 @@ class _FeatureGuideScreenState extends State<FeatureGuideScreen> {
         backgroundColor: theme.primaryColor,
         elevation: 0,
         title: Text(
-          'دليل ميزات واستخدام التطبيق',
+          context.tr('guide_title'),
           style: GoogleFonts.cairo(
             fontWeight: FontWeight.bold,
             color: Colors.white,
@@ -326,7 +327,7 @@ class _FeatureGuideScreenState extends State<FeatureGuideScreen> {
                 },
                 style: GoogleFonts.cairo(color: theme.textColor),
                 decoration: InputDecoration(
-                  hintText: 'ابحث عن طريقة أي ميزة (مثلاً: التفسير، القبلة، الهجري)...',
+                  hintText: context.tr('guide_search_hint'),
                   hintStyle: GoogleFonts.cairo(
                     color: theme.subtitleColor.withValues(alpha: 0.7),
                     fontSize: 13.sp,

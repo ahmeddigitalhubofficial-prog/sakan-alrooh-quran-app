@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
+import '../core/localization/app_translations.dart';
 import '../models/quiz_manager.dart';
 
 class IslamicQuizScreen extends StatefulWidget {
@@ -50,15 +51,15 @@ class _IslamicQuizScreenState extends State<IslamicQuizScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'سؤال اليوم وتحدي الصديق 🧠',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 19),
+        title: Text(
+          context.tr('quiz_title'),
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 19),
         ),
         centerTitle: true,
         actions: [
           IconButton(
             icon: const Icon(Icons.share_rounded, color: Color(0xFFE5C07B)),
-            tooltip: 'تحدَّ صديقك في هذا السؤال',
+            tooltip: context.tr('quiz_challenge_tooltip'),
             onPressed: () => _shareQuizQuestion(q),
           ),
         ],
@@ -80,12 +81,12 @@ class _IslamicQuizScreenState extends State<IslamicQuizScreen> {
                     border: Border.all(color: const Color(0xFFE5C07B).withOpacity(0.4)),
                   ),
                   child: Text(
-                    '📚 تصنيف: ${q.category}',
+                    '📚 ${context.tr('quiz_category')}: ${q.category}',
                     style: const TextStyle(color: Color(0xFFD4AF37), fontWeight: FontWeight.bold, fontSize: 12),
                   ),
                 ),
                 Text(
-                  'إجاباتك الصحيحة: ${manager.totalCorrect} 🏆',
+                  '${context.tr('quiz_correct_count')}: ${manager.totalCorrect} 🏆',
                   style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
                 ),
               ],
@@ -211,8 +212,8 @@ class _IslamicQuizScreenState extends State<IslamicQuizScreen> {
                         const SizedBox(width: 8),
                         Text(
                           _selectedOptionIndex == q.correctIndex
-                              ? 'إجابة صحيحة! أحسنت 🎉 (+30 حسنة)'
-                              : 'معلومة وفائدة: 💡',
+                              ? context.tr('quiz_correct_answer')
+                              : context.tr('quiz_info_benefit'),
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Color(0xFF2E7D32),
@@ -235,9 +236,9 @@ class _IslamicQuizScreenState extends State<IslamicQuizScreen> {
             ElevatedButton.icon(
               onPressed: () => _shareQuizQuestion(q),
               icon: const Icon(Icons.sports_esports_rounded, size: 20),
-              label: const Text(
-                'تحدَّ صديقك في هذا السؤال عبر واتساب 📲',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+              label: Text(
+                context.tr('quiz_challenge_btn'),
+                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
               ),
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF25D366),

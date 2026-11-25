@@ -5,6 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../core/localization/app_translations.dart';
+import '../core/localization/locale_manager.dart';
 import '../data/stories_data.dart';
 import '../models/story_item.dart';
 import '../models/story_chapter.dart';
@@ -69,14 +71,14 @@ class _StoriesScreenState extends State<StoriesScreen>
     final theme = themeManager.currentTheme;
 
     return Directionality(
-      textDirection: TextDirection.rtl,
+      textDirection: Provider.of<LocaleManager>(context).textDirection,
       child: Scaffold(
         backgroundColor: theme.scaffoldBackgroundColor,
         appBar: AppBar(
           backgroundColor: theme.primaryColor,
           elevation: 0,
           title: Text(
-            'موسوعة قصص القرآن وأسباب النزول',
+            context.tr('stories_title'),
             style: GoogleFonts.cairo(
               fontWeight: FontWeight.bold,
               color: Colors.white,
@@ -125,7 +127,7 @@ class _StoriesScreenState extends State<StoriesScreen>
                   child: TextField(
                     style: TextStyle(color: theme.textColor),
                     decoration: InputDecoration(
-                      hintText: 'ابحث عن نبي، قصة، آية، سبب نزول، أو غزوة...',
+                      hintText: context.tr('stories_search_hint'),
                       hintStyle: GoogleFonts.cairo(
                         color: theme.subtitleColor.withOpacity(0.6),
                         fontSize: 13.sp,

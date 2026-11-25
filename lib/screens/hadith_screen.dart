@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import '../core/localization/app_translations.dart';
+import '../core/localization/locale_manager.dart';
 import '../data/hadith_data.dart';
 import '../models/hadith_model.dart';
 import '../models/theme_manager.dart';
@@ -40,7 +42,7 @@ class _HadithScreenState extends State<HadithScreen>
     final theme = themeManager.currentTheme;
 
     return Directionality(
-      textDirection: TextDirection.rtl,
+      textDirection: Provider.of<LocaleManager>(context).textDirection,
       child: Scaffold(
         backgroundColor: theme.scaffoldBackgroundColor,
         appBar: AppBar(
@@ -48,7 +50,7 @@ class _HadithScreenState extends State<HadithScreen>
           elevation: 0,
           title: Text(
             _selectedTopic == null
-                ? 'الأحاديث النبوية الشريفة'
+                ? context.tr('hadith_title')
                 : _selectedTopic!.title,
             style: GoogleFonts.cairo(
                 fontWeight: FontWeight.bold, color: Colors.white),
@@ -237,7 +239,7 @@ class _HadithScreenState extends State<HadithScreen>
             child: TextField(
               style: TextStyle(color: theme.textColor),
               decoration: InputDecoration(
-                hintText: 'ابحث في الأحاديث...',
+                hintText: context.tr('hadith_search_hint'),
                 hintStyle: GoogleFonts.cairo(
                     color: theme.subtitleColor.withOpacity(0.6)),
                 prefixIcon: Icon(Icons.search, color: theme.accentColor),

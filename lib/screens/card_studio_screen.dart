@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../core/localization/app_translations.dart';
 import '../services/quran_card_generator_service.dart';
 import '../services/in_app_telemetry_service.dart';
 
@@ -153,15 +154,15 @@ class _CardStudioScreenState extends State<CardStudioScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'استوديو البطاقات والحالات 📸',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 19),
+        title: Text(
+          context.tr('studio_title'),
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 19),
         ),
         centerTitle: true,
         actions: [
           IconButton(
             icon: const Icon(Icons.auto_awesome_rounded, color: Color(0xFFE5C07B)),
-            tooltip: 'آيات وأذكار مقترحة',
+            tooltip: context.tr('studio_presets_tooltip'),
             onPressed: _showPresetsSheet,
           ),
         ],
@@ -194,9 +195,9 @@ class _CardStudioScreenState extends State<CardStudioScreen> {
             const SizedBox(height: 16),
 
             // Theme selector
-            const Text(
-              'اختر الطابع الجمالي:',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+            Text(
+              context.tr('studio_choose_theme'),
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
             ),
             const SizedBox(height: 8),
             SizedBox(
@@ -250,7 +251,7 @@ class _CardStudioScreenState extends State<CardStudioScreen> {
               children: [
                 const Icon(Icons.format_size_rounded, size: 20),
                 const SizedBox(width: 8),
-                const Text('حجم الخط:', style: TextStyle(fontSize: 13)),
+                Text(context.tr('studio_font_size'), style: const TextStyle(fontSize: 13)),
                 Expanded(
                   child: Slider(
                     value: _fontSize,
@@ -271,7 +272,7 @@ class _CardStudioScreenState extends State<CardStudioScreen> {
               maxLines: 3,
               style: const TextStyle(fontFamily: 'Amiri', fontSize: 16),
               decoration: InputDecoration(
-                labelText: 'نص الآية أو الذكر',
+                labelText: context.tr('studio_text_label'),
                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                 prefixIcon: const Icon(Icons.edit_note_rounded),
                 isDense: true,
@@ -285,7 +286,7 @@ class _CardStudioScreenState extends State<CardStudioScreen> {
                   child: TextField(
                     controller: _sourceController,
                     decoration: InputDecoration(
-                      labelText: 'المصدر (السورة / المرجع)',
+                      labelText: context.tr('studio_source_label'),
                       border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                       isDense: true,
                     ),
@@ -295,7 +296,7 @@ class _CardStudioScreenState extends State<CardStudioScreen> {
                 const SizedBox(width: 8),
                 IconButton.filledTonal(
                   icon: Icon(_showSignature ? Icons.verified_user_rounded : Icons.hide_source_rounded),
-                  tooltip: _showSignature ? 'إخفاء التوقيع' : 'إظهار التوقيع',
+                  tooltip: _showSignature ? context.tr('studio_hide_sig') : context.tr('studio_show_sig'),
                   onPressed: () => setState(() => _showSignature = !_showSignature),
                 ),
               ],
@@ -313,7 +314,7 @@ class _CardStudioScreenState extends State<CardStudioScreen> {
                     )
                   : const Icon(Icons.share_rounded, size: 22),
               label: Text(
-                _isExporting ? 'جارِ تجهيز البطاقة...' : 'مشاركة للحالة والواتساب 📲',
+                _isExporting ? context.tr('studio_exporting') : context.tr('studio_share_btn'),
                 style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
               ),
               style: ElevatedButton.styleFrom(

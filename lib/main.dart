@@ -1,5 +1,6 @@
 import 'dart:ui';
-import 'package:flutter/material.dart';
+import 'package:cupertino_ui/cupertino_ui.dart' show GlobalCupertinoLocalizations;
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:noor_al_hoda/services/notification_service.dart';
@@ -8,7 +9,7 @@ import 'services/cloud_sync_service.dart';
 import 'services/daily_reflection_service.dart';
 import 'services/in_app_update_service.dart';
 import 'widgets/update_announcement_banner.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_localizations/flutter_localizations.dart' as fl;
 import 'package:shorebird_code_push/shorebird_code_push.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -150,7 +151,7 @@ class MyApp extends StatelessWidget {
           },
           localizationsDelegates: const [
             GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
+            fl.GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [
@@ -302,103 +303,103 @@ class _MainNavigationScreenState extends State<MainNavigationScreen>
               ),
               _buildDrawerItem(
                 Icons.fingerprint_rounded,
-                'السبحة',
+                context.tr('drawer_tasbih'),
                 const TasbihScreen(),
               ),
               _buildDrawerItem(
                 Icons.auto_stories_rounded,
-                'موسوعة القصص وأسباب النزول',
+                context.tr('drawer_stories'),
                 const StoriesScreen(),
               ),
               _buildDrawerItem(
                 Icons.format_quote_rounded,
-                'الأحاديث النبوية',
+                context.tr('drawer_hadith'),
                 const HadithScreen(),
               ),
               _buildDrawerItem(
                 Icons.star_rounded,
-                'أسماء الله الحسنى',
+                context.tr('drawer_names_of_allah'),
                 const NamesOfAllahScreen(),
               ),
               _buildDrawerItem(
                 Icons.calendar_month_rounded,
-                'التقويم الإسلامي',
+                context.tr('drawer_calendar'),
                 const CalendarScreen(),
               ),
               _buildDrawerItem(
                 Icons.track_changes_rounded,
-                'متابعة الورد',
+                context.tr('drawer_ward'),
                 const WardTrackerScreen(),
               ),
               _buildDrawerItem(
                 Icons.assignment_turned_in_rounded,
-                'منظم الختمات',
+                context.tr('drawer_khatma'),
                 const KhatmaPlannerScreen(),
               ),
               _buildDrawerItem(
                 Icons.storefront_rounded,
-                'متجر زاد المؤمن 💎',
+                context.tr('drawer_store'),
                 const IslamicStoreScreen(),
               ),
               _buildDrawerItem(
                 Icons.spa_rounded,
-                'الملاذ الإيماني النفسي 🤍',
+                context.tr('drawer_moods'),
                 const SpiritualMoodsScreen(),
               ),
               _buildDrawerItem(
                 Icons.radio_rounded,
-                'إذاعات القرآن الكريم 📻',
+                context.tr('drawer_radio'),
                 const IslamicRadioScreen(),
               ),
               _buildDrawerItem(
                 Icons.brightness_2_rounded,
-                'متابع الصيام الإيماني 🌙',
+                context.tr('drawer_fasting'),
                 const FastingTrackerScreen(),
               ),
               _buildDrawerItem(
                 Icons.calculate_rounded,
-                'حاسبة الزكاة الشاملة 💰',
+                context.tr('drawer_zakat'),
                 const ZakatCalculatorScreen(),
               ),
               _buildDrawerItem(
                 Icons.camera_alt_rounded,
-                'استوديو بطاقات وحالات الواتساب 📸',
+                context.tr('drawer_card_studio'),
                 const CardStudioScreen(),
               ),
               _buildDrawerItem(
                 Icons.diversity_3_rounded,
-                'عداد الأذكار الجماعي المليوني 📿',
+                context.tr('drawer_global_dhikr'),
                 const GlobalDhikrScreen(),
               ),
               _buildDrawerItem(
                 Icons.volunteer_activism_rounded,
-                'إهداء الثواب والصدقة الجارية 🤲',
+                context.tr('drawer_thawab'),
                 const ThawabDedicationScreen(),
               ),
               _buildDrawerItem(
                 Icons.emoji_events_rounded,
-                'تحدي الصحبة الصالحة 🏆',
+                context.tr('drawer_good_deeds'),
                 const GoodDeedsChallengeScreen(),
               ),
               _buildDrawerItem(
                 Icons.quiz_rounded,
-                'سؤال اليوم وتحدي الصديق 🧠',
+                context.tr('drawer_quiz'),
                 const IslamicQuizScreen(),
               ),
               _buildDrawerItem(
                 Icons.card_giftcard_rounded,
-                'صانع بطاقات التهنئة 🎨',
+                context.tr('drawer_cards'),
                 const IslamicCardsScreen(),
               ),
               _buildDrawerItem(
                 Icons.settings_rounded,
-                'الإعدادات',
+                context.tr('nav_settings'),
                 const SettingsScreen(),
               ),
               if (OwnerService().isOwner)
                 _buildDrawerItem(
                   Icons.admin_panel_settings_rounded,
-                  'لوحة تحكم المالك 👑',
+                  context.tr('drawer_owner_dashboard'),
                   const OwnerDashboardScreen(),
                 ),
               const ShorebirdPatchInfoTile(),

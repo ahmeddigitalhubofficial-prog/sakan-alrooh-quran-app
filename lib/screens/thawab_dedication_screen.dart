@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
+import '../core/localization/app_translations.dart';
 import '../models/thawab_manager.dart';
 
 class ThawabDedicationScreen extends StatefulWidget {
@@ -132,15 +133,15 @@ class _ThawabDedicationScreenState extends State<ThawabDedicationScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'إهداء الثواب والصدقة الجارية 🤲',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 19),
+        title: Text(
+          context.tr('thawab_title'),
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 19),
         ),
         centerTitle: true,
         actions: [
           IconButton(
             icon: const Icon(Icons.person_add_alt_1_rounded, color: Color(0xFFE5C07B)),
-            tooltip: 'إضافة إهداء جديد',
+            tooltip: context.tr('thawab_add_tooltip'),
             onPressed: () => _showAddSoulDialog(context),
           ),
         ],
@@ -152,12 +153,12 @@ class _ThawabDedicationScreenState extends State<ThawabDedicationScreen> {
                 children: [
                   const Icon(Icons.favorite_border_rounded, size: 64, color: Colors.grey),
                   const SizedBox(height: 12),
-                  const Text('لا توجد بطاقات إهداء مضافة حالياً'),
+                  Text(context.tr('thawab_empty')),
                   const SizedBox(height: 12),
                   ElevatedButton.icon(
                     onPressed: () => _showAddSoulDialog(context),
                     icon: const Icon(Icons.add),
-                    label: const Text('أضف متوفى أو مريض لتهدي له الثواب'),
+                    label: Text(context.tr('thawab_add_btn')),
                   ),
                 ],
               ),

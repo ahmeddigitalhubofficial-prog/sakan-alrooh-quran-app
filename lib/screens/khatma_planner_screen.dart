@@ -8,6 +8,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../core/localization/app_translations.dart';
+import '../core/localization/locale_manager.dart';
 import '../models/theme_manager.dart';
 import '../models/khatma_model.dart';
 import '../data/quran_index_data.dart';
@@ -519,7 +521,7 @@ class _KhatmaPlannerScreenState extends State<KhatmaPlannerScreen> {
                   maxLines: 4,
                   style: GoogleFonts.cairo(color: Colors.white, fontSize: 13.sp),
                   decoration: InputDecoration(
-                    hintText: 'ألصق الكود هنا...',
+                    hintText: context.tr('khatma_paste_code'),
                     hintStyle: GoogleFonts.cairo(color: Colors.white30),
                     fillColor: Colors.black12,
                     filled: true,
@@ -534,7 +536,7 @@ class _KhatmaPlannerScreenState extends State<KhatmaPlannerScreen> {
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context, false),
-                child: Text('إلغاء', style: GoogleFonts.cairo(color: theme.subtitleColor)),
+                child: Text(context.tr('cancel'), style: GoogleFonts.cairo(color: theme.subtitleColor)),
               ),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(backgroundColor: theme.accentColor),
@@ -543,12 +545,12 @@ class _KhatmaPlannerScreenState extends State<KhatmaPlannerScreen> {
                     Navigator.pop(context, true);
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('الرجاء لصق كود صحيح أولاً', style: GoogleFonts.cairo())),
+                      SnackBar(content: Text(context.tr('khatma_invalid_code'), style: GoogleFonts.cairo())),
                     );
                   }
                 },
                 child: Text(
-                  'استيراد',
+                  context.tr('khatma_import'),
                   style: GoogleFonts.cairo(color: Colors.black, fontWeight: FontWeight.bold),
                 ),
               ),
@@ -610,11 +612,12 @@ class _KhatmaPlannerScreenState extends State<KhatmaPlannerScreen> {
   Widget build(BuildContext context) {
     final themeManager = Provider.of<AppThemeManager>(context);
     final theme = themeManager.currentTheme;
+    final localeManager = Provider.of<LocaleManager>(context);
 
     return DefaultTabController(
       length: 2,
       child: Directionality(
-        textDirection: TextDirection.rtl,
+        textDirection: localeManager.textDirection,
         child: Scaffold(
           backgroundColor: theme.scaffoldBackgroundColor,
           appBar: AppBar(
@@ -622,7 +625,7 @@ class _KhatmaPlannerScreenState extends State<KhatmaPlannerScreen> {
             backgroundColor: theme.primaryColor,
             centerTitle: true,
             title: Text(
-              'منظم ومتابع الختمات',
+              context.tr('khatma_title'),
               style: GoogleFonts.cairo(
                 fontWeight: FontWeight.bold,
                 fontSize: 18.sp,
@@ -635,9 +638,9 @@ class _KhatmaPlannerScreenState extends State<KhatmaPlannerScreen> {
               unselectedLabelColor: Colors.white70,
               labelStyle: GoogleFonts.cairo(fontWeight: FontWeight.bold, fontSize: 13.sp),
               unselectedLabelStyle: GoogleFonts.cairo(fontSize: 12.sp),
-              tabs: const [
-                Tab(text: 'ختمة فردية 👤'),
-                Tab(text: 'ختمة مشتركة 👥'),
+              tabs: [
+                Tab(text: context.tr('khatma_tab_solo')),
+                Tab(text: context.tr('khatma_tab_shared')),
               ],
             ),
           ),

@@ -8,6 +8,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:provider/provider.dart';
 
+import '../core/localization/app_translations.dart';
+import '../core/localization/locale_manager.dart';
 import '../models/theme_manager.dart';
 import '../core/helpers/app_lifecycle_helper.dart';
 import '../widgets/common/auto_scroll_text.dart';
@@ -335,14 +337,14 @@ class _IslamicRadioScreenState extends State<IslamicRadioScreen>
                     Text('🌙', style: TextStyle(fontSize: 22.sp)),
                     SizedBox(width: 8.w),
                     Text(
-                      'مؤقت النوم الذكي (Sleep Timer)',
+                      context.tr('radio_sleep_timer'),
                       style: GoogleFonts.cairo(color: theme.textColor, fontWeight: FontWeight.bold, fontSize: 16.sp),
                     ),
                   ],
                 ),
                 SizedBox(height: 8.h),
                 Text(
-                  'سيتم إيقاف البث تدريجياً بعد انتهاء الوقت المحدد للنوم في سكينة.',
+                  context.tr('radio_sleep_desc'),
                   style: GoogleFonts.cairo(color: theme.subtitleColor, fontSize: 11.5.sp),
                 ),
                 SizedBox(height: 16.h),
@@ -361,12 +363,12 @@ class _IslamicRadioScreenState extends State<IslamicRadioScreen>
                         _setSleepTimer(mins);
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text('تم ضبط مؤقت النوم على $mins دقيقة 🌙', style: GoogleFonts.cairo()),
+                            content: Text('${context.tr('radio_sleep_set')} $mins ${context.tr('radio_minute')} 🌙', style: GoogleFonts.cairo()),
                             duration: const Duration(seconds: 2),
                           ),
                         );
                       },
-                      child: Text('$mins دقيقة', style: GoogleFonts.cairo(fontWeight: FontWeight.bold)),
+                      child: Text('$mins ${context.tr('radio_minute')}', style: GoogleFonts.cairo(fontWeight: FontWeight.bold)),
                     );
                   }).toList(),
                 ),
@@ -374,12 +376,12 @@ class _IslamicRadioScreenState extends State<IslamicRadioScreen>
                   SizedBox(height: 12.h),
                   TextButton.icon(
                     icon: const Icon(Icons.cancel_rounded, color: Colors.redAccent),
-                    label: Text('إلغاء مؤقت النوم', style: GoogleFonts.cairo(color: Colors.redAccent)),
+                    label: Text(context.tr('radio_sleep_cancel'), style: GoogleFonts.cairo(color: Colors.redAccent)),
                     onPressed: () {
                       Navigator.pop(ctx);
                       _setSleepTimer(0);
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('تم إلغاء مؤقت النوم', style: GoogleFonts.cairo())),
+                        SnackBar(content: Text(context.tr('radio_sleep_cancelled'), style: GoogleFonts.cairo())),
                       );
                     },
                   ),
@@ -416,7 +418,7 @@ class _IslamicRadioScreenState extends State<IslamicRadioScreen>
         elevation: 0,
         centerTitle: true,
         title: Text(
-          'إذاعات القرآن الكريم المباشرة 📻',
+          context.tr('radio_title'),
           style: GoogleFonts.cairo(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 16.sp),
         ),
         actions: [
@@ -425,13 +427,13 @@ class _IslamicRadioScreenState extends State<IslamicRadioScreen>
               _sleepSecondsRemaining > 0 ? Icons.bedtime_rounded : Icons.bedtime_outlined,
               color: _sleepSecondsRemaining > 0 ? const Color(0xFFFFD54F) : Colors.white,
             ),
-            tooltip: 'مؤقت النوم',
+            tooltip: context.tr('radio_sleep_tooltip'),
             onPressed: () => _showSleepTimerDialog(context),
           ),
         ],
       ),
       body: Directionality(
-        textDirection: TextDirection.rtl,
+        textDirection: Provider.of<LocaleManager>(context).textDirection,
         child: Column(
           children: [
             // 1. Now Playing Hero Banner
@@ -484,7 +486,7 @@ class _IslamicRadioScreenState extends State<IslamicRadioScreen>
                                 ),
                                 SizedBox(width: 6.w),
                                 Text(
-                                  _isPlaying ? 'بث مباشر الآن (LIVE)' : 'متوقف مؤقتاً',
+                                  _isPlaying ? context.tr('radio_live') : context.tr('radio_paused'),
                                   style: GoogleFonts.cairo(
                                     color: _isPlaying ? const Color(0xFF69F0AE) : Colors.white60,
                                     fontWeight: FontWeight.bold,

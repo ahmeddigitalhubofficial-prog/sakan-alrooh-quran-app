@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import '../core/localization/app_translations.dart';
 import '../models/theme_manager.dart';
 import '../models/task_manager.dart';
 
@@ -519,7 +520,7 @@ class SpiritualBadgesScreen extends StatelessWidget {
         backgroundColor: theme.primaryColor,
         elevation: 0,
         title: Text(
-          'شجرة التطور والأوسمة الإيمانية',
+          context.tr('badges_title'),
           style: GoogleFonts.cairo(
             fontWeight: FontWeight.bold,
             color: Colors.white,
