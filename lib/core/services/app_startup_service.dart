@@ -72,6 +72,7 @@ class AppStartupService {
           };
         }
         CloudSyncService.enableOfflinePersistence();
+        unawaited(CloudSyncService.flushPendingSyncIfOnline());
         unawaited(AnalyticsService().init().then((_) {
           AnalyticsService().logAppOpen();
         }));

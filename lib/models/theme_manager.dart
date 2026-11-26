@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../services/cloud_sync_service.dart';
 import '../services/owner_service.dart';
 
 class AppTheme {
@@ -483,6 +484,7 @@ class AppThemeManager extends ChangeNotifier {
       if (hasListeners) notifyListeners();
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString(_themeKey, themeId);
+      CloudSyncService.autoSyncOnDataChange();
     }
   }
 
@@ -493,6 +495,7 @@ class AppThemeManager extends ChangeNotifier {
       if (hasListeners) notifyListeners();
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString(_quranBgKey, bgId);
+      CloudSyncService.autoSyncOnDataChange();
     }
   }
 
@@ -503,6 +506,7 @@ class AppThemeManager extends ChangeNotifier {
       if (hasListeners) notifyListeners();
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString(_masbahaStyleKey, styleId);
+      CloudSyncService.autoSyncOnDataChange();
     }
   }
 
@@ -512,6 +516,7 @@ class AppThemeManager extends ChangeNotifier {
     if (hasListeners) notifyListeners();
     final prefs = await SharedPreferences.getInstance();
     await prefs.setInt(_hasanatPointsKey, _hasanatPoints);
+    CloudSyncService.autoSyncOnDataChange();
   }
 
   Future<bool> unlockStoreItem(String itemId, int price) async {
@@ -525,6 +530,7 @@ class AppThemeManager extends ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setInt(_hasanatPointsKey, _hasanatPoints);
     await prefs.setStringList(_unlockedItemsKey, _unlockedItems.toList());
+    CloudSyncService.autoSyncOnDataChange();
     return true;
   }
 

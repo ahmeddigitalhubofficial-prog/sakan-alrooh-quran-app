@@ -83,15 +83,23 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   Future<void> _initAndNavigate() async {
-    final prefs = await SharedPreferences.getInstance();
-    final hasAcceptedPrivacy =
-        prefs.getBool('has_accepted_privacy_policy') ?? false;
+    bool hasAcceptedPrivacy = true;
+    bool showTutorialOnStartup = false;
+    bool hasSeenTutorial = true;
+
+    try {
+      final prefs = await SharedPreferences.getInstance()
+          .timeout(const Duration(seconds: 2));
+      hasAcceptedPrivacy =
+          prefs.getBool('has_accepted_privacy_policy') ?? false;
+      showTutorialOnStartup =
+          prefs.getBool('show_tutorial_on_startup') ?? true;
+      hasSeenTutorial = prefs.getBool('has_seen_tutorial') ?? false;
+    } catch (e) {
+      debugPrint('Splash: SharedPreferences error/timeout: $e');
+    }
 
     void proceedToNext() {
-      final showTutorialOnStartup =
-          prefs.getBool('show_tutorial_on_startup') ?? true;
-      final hasSeenTutorial = prefs.getBool('has_seen_tutorial') ?? false;
-
       Widget targetScreen = const MainNavigationScreen();
       if (showTutorialOnStartup && !hasSeenTutorial) {
         targetScreen = const OnboardingTutorialScreen();
@@ -113,35 +121,40 @@ class _SplashScreenState extends State<SplashScreen>
       );
     }
 
-    if (!hasAcceptedPrivacy) {
-      // انتظار قصير لظهور واجهة البداية ثم إظهار نافذة الموافقة الصريحة فوراً
-      await Future.delayed(const Duration(milliseconds: 500));
-      if (!mounted) return;
+    try {
+      if (!hasAcceptedPrivacy) {
+        // انتظار قصير لظهور واجهة البداية ثم إظهار نافذة الموافقة الصريحة فوراً
+        await Future.delayed(const Duration(milliseconds: 500));
+        if (!mounted) return;
 
-      // إظهار نافذة الموافقة الصريحة، ولا يتم تشغيل أي خدمات قبل الضغط على موافق
-      PrivacyConsentDialog.show(
-        context,
-        onAccepted: () {
-          AppStartupService.initialize();
-          proceedToNext();
-        },
-      );
-      return;
+        // إظهار نافذة الموافقة الصريحة، ولا يتم تشغيل أي خدمات قبل الضغط على موافق
+        PrivacyConsentDialog.show(
+          context,
+          onAccepted: () {
+            AppStartupService.initialize();
+            proceedToNext();
+          },
+        );
+        return;
+      }
+
+      // تشغيل أنيميشن البداية والتهيئة بالخلفية بالتوازي للمستخدمين الذين وافقوا مسبقاً
+      final initFuture = AppStartupService.initialize();
+      final minDisplayFuture =
+          Future.delayed(const Duration(milliseconds: 1600));
+
+      await Future.wait([
+        minDisplayFuture,
+        initFuture.timeout(
+          const Duration(seconds: 3),
+          onTimeout: () {
+            debugPrint('Splash: AppStartupService timeout fallback');
+          },
+        ),
+      ]);
+    } catch (e) {
+      debugPrint('Splash: initAndNavigate fallback error: $e');
     }
-
-    // تشغيل أنيميشن البداية والتهيئة بالخلفية بالتوازي للمستخدمين الذين وافقوا مسبقاً
-    final initFuture = AppStartupService.initialize();
-    final minDisplayFuture = Future.delayed(const Duration(milliseconds: 1600));
-
-    await Future.wait([
-      minDisplayFuture,
-      initFuture.timeout(
-        const Duration(seconds: 3),
-        onTimeout: () {
-          debugPrint('Splash: AppStartupService timeout fallback');
-        },
-      ),
-    ]);
 
     if (!mounted) return;
     HapticFeedback.lightImpact();

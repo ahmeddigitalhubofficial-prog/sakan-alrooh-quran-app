@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../services/cloud_sync_service.dart';
 import '../services/in_app_telemetry_service.dart';
 
 class KhatmaPlan {
@@ -65,6 +66,7 @@ class KhatmaService {
     final prefs = await SharedPreferences.getInstance();
     final jsonStr = jsonEncode(plan.toJson());
     await prefs.setString(_khatmaKey, jsonStr);
+    CloudSyncService.autoSyncOnDataChange();
   }
 
   /// Loads the active Khatma plan, returning null if none exists.
@@ -84,6 +86,7 @@ class KhatmaService {
   static Future<void> clearPlan() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove(_khatmaKey);
+    CloudSyncService.autoSyncOnDataChange();
   }
 
   /// Logs reading progress (e.g. read up to page [pageNumber]).

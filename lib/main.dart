@@ -248,8 +248,11 @@ class _MainNavigationScreenState extends State<MainNavigationScreen>
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.paused || state == AppLifecycleState.resumed) {
-      // مزامنة تلقائية هادئة مع السحابة عند تعليق أو استئناف التطبيق
+    if (state == AppLifecycleState.resumed) {
+      // إرسال أي تحديثات معلقة فور عودة التطبيق أو عودة الإنترنت
+      CloudSyncService.flushPendingSyncIfOnline();
+    } else if (state == AppLifecycleState.paused) {
+      // مزامنة تلقائية هادئة مع السحابة عند تعليق التطبيق
       CloudSyncService.syncUserDataToCloud();
     }
   }

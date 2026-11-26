@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,7 +18,10 @@ import 'notification_service.dart';
 class CloudSyncService {
   static final FirebaseAuth _auth = FirebaseAuth.instance;
   static final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  static const String _pendingSyncKey = 'cloud_sync_pending';
   static Timer? _syncDebounceTimer;
+  static Timer? _reconnectRetryTimer;
+  static bool _isSyncing = false;
 
   /// تفعيل التخزين السحابي المؤقت أوفلاين لحفظ التغييرات ومزامنتها فور توفر الإنترنت
   static void enableOfflinePersistence() {
@@ -30,8 +35,64 @@ class CloudSyncService {
     }
   }
 
+  /// التحقق السريع من توفر اتصال فعلي بالإنترنت دون حجب الواجهة
+  static Future<bool> _hasNetworkConnection() async {
+    try {
+      final result = await InternetAddress.lookup('firestore.googleapis.com')
+          .timeout(const Duration(seconds: 2));
+      return result.isNotEmpty && result.first.rawAddress.isNotEmpty;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  /// جدولة إعادة المحاولة تلقائياً حتى يعود الاتصال وترتفع التغييرات المعلقة فوراً
+  static void _scheduleRetryWhenOnline() {
+    if (_reconnectRetryTimer != null && _reconnectRetryTimer!.isActive) return;
+    _reconnectRetryTimer = Timer.periodic(const Duration(seconds: 20), (timer) async {
+      final lifecycle = WidgetsBinding.instance.lifecycleState;
+      if (lifecycle == AppLifecycleState.paused || lifecycle == AppLifecycleState.detached) {
+        return;
+      }
+      final prefs = await SharedPreferences.getInstance();
+      final hasPending = prefs.getBool(_pendingSyncKey) ?? false;
+      if (!hasPending) {
+        timer.cancel();
+        _reconnectRetryTimer = null;
+        return;
+      }
+      if (await _hasNetworkConnection()) {
+        final ok = await syncUserDataToCloud();
+        if (ok) {
+          timer.cancel();
+          _reconnectRetryTimer = null;
+        }
+      }
+    });
+  }
+
+  /// رفع أي تغييرات محلية معلقة فور توفر الإنترنت (عند فتح التطبيق أو استئنافه)
+  static Future<void> flushPendingSyncIfOnline() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final hasPending = prefs.getBool(_pendingSyncKey) ?? false;
+      if (!hasPending) return;
+      if (await _hasNetworkConnection()) {
+        await syncUserDataToCloud();
+      } else {
+        _scheduleRetryWhenOnline();
+      }
+    } catch (e) {
+      debugPrint('CloudSync flushPending error: $e');
+    }
+  }
+
   /// المزامنة التلقائية اللحظية في الخلفية مع كل تغيير دون ضغط أي زر
-  static void autoSyncOnDataChange({Duration delay = const Duration(seconds: 3)}) {
+  static void autoSyncOnDataChange({Duration delay = const Duration(seconds: 2)}) {
+    SharedPreferences.getInstance().then((prefs) {
+      prefs.setBool(_pendingSyncKey, true);
+    }).catchError((_) {});
+
     _syncDebounceTimer?.cancel();
     _syncDebounceTimer = Timer(delay, () {
       syncUserDataToCloud();
@@ -55,11 +116,25 @@ class CloudSyncService {
 
   /// رفع وحفظ بيانات المستخدم الحالية إلى السحابة بهيكل الـ 4 طبقات المنظم
   static Future<bool> syncUserDataToCloud() async {
+    if (_isSyncing) return false;
+    _isSyncing = true;
     try {
-      final user = await _ensureUser();
-      if (user == null) return false;
-
       final prefs = await SharedPreferences.getInstance();
+
+      if (!await _hasNetworkConnection()) {
+        await prefs.setBool(_pendingSyncKey, true);
+        _scheduleRetryWhenOnline();
+        debugPrint('CloudSync: Offline, queued pending sync for reconnect');
+        return false;
+      }
+
+      final user = await _ensureUser();
+      if (user == null) {
+        await prefs.setBool(_pendingSyncKey, true);
+        _scheduleRetryWhenOnline();
+        return false;
+      }
+
       final todayStr = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
       final int lastSurah = prefs.getInt('last_surah') ?? prefs.getInt('last_read_surah') ?? 1;
@@ -237,11 +312,20 @@ class CloudSyncService {
       }, SetOptions(merge: true));
 
       debugPrint('CloudSync 4-Tier: Success sync for ${user.uid} (Owner: $isOwner)');
+      await prefs.setBool(_pendingSyncKey, false);
+      _reconnectRetryTimer?.cancel();
+      _reconnectRetryTimer = null;
       unawaited(checkAndApplyRemoteNotificationResync());
       return true;
     } catch (e) {
       debugPrint('CloudSync Error: $e');
+      SharedPreferences.getInstance().then((p) {
+        p.setBool(_pendingSyncKey, true);
+      }).catchError((_) {});
+      _scheduleRetryWhenOnline();
       return false;
+    } finally {
+      _isSyncing = false;
     }
   }
 
