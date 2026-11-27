@@ -255,7 +255,7 @@ class _PrayerTimesScreenState extends State<PrayerTimesScreen>
             SnackBar(
               behavior: SnackBarBehavior.floating,
               content: Text(
-                'خطأ في تشغيل صوت الأذان. تأكد من اتصالك بالإنترنت.',
+                context.tr('prayer_athan_error'),
                 style: GoogleFonts.cairo(color: Colors.white),
               ),
             ),
@@ -291,7 +291,7 @@ class _PrayerTimesScreenState extends State<PrayerTimesScreen>
               color: Colors.white,
               size: 26.sp,
             ),
-            tooltip: 'تجربة الأذان',
+            tooltip: context.tr('prayer_test_athan'),
             onPressed: _toggleAthanPlayback,
           ),
         ],
@@ -419,7 +419,7 @@ class _PrayerTimesScreenState extends State<PrayerTimesScreen>
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'الموقع وحساب المواقيت',
+                                context.tr('prayer_location_label'),
                                 style: GoogleFonts.cairo(
                                   fontSize: 12.sp,
                                   color: Colors.white60,
@@ -453,7 +453,7 @@ class _PrayerTimesScreenState extends State<PrayerTimesScreen>
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Text(
-                                'تغيير',
+                                context.tr('change_btn'),
                                 style: GoogleFonts.cairo(
                                   fontSize: 13.sp,
                                   fontWeight: FontWeight.bold,

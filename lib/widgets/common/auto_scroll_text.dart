@@ -1,4 +1,4 @@
-import 'package:material_ui/material_ui.dart';
+import 'package:flutter/material.dart';
 
 /// ويدجت ذكي للنصوص الطويلة يقوم بالتمرير التلقائي (Marquee / AutoScroll)
 /// عند تجاوز طول النص المساحة المتاحة، مع تأثير التلاشي التدريجي للحواف (Edge Fading).

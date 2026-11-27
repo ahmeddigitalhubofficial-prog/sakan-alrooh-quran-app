@@ -303,8 +303,19 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     _lastDateMinute = now.minute;
     final hijriDate = DateService.hijri(offsetDays: _hijriOffset);
 
+    String localeCode = 'ar';
+    try {
+      localeCode = Localizations.localeOf(context).languageCode;
+    } catch (_) {}
+    String formattedDate;
+    try {
+      formattedDate = DateFormat('EEEE, d MMMM y', localeCode).format(now);
+    } catch (_) {
+      formattedDate = DateFormat('EEEE, d MMMM y', 'en').format(now);
+    }
+
     safeSetState(() {
-      _gregorianDate = DateFormat('EEEE، d MMMM y', 'ar').format(now);
+      _gregorianDate = formattedDate;
       _hijriDate = hijriDate;
     });
   }
@@ -413,7 +424,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         behavior: SnackBarBehavior.floating,
         backgroundColor: AppColors.gold,
         content: Text(
-          'تم نسخ الآية',
+          context.tr('copied'),
           style: GoogleFonts.cairo(
             color: Colors.black,
             fontWeight: FontWeight.bold,
@@ -734,8 +745,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         'screen': const ZakatCalculatorScreen(),
       },
       {
-        'title': 'صوتيات السكينة والنوم',
-        'subtitle': 'تلاوات هادئة ومطر ومؤقت نوم',
+        'title': context.tr('service_sleep'),
+        'subtitle': context.tr('service_sleep_sub'),
         'icon': Icons.nightlight_round,
         'color': const Color(0xFF80CBC4),
         'screen': const SpiritualSleepScreen(),
@@ -1030,7 +1041,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'موسوعة قصص القرآن وأسباب النزول 📚',
+                      context.tr('quran_library'),
                       style: GoogleFonts.cairo(
                         fontSize: 15.sp,
                         fontWeight: FontWeight.bold,
@@ -1039,7 +1050,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                     ),
                     SizedBox(height: 4.h),
                     Text(
-                      'استكشف قصص الأنبياء وأسباب نزول سور وآيات القرآن والغزوات أوفلاين',
+                      context.tr('quran_library_sub'),
                       style: GoogleFonts.cairo(
                         fontSize: 12.sp,
                         color: theme.subtitleColor,
@@ -1069,6 +1080,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         Builder(
           builder: (context) {
             return GestureDetector(
+              behavior: HitTestBehavior.opaque,
               onTap: () {
                 Scaffold.maybeOf(
                   context,
@@ -1383,7 +1395,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'متابعة الورد اليومي',
+                    context.tr('ward_title'),
                     style: GoogleFonts.cairo(
                       fontWeight: FontWeight.bold,
                       fontSize: 18.sp,
@@ -1394,7 +1406,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                     height: 8.h,
                   ),
                   Text(
-                    '${taskManager.todayCompletionPercentage.toStringAsFixed(0)}% مكتمل اليوم',
+                    '${taskManager.todayCompletionPercentage.toStringAsFixed(0)}% ${context.tr('completed_today')}',
                     style: GoogleFonts.cairo(
                       color: theme.subtitleColor,
                       fontSize: 14.sp,
@@ -1442,7 +1454,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             children: [
               IconButton(
                 onPressed: _copyAyah,
-                tooltip: 'نسخ الآية',
+                tooltip: context.tr('copy_ayah'),
                 icon: Icon(
                   Icons.copy_rounded,
                   color: theme.accentColor,
@@ -1464,7 +1476,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 },
                 icon: const Icon(Icons.camera_alt_rounded, size: 16),
                 label: Text(
-                  'صمم كحالة ستوري (9:16) 📲',
+                  context.tr('design_story_btn'),
                   style: GoogleFonts.cairo(
                     fontWeight: FontWeight.bold,
                     fontSize: 11.sp,
@@ -1541,7 +1553,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                       ),
                       SizedBox(height: 4.h),
                       Text(
-                        'سورة $_resumeSurahName - الآية $_resumeVerseNumber',
+                        '${context.tr('surah_prefix')} $_resumeSurahName - ${context.tr('ayah_prefix')} $_resumeVerseNumber',
                         style: GoogleFonts.cairo(
                           color: theme.subtitleColor,
                           fontSize: 13.sp,

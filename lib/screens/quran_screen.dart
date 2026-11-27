@@ -114,8 +114,9 @@ class _QuranScreenState extends State<QuranScreen> {
               'recent_surahs',
             )
             ?.map(
-              (e) => int.parse(e),
+              (e) => int.tryParse(e) ?? 0,
             )
+            .where((e) => e > 0 && e <= 114)
             .toList() ??
         [];
 
@@ -309,7 +310,7 @@ class _QuranScreenState extends State<QuranScreen> {
               color: theme.accentColor,
               size: 28.sp,
             ),
-            tooltip: 'فهرس السور والأجزاء والسجدات',
+            tooltip: context.tr('quran_index_tooltip'),
             onPressed: () {
               HapticFeedback.lightImpact();
               Navigator.push(
@@ -353,7 +354,7 @@ class _QuranScreenState extends State<QuranScreen> {
                   color: theme.accentColor,
                   size: 24.sp,
                 ),
-                tooltip: 'إذاعات القرآن الكريم المباشرة 📻',
+                tooltip: context.tr('radio_title'),
                 onPressed: () {
                   HapticFeedback.lightImpact();
                   Navigator.push(
@@ -399,7 +400,7 @@ class _QuranScreenState extends State<QuranScreen> {
             color: Colors.white,
           ),
           decoration: InputDecoration(
-            hintText: 'ابحث عن سورة...',
+            hintText: context.tr('search_surah_hint'),
             hintStyle: GoogleFonts.cairo(
               color: Colors.white38,
             ),
@@ -506,7 +507,7 @@ class _QuranScreenState extends State<QuranScreen> {
   ) {
     return Center(
       child: Text(
-        'لم يتم العثور على نتائج',
+        context.tr('no_results'),
         style: GoogleFonts.cairo(
           color: theme.subtitleColor,
         ),
@@ -607,7 +608,7 @@ class _QuranScreenState extends State<QuranScreen> {
               children: [
                 Expanded(
                   child: Text(
-                    surah.arabicName,
+                    Localizations.localeOf(context).languageCode == 'ar' ? surah.arabicName : surah.englishName,
                     style: GoogleFonts.cairo(
                       fontSize: 18.sp,
                       fontWeight: FontWeight.bold,
@@ -636,7 +637,7 @@ class _QuranScreenState extends State<QuranScreen> {
                 children: [
                   Expanded(
                     child: Text(
-                      '${surah.englishName} • ${surah.versesCount} آية',
+                      '${Localizations.localeOf(context).languageCode == 'ar' ? surah.englishName : surah.arabicName} • ${surah.versesCount} ${context.tr('ayah_unit')}',
                       style: GoogleFonts.cairo(
                         color: theme.subtitleColor,
                         fontSize: 12.sp,
@@ -666,7 +667,7 @@ class _QuranScreenState extends State<QuranScreen> {
                       ),
                     ),
                     child: Text(
-                      surah.isMeccan ? 'مكية' : 'مدنية',
+                      surah.isMeccan ? context.tr('meccan') : context.tr('medinan'),
                       style: GoogleFonts.cairo(
                         color: surah.isMeccan ? Colors.amber : Colors.green,
                         fontSize: 10.sp,
@@ -741,7 +742,7 @@ class _QuranScreenState extends State<QuranScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'استئناف القراءة',
+                      context.tr('resume_reading'),
                       style: GoogleFonts.cairo(
                         fontWeight: FontWeight.bold,
                         fontSize: 15.sp,
@@ -750,7 +751,7 @@ class _QuranScreenState extends State<QuranScreen> {
                     ),
                     SizedBox(height: 3.h),
                     Text(
-                      'سورة $_resumeSurahName - الآية $_resumeVerseNumber',
+                      '${context.tr('surah_prefix')} ${Localizations.localeOf(context).languageCode == 'ar' ? _resumeSurahName : quran.getSurahName(_resumeSurahNumber!)} - ${context.tr('ayah_prefix')} $_resumeVerseNumber',
                       style: GoogleFonts.cairo(
                         color: theme.subtitleColor,
                         fontSize: 12.sp,

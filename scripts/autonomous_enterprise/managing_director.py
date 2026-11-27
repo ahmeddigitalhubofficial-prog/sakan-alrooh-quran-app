@@ -87,7 +87,7 @@ class ManagingDirector:
 
         # Generate or deliver cached Reel instantly (zero delay)
         expected_reel = os.path.join(self.reel_director.output_dir, f"reel_day_{target_day}.mp4")
-        if os.path.exists(expected_reel) and os.path.getsize(expected_reel) > 1000000:
+        if os.path.exists(expected_reel) and os.path.getsize(expected_reel) > 100000:
             reel_path = expected_reel
         elif os.environ.get("RENDER"):
             # On Render cloud (512MB RAM cap), heavy in-memory video rendering is safely bypassed to prevent OOM crashes
@@ -145,7 +145,7 @@ class ManagingDirector:
             f"📷 أو وجّه كاميرا هاتفك نحو كود الـ QR بأعلى الفيديو ↖️ للتحميل المباشر\n"
             f"🔗 رابط التحميل متاح أيضاً في بايو الحساب أعلى الصفحة (Bio) ☝️\n"
             f"💬 أو اكتب (تم) بالتعليقات وهيصلك رابط التطبيق فوراً في ثانية!\n"
-            f"🔍 أو ابحث في متجر جوجل بلاي أو هواوي عن: «سكن الروح»\n\n"
+            f"🔍 أو ابحث في متاجر App Store و Google Play و AppGallery عن: «سكن الروح»\n\n"
             f"⬇️ روابط المتاجر المباشرة:\n"
             f"{apple_line}"
             f"🟢 Google Play (أندرويد):\n{play_store_url}\n"

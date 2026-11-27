@@ -1,6 +1,5 @@
 import 'dart:ui';
-import 'package:cupertino_ui/cupertino_ui.dart' show GlobalCupertinoLocalizations;
-import 'package:material_ui/material_ui.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:noor_al_hoda/services/notification_service.dart';
@@ -9,7 +8,7 @@ import 'services/cloud_sync_service.dart';
 import 'services/daily_reflection_service.dart';
 import 'services/in_app_update_service.dart';
 import 'widgets/update_announcement_banner.dart';
-import 'package:flutter_localizations/flutter_localizations.dart' as fl;
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shorebird_code_push/shorebird_code_push.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -151,7 +150,7 @@ class MyApp extends StatelessWidget {
           },
           localizationsDelegates: const [
             GlobalMaterialLocalizations.delegate,
-            fl.GlobalWidgetsLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [

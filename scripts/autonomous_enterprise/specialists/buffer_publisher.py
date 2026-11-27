@@ -25,15 +25,23 @@ class BufferPublisher:
         if variables:
             payload["variables"] = variables
         data = json.dumps(payload).encode("utf-8")
-        req = urllib.request.Request(self.endpoint, data=data, headers=self.headers)
-        try:
-            with urllib.request.urlopen(req, timeout=15) as resp:
-                return json.loads(resp.read().decode("utf-8"))
-        except Exception as e:
-            return {"errors": [{"message": str(e)}]}
+        for attempt, wait_s in enumerate((10, 25, 45, 0)):
+            req = urllib.request.Request(self.endpoint, data=data, headers=self.headers)
+            try:
+                with urllib.request.urlopen(req, timeout=15) as resp:
+                    return json.loads(resp.read().decode("utf-8"))
+            except Exception as e:
+                err_str = str(e)
+                if "429" in err_str and wait_s > 0:
+                    print(f"Buffer 429 rate-limit, waiting {wait_s}s (attempt {attempt + 1})...", flush=True)
+                    time.sleep(wait_s)
+                    continue
+                return {"errors": [{"message": err_str}]}
 
     def get_connected_channels(self):
         """استرجاع كافة قنوات وحسابات السوشيال ميديا المربوطة بحساب Buffer"""
+        if getattr(self, "_channels_cache", None):
+            return self._channels_cache
         query = """
         query GetChannels($orgId: OrganizationId!) {
           channels(input: { organizationId: $orgId }) {
@@ -45,7 +53,8 @@ class BufferPublisher:
         """
         res = self._query(query, {"orgId": self.organization_id})
         if res and "data" in res and res["data"] and "channels" in res["data"]:
-            return res["data"]["channels"]
+            self._channels_cache = res["data"]["channels"]
+            return self._channels_cache
         return []
 
     def upload_media(self, file_path):
@@ -72,7 +81,12 @@ class BufferPublisher:
                         is_vid = file_path.lower().endswith(".mp4")
                         res_type = "video" if is_vid else "image"
                         pub_id = f"sakan_{int(time.time())}_{os.path.basename(file_path).split('.')[0]}"
-                        up_res = cloudinary.uploader.upload(file_path, resource_type=res_type, public_id=pub_id)
+                        up_res = cloudinary.uploader.upload(
+                            file_path,
+                            resource_type=res_type,
+                            folder="sakan_v2_reels",
+                            public_id=pub_id,
+                        )
                         sec_url = up_res.get("secure_url")
                         if sec_url:
                             print(f"Cloudinary upload success: {sec_url}")
@@ -194,9 +208,18 @@ class BufferPublisher:
                 })
                 continue
 
+            post_text = text
+            if svc == "instagram" and post_text:
+                import re
+                tags_seen = [0]
+                def _keep_first_5(m):
+                    tags_seen[0] += 1
+                    return m.group(0) if tags_seen[0] <= 5 else ""
+                post_text = re.sub(r"(?:^|\s)#[^\s#]+", _keep_first_5, post_text).rstrip()
+
             input_data = {
                 "channelId": ch_id,
-                "text": text,
+                "text": post_text,
                 "mode": "customScheduled" if due_at else mode,
                 "schedulingType": "automatic",
                 "needsApproval": False

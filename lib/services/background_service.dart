@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:material_ui/material_ui.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:adhan/adhan.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';

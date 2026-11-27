@@ -42,7 +42,7 @@ class _ArQiblaScreenState extends State<ArQiblaScreen>
   double _deviceHeading = 0.0;
   bool _isCameraInitialized = false;
   bool _isLoadingLocation = true;
-  String _statusMessage = 'جاري تحديد القبلة بالواقع المعزز...';
+  String? _statusMessage;
 
   // Kaaba Coordinates
   static const double kaabaLat = 21.422487;
@@ -138,7 +138,7 @@ class _ArQiblaScreenState extends State<ArQiblaScreen>
       if (!mounted || !widget.isActive || AppLifecycleHelper.isBackground) return;
       if (cameras.isEmpty) {
         safeSetState(() {
-          _statusMessage = 'وضع البوصلة الرقمية (2D) • لم تتوفر كاميرا';
+          _statusMessage = context.tr('qibla_status_2d_no_cam');
         });
         return;
       }
@@ -170,7 +170,7 @@ class _ArQiblaScreenState extends State<ArQiblaScreen>
       // or if camera permission was denied, fall back gracefully to 2D Digital Compass mode without throwing or crashing.
       safeSetState(() {
         _isCameraInitialized = false;
-        _statusMessage = 'وضع البوصلة الرقمية (2D) • جاري التوجيه للقبلة';
+        _statusMessage = context.tr('qibla_status_2d');
       });
     } finally {
       _isInitializingCamera = false;
@@ -298,7 +298,7 @@ class _ArQiblaScreenState extends State<ArQiblaScreen>
       kaabaLng,
     );
     final km = (distanceInMeters / 1000).round();
-    return '$km كم';
+    return '$km ${context.tr('km_unit')}';
   }
 
   @override
@@ -328,7 +328,7 @@ class _ArQiblaScreenState extends State<ArQiblaScreen>
                       CircularProgressIndicator(color: theme.accentColor),
                       SizedBox(height: 16.h),
                       Text(
-                        _statusMessage,
+                        _statusMessage ?? context.tr('qibla_status_init'),
                         style: GoogleFonts.cairo(color: Colors.white70, fontSize: 14.sp),
                         textAlign: TextAlign.center,
                       ),
@@ -378,8 +378,8 @@ class _ArQiblaScreenState extends State<ArQiblaScreen>
                               ),
                               Text(
                                 _isLoadingLocation
-                                    ? 'جاري تحديد موقعك الجغرافي...'
-                                    : 'موقعك: ${_userLatitude?.toStringAsFixed(3)}° ، ${_userLongitude?.toStringAsFixed(3)}°  |  المسافة: ${_getKaabaDistanceText()}',
+                                    ? context.tr('locating')
+                                    : '${context.tr('qibla_your_location')}: ${_userLatitude?.toStringAsFixed(3)}° , ${_userLongitude?.toStringAsFixed(3)}°  |  ${context.tr('qibla_distance')}: ${_getKaabaDistanceText()}',
                                 style: GoogleFonts.cairo(
                                   color: Colors.white70,
                                   fontSize: 11.sp,
@@ -523,7 +523,7 @@ class _ArQiblaScreenState extends State<ArQiblaScreen>
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Text(
-                              isFacingQibla ? 'أنت تواجه الكعبة المشرفة الآن! 🕋' : 'قم بتدوير الهاتف نحو السهم الذهبي',
+                              isFacingQibla ? context.tr('qibla_facing') : context.tr('qibla_rotate'),
                               style: GoogleFonts.cairo(
                                 color: isFacingQibla ? const Color(0xFF69F0AE) : Colors.white,
                                 fontWeight: FontWeight.bold,
@@ -532,7 +532,7 @@ class _ArQiblaScreenState extends State<ArQiblaScreen>
                             ),
                             SizedBox(height: 3.h),
                             Text(
-                              'زاوية القبلة: ${_qiblaBearing.toStringAsFixed(1)}°  |  اتجاه الهاتف: ${_deviceHeading.toStringAsFixed(1)}°  |  الفارق: ${diff.abs().toStringAsFixed(1)}°',
+                              '${context.tr('qibla_angle')}: ${_qiblaBearing.toStringAsFixed(1)}°  |  ${context.tr('qibla_heading')}: ${_deviceHeading.toStringAsFixed(1)}°  |  ${context.tr('qibla_diff')}: ${diff.abs().toStringAsFixed(1)}°',
                               style: GoogleFonts.cairo(
                                 color: Colors.white70,
                                 fontSize: 11.sp,
@@ -594,7 +594,7 @@ class _ArQiblaScreenState extends State<ArQiblaScreen>
                   SizedBox(width: 6.w),
                 ],
                 Text(
-                  isTurnRight ? 'استدر يميناً ⬅️ (${diff.round()}°)' : '(${diff.abs().round()}°) ➡️ استدر يساراً',
+                  isTurnRight ? '${context.tr('qibla_turn_right')} (${diff.round()}°)' : '${context.tr('qibla_turn_left')} (${diff.abs().round()}°)',
                   style: GoogleFonts.cairo(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,

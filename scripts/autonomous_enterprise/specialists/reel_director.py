@@ -7,6 +7,7 @@
 """
 
 import os
+import re
 import math
 import subprocess
 import urllib.request
@@ -24,6 +25,13 @@ def shape_ar(text):
         return ""
     reshaped = arabic_reshaper.reshape(text)
     return get_display(reshaped)
+
+def clean_ar_text(text):
+    """إزالة الإيموجي التي قد تظهر كمربعات في خطوط ويندوز مع الإبقاء على النص العربي والإنجليزي والرموز"""
+    if not text:
+        return ""
+    cleaned = re.sub(r"[^\w\s\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF•\-:()«»%.,!؟]", "", text)
+    return re.sub(r"\s+", " ", cleaned).strip()
 
 class ReelDirector:
     def __init__(self):
@@ -145,7 +153,52 @@ class ReelDirector:
         bdraw.text((bw // 2, qr_size + 66), shape_ar("بدون إعلانات • مجاناً"), fill=(10, 42, 32), font=f_sub, anchor="mm")
         return badge
 
-    def _build_outro_qr_card(self, url="https://onelink.to/qas6hy", qr_size=320):
+    def _draw_search_bar_pill(self, draw, cx, cy, w, h, text, progress=1.0, show_cursor=False):
+        """رسم شريط بحث محاكي للمتاجر (App Store / Google Play / AppGallery) لجذب المشاهد للبحث عن التطبيق"""
+        x0 = int(cx - w // 2)
+        y0 = int(cy - h // 2)
+        x1 = int(cx + w // 2)
+        y1 = int(cy + h // 2)
+
+        # خلفية زجاجية فاتحة أنيقة مع إطار ذهبي بارز
+        draw.rounded_rectangle([(x0, y0), (x1, y1)], radius=h // 2, fill=(250, 252, 250, 245), outline=(218, 180, 75, 255), width=4)
+
+        # أيقونة عدسة البحث على اليمين (بما أن النص عربي RTL)
+        mag_r = int(h * 0.22)
+        mag_cx = x1 - int(h * 0.55)
+        mag_cy = cy - 3
+        draw.ellipse([(mag_cx - mag_r, mag_cy - mag_r), (mag_cx + mag_r, mag_cy + mag_r)], outline=(12, 65, 48, 255), width=4)
+        handle_offset = int(mag_r * 0.72)
+        draw.line([(mag_cx + handle_offset, mag_cy + handle_offset), (mag_cx + handle_offset + 11, mag_cy + handle_offset + 11)], fill=(12, 65, 48, 255), width=5)
+
+        # النص داخل شريط البحث (مع دعم الظهور التدريجي للكتابة)
+        visible_len = max(1, int(len(text) * min(1.0, max(0.0, progress)))) if text else 0
+        display_txt = text[:visible_len]
+        if show_cursor:
+            display_txt = display_txt + " |"
+
+        font_search = self._get_font(self.font_sub_path, int(h * 0.40))
+        draw.text((cx - 12, cy), shape_ar(display_txt), fill=(10, 38, 28, 255), font=font_search, anchor="mm")
+
+    def _draw_three_stores_badges(self, draw, cx, cy):
+        """رسم شارات المتاجر الثلاثة (App Store • Google Play • AppGallery) بوضوح"""
+        stores = [
+            ("App Store", (24, 34, 48, 245)),
+            ("Google Play", (14, 58, 44, 245)),
+            ("AppGallery", (125, 24, 32, 245)),
+        ]
+        pill_w, pill_h, gap = 230, 52, 22
+        total_w = len(stores) * pill_w + (len(stores) - 1) * gap
+        start_x = cx - total_w // 2
+        font_store = self._get_font(self.font_sub_path, 24)
+
+        for idx, (label, bg_col) in enumerate(stores):
+            px0 = start_x + idx * (pill_w + gap)
+            py0 = cy - pill_h // 2
+            draw.rounded_rectangle([(px0, py0), (px0 + pill_w, py0 + pill_h)], radius=26, fill=bg_col, outline=(218, 180, 75, 220), width=2)
+            draw.text((px0 + pill_w // 2, cy), label, fill=(255, 255, 255, 255), font=font_store, anchor="mm")
+
+    def _build_outro_qr_card(self, url="https://onelink.to/qas6hy", qr_size=210):
         """بناء كرت QR بارز وفخم لشاشة نهاية الفيديو للتحميل المباشر الفوري"""
         local_qr_path = os.path.join(self.root_dir, "store_assets", "onelink_qr.png")
         if os.path.exists(local_qr_path):
@@ -175,6 +228,28 @@ class ReelDirector:
         ayah_text = reel_info.get("ayah_text", "﴿أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ﴾")
         cta_text = reel_info.get("cta_text", "سكن الروح 🌙 واحتك الإيمانية بدون أي إعلانات نهائياً • لوجه الله")
         screen_key = campaign_data.get("screen_key", "quran")
+        raw_feature_badge = clean_ar_text(campaign_data.get("feature_badge", ""))
+
+        exclusive_badges = {
+            "emotions": "ميزة حصرية: رفيق المشاعر والسكينة",
+            "khatmah": "ميزة حصرية: الختمة العائلية التشاركية",
+            "sunan": "ميزة حصرية: متتبع السنن وقصر الجنة",
+            "prayer": "ميزة حصرية: القبلة بالواقع المعزز AR",
+            "tasbih": "ميزة حصرية: السبحة الذكية بهزاز واقعي",
+            "azkar": "ميزة حصرية: حصن المسلم والاستماع النقي",
+            "quran": "مصحف مرتل بالرسم العثماني • أوفلاين",
+        }
+        outro_feature_subtitles = {
+            "emotions": "رفيق المشاعر • أصوات السكينة • بدون إعلانات",
+            "khatmah": "الختمة العائلية التشاركية • بدون إعلانات",
+            "sunan": "متتبع السنن وقصر الجنة • بدون إعلانات",
+            "prayer": "مواقيت الصلاة والقبلة AR • بدون إعلانات",
+            "tasbih": "السبحة الذكية والأذكار • بدون إعلانات",
+            "azkar": "أذكار وحصن المسلم أوفلاين • بدون إعلانات",
+            "quran": "المصحف المرتل أوفلاين • بدون إعلانات",
+        }
+        top_feature_pill = exclusive_badges.get(screen_key, "تطبيق إسلامي شامل • بدون إعلانات")
+        outro_card_sub = outro_feature_subtitles.get(screen_key, "تطبيق إسلامي شامل • بدون إعلانات")
 
         # 1. جلب التلاوة الأصلية للشيخ مشاري العفاسي
         quran_audio_path = self._fetch_alafasy_recitation(surah, ayah)
@@ -183,7 +258,7 @@ class ReelDirector:
         # حماية ضد حقوق النشر وتطابق البصمة الصوتية (Content ID Audio Protection):
         # تطبيق سرعة 1.03x يغير البصمة الرقمية التلقائية مع بقاء الصوت طبيعياً وروحانياً 100%
         audio_dur = raw_duration / 1.03
-        outro_time = 3.5
+        outro_time = 4.0
         total_duration = min(audio_dur + outro_time, 45.0)
         total_frames = int(total_duration * self.fps)
 
@@ -291,6 +366,13 @@ class ReelDirector:
                     h_text = shape_ar(hook_text)
                     fdraw.text((self.width // 2 + 2, 212), h_text, fill=(0, 0, 0, 180), font=font_hook, anchor="mm")
                     fdraw.text((self.width // 2, 210), h_text, fill=(245, 218, 125), font=font_hook, anchor="mm")
+
+                    # بادج الميزة الحصرية أعلى الموك-أب في أول 4 ثوانٍ
+                    pill_w, pill_h = 560, 48
+                    px0 = self.width // 2 - pill_w // 2
+                    py0 = 285
+                    fdraw.rounded_rectangle([(px0, py0), (px0 + pill_w, py0 + pill_h)], radius=24, fill=(14, 52, 40, 235), outline=(218, 180, 75, 230), width=2)
+                    fdraw.text((self.width // 2, py0 + pill_h // 2), shape_ar(top_feature_pill), fill=(255, 240, 165), font=self._get_font(self.font_sub_path, 24), anchor="mm")
                 else:
                     a_text = shape_ar(ayah_text)
                     fdraw.text((self.width // 2 + 2, 212), a_text, fill=(0, 0, 0, 180), font=font_ayah, anchor="mm")
@@ -302,74 +384,118 @@ class ReelDirector:
                 py = 370 + float_y
                 frame.paste(phone_mockup, (px, py), phone_mockup)
 
-                # الجزء السفلي: الهوية وحيلة تفجير التعليقات (Engagement Hack)
+                # الجزء السفلي: الهوية وشريط البحث الدعائي في المنتصف وحيلة التفاعل
                 if app_icon:
-                    frame.paste(app_icon, (self.width // 2 - 50, 1590), app_icon)
+                    frame.paste(app_icon, (self.width // 2 - app_icon.width // 2, 1595), app_icon)
 
-                # ── استراتيجية الدعوة المتعددة الصريحة للتحميل (Explicit Multi-Stage Download CTA) ──
-                if t < audio_dur * 0.38:
-                    # المرحلة الأولى (0 - 38%): توجيه صريح لمسح الباركود والتحميل
-                    cta_primary = shape_ar("امسح كود الـ QR بأعلى الشاشة للتحميل المباشر")
-                    cta_sec = shape_ar("سكن الروح • تطبيقك القرآني المجاني بدون أي إعلانات")
-                    fdraw.text((self.width // 2, 1745), cta_primary, fill=(255, 240, 160), font=font_comment_hack, anchor="mm")
-                    fdraw.text((self.width // 2, 1795), cta_sec, fill=(245, 218, 125), font=font_badge, anchor="mm")
-                elif t < audio_dur * 0.72:
-                    # المرحلة الثانية (38% - 72%): إبراز ميزات التطبيق ورابط البايو
-                    cta_primary = shape_ar("حمّل التطبيق مجاناً من الرابط في البايو أو امسح الكود")
-                    cta_sec = shape_ar("المصحف المرتل وأذكار الصلاة كاملة أوفلاين بدون نت")
-                    fdraw.text((self.width // 2, 1745), cta_primary, fill=(255, 240, 160), font=font_comment_hack, anchor="mm")
-                    fdraw.text((self.width // 2, 1795), cta_sec, fill=(210, 240, 230), font=font_badge, anchor="mm")
+                # ── شريط البحث في منتصف الفيديو (Mid-Roll Store Search Bar: 40% - 78%) ──
+                if audio_dur * 0.40 <= t < audio_dur * 0.78:
+                    mid_elapsed = t - (audio_dur * 0.40)
+                    slide_p = min(1.0, mid_elapsed / 0.45)
+                    pill_y = int(1545 - slide_p * 28)
+                    self._draw_search_bar_pill(
+                        fdraw,
+                        cx=self.width // 2,
+                        cy=pill_y,
+                        w=660,
+                        h=68,
+                        text="ابحث في المتجر: سكن الروح",
+                        progress=1.0
+                    )
+
+                # ── استراتيجية الدعوة المتعددة الصريحة للبحث والتحميل (Explicit Multi-Stage Download CTA) ──
+                if t < audio_dur * 0.40:
+                    # المرحلة الأولى (0 - 40%): إبراز الميزة الحصرية للحلقة من الخطة + خلو التطبيق من الإعلانات
+                    stage1_title = raw_feature_badge if raw_feature_badge else "تطبيق «سكن الروح» • واحتك الإيمانية اليومية"
+                    cta_primary = shape_ar(stage1_title)
+                    cta_sec = shape_ar("بدون أي إعلانات نهائياً 100% • مجاني لوجه الله")
+                    fdraw.text((self.width // 2, 1755), cta_primary, fill=(255, 240, 160), font=font_comment_hack, anchor="mm")
+                    fdraw.text((self.width // 2, 1802), cta_sec, fill=(245, 218, 125), font=font_badge, anchor="mm")
+                elif t < audio_dur * 0.78:
+                    # المرحلة الثانية (40% - 78%): دعوة صريحة للبحث باسم التطبيق على المتاجر الثلاثة
+                    cta_primary = shape_ar("ابحث باسم «سكن الروح» وحمّله الآن مجاناً")
+                    cta_sec = shape_ar("متوفر بنفس الاسم على المتاجر الثلاثة أو من الرابط في البايو")
+                    fdraw.text((self.width // 2, 1755), cta_primary, fill=(255, 240, 160), font=font_comment_hack, anchor="mm")
+                    fdraw.text((self.width // 2, 1802), cta_sec, fill=(210, 240, 230), font=font_badge, anchor="mm")
                 else:
-                    # المرحلة الثالثة (72% - النهاية): دعوة تفجير التعليقات والتحميل الفوري
-                    cta_primary = shape_ar("وجّه كاميرا هاتفك نحو كود الـ QR لتحميل التطبيق فوراً")
+                    # المرحلة الثالثة (78% - النهاية): تحفيز التحميل والتعليقات
+                    cta_primary = shape_ar("افتح متجرك الآن واكتب: سكن الروح")
                     cta_sec = shape_ar("أو اكتب (تم) بالتعليقات ليصلك رابط التحميل في ثانية")
-                    fdraw.text((self.width // 2, 1745), cta_primary, fill=(255, 240, 160), font=font_comment_hack, anchor="mm")
-                    fdraw.text((self.width // 2, 1795), cta_sec, fill=(245, 218, 125), font=font_badge, anchor="mm")
+                    fdraw.text((self.width // 2, 1755), cta_primary, fill=(255, 240, 160), font=font_comment_hack, anchor="mm")
+                    fdraw.text((self.width // 2, 1802), cta_sec, fill=(245, 218, 125), font=font_badge, anchor="mm")
 
-                store_label = shape_ar("متاح مجاناً على Google Play و Huawei AppGallery")
-                fdraw.text((self.width // 2, 1835), store_label, fill=(190, 215, 205), font=self._get_font(self.font_sub_path, 21), anchor="mm")
+                store_label = shape_ar("App Store • Google Play • Huawei AppGallery")
+                fdraw.text((self.width // 2, 1848), store_label, fill=(190, 215, 205), font=self._get_font(self.font_sub_path, 22), anchor="mm")
             else:
-                # ── شاشة الختام الكبرى والتحويل المباشر للتحميل (High-Conversion Outro Screen) ──
-                # طبقة تعتيم زمردية هادئة
-                outro_dim = Image.new("RGBA", (self.width, self.height), (4, 18, 14, 235))
+                # ── شاشة الختام الكبرى: محاكاة البحث والتحميل من المتاجر الثلاثة (High-Conversion Search Outro) ──
+                dt = t - t_ayah_end
+                outro_dim = Image.new("RGBA", (self.width, self.height), (4, 18, 14, 238))
                 frame.paste(outro_dim, (0, 0), outro_dim)
 
                 if app_icon:
-                    frame.paste(app_icon, (self.width // 2 - 65, 280), app_icon)
+                    frame.paste(app_icon, (self.width // 2 - app_icon.width // 2, 200), app_icon)
 
                 # العنوان والوصف
                 o_title = shape_ar("سكن الروح • واحتك الإيمانية")
-                fdraw.text((self.width // 2, 460), o_title, fill=(245, 218, 125), font=self._get_font(self.font_title_path, 52), anchor="mm")
+                fdraw.text((self.width // 2, 375), o_title, fill=(245, 218, 125), font=self._get_font(self.font_title_path, 54), anchor="mm")
 
-                o_sub = shape_ar("خالي 100% من أي إعلانات نهائياً • لوجه الله تعالى")
-                fdraw.text((self.width // 2, 520), o_sub, fill=(255, 255, 255), font=self._get_font(self.font_sub_path, 30), anchor="mm")
+                o_sub = shape_ar("خالي 100% من الإعلانات • مجاني لوجه الله تعالى")
+                fdraw.text((self.width // 2, 435), o_sub, fill=(255, 255, 255), font=self._get_font(self.font_sub_path, 30), anchor="mm")
 
-                # كرت الـ QR الكبير المباشر
+                # شريط بحث المتجر التفاعلي (Typing Animation في أول 1.3 ثانية)
+                o_search_hint = shape_ar("افتح متجر التطبيقات على هاتفك وابحث عن:")
+                fdraw.text((self.width // 2, 525), o_search_hint, fill=(255, 240, 160), font=self._get_font(self.font_sub_path, 30), anchor="mm")
+
+                type_progress = min(1.0, dt / 1.3)
+                cursor_on = (dt < 1.6) and (int(dt * 4) % 2 == 0)
+                self._draw_search_bar_pill(
+                    fdraw,
+                    cx=self.width // 2,
+                    cy=610,
+                    w=760,
+                    h=86,
+                    text="سكن الروح",
+                    progress=type_progress,
+                    show_cursor=cursor_on
+                )
+
+                # بطاقة نتيجة البحث المحاكية (تظهر بعد اكتمال كتابة الاسم)
+                if dt >= 0.7:
+                    card_x0, card_y0, card_x1, card_y1 = 114, 690, self.width - 114, 860
+                    fdraw.rounded_rectangle([(card_x0, card_y0), (card_x1, card_y1)], radius=28, fill=(14, 40, 32, 245), outline=(218, 180, 75, 210), width=3)
+                    if app_icon:
+                        small_icon = app_icon.resize((104, 104), Image.Resampling.LANCZOS)
+                        frame.paste(small_icon, (card_x1 - 134, card_y0 + 33), small_icon)
+                    fdraw.text((card_x1 - 155, card_y0 + 55), shape_ar("سكن الروح - القرآن والأذكار"), fill=(255, 255, 255), font=self._get_font(self.font_sub_path, 27), anchor="rm")
+                    fdraw.text((card_x1 - 155, card_y0 + 102), shape_ar(outro_card_sub), fill=(195, 225, 215), font=self._get_font(self.font_sub_path, 18), anchor="rm")
+
+                    # زر التثبيت مع نبض واضح لجذب الضغط
+                    pulse = 1.0 + 0.04 * math.sin(dt * 7.0) if dt >= 1.4 else 1.0
+                    ib_w, ib_h = int(170 * pulse), int(62 * pulse)
+                    ib_cx, ib_cy = card_x0 + 115, card_y0 + 85
+                    btn_fill = (235, 195, 85, 255) if (dt >= 1.5 and int(dt * 3) % 2 == 0) else (218, 180, 75, 245)
+                    fdraw.rounded_rectangle(
+                        [(ib_cx - ib_w // 2, ib_cy - ib_h // 2), (ib_cx + ib_w // 2, ib_cy + ib_h // 2)],
+                        radius=31,
+                        fill=btn_fill
+                    )
+                    fdraw.text((ib_cx, ib_cy), shape_ar("تثبيت"), fill=(10, 35, 26), font=self._get_font(self.font_title_path, 32), anchor="mm")
+
+                # شارات المتاجر الثلاثة بنفس الاسم
+                fdraw.text((self.width // 2, 925), shape_ar("متوفر مجاناً بنفس الاسم على جميع المتاجر:"), fill=(220, 240, 232), font=self._get_font(self.font_sub_path, 28), anchor="mm")
+                self._draw_three_stores_badges(fdraw, self.width // 2, 995)
+
+                # كرت QR ثانوي مدمج لمن يشاهد من شاشة أخرى + بدائل البايو والتعليقات
                 qcard_w, qcard_h = outro_qr_card.size
                 qcard_x = (self.width - qcard_w) // 2
-                qcard_y = 585
+                qcard_y = 1075
                 frame.paste(outro_qr_card, (qcard_x, qcard_y), outro_qr_card)
 
-                # زر محاكي للتحميل (Interactive Simulated Button)
-                btn_w, btn_h = 620, 68
-                btn_x = (self.width - btn_w) // 2
-                btn_y = 960
-                fdraw.rounded_rectangle([(btn_x, btn_y), (btn_x + btn_w, btn_y + btn_h)], radius=34, fill=(218, 180, 75, 240))
-                btn_txt = shape_ar("حمّل التطبيق مجاناً الآن")
-                fdraw.text((self.width // 2, btn_y + btn_h // 2), btn_txt, fill=(10, 35, 26), font=self._get_font(self.font_title_path, 34), anchor="mm")
-
-                # نصوص التوجيه للتحميل
-                o_scan = shape_ar("امسح الكود بكاميرا هاتفك للتحميل المباشر")
-                fdraw.text((self.width // 2, 1075), o_scan, fill=(255, 240, 160), font=self._get_font(self.font_title_path, 38), anchor="mm")
-
                 o_bio = shape_ar("أو اضغط على الرابط في البايو أعلى الحساب")
-                fdraw.text((self.width // 2, 1135), o_bio, fill=(245, 218, 125), font=self._get_font(self.font_sub_path, 30), anchor="mm")
+                fdraw.text((self.width // 2, 1365), o_bio, fill=(245, 218, 125), font=self._get_font(self.font_sub_path, 30), anchor="mm")
 
-                o_comment = shape_ar("أو اكتب (تم) بالتعليقات وهيصلك رابط التطبيق فوراً")
-                fdraw.text((self.width // 2, 1190), o_comment, fill=(210, 235, 225), font=self._get_font(self.font_sub_path, 28), anchor="mm")
-
-                o_stores = shape_ar("متوفر مجاناً على Google Play و Huawei AppGallery")
-                fdraw.text((self.width // 2, 1245), o_stores, fill=(180, 210, 200), font=self._get_font(self.font_sub_path, 24), anchor="mm")
+                o_comment = shape_ar("أو اكتب (تم) بالتعليقات وهيصلك رابط التحميل فوراً")
+                fdraw.text((self.width // 2, 1425), o_comment, fill=(210, 235, 225), font=self._get_font(self.font_sub_path, 28), anchor="mm")
 
             writer.append_data(np.array(frame))
 
