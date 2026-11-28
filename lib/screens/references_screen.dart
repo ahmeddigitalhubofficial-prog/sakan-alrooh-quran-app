@@ -146,10 +146,10 @@ class _ReferencesScreenState extends State<ReferencesScreen>
     ),
     ReferenceItem(
       category: 'سياسة الخصوصية وأمان البيانات',
-      title: 'وثيقة الخصوصية المعتمدة لمتجر Play Console',
-      source: 'سياسة حماية بيانات المستخدم أوفلاين (Privacy Policy 2026)',
+      title: 'وثيقة الخصوصية المعتمدة للمتاجر الرسمية',
+      source: 'سياسة حماية بيانات المستخدم (Google Play • App Store • AppGallery)',
       description:
-          'التطبيق أوفلاين بالكامل لا يجمع أي بيانات شخصية، ويحفظ التفضيلات محلياً بأمان، ومطابق لكافة سياسات الأمان.',
+          'المصحف والأذكار والمواقيت تعمل أوفلاين محلياً بدون أي إعلانات، مع مزامنة سحابية اختيارية للختمات التشاركية ومجتمع أثر ورصد الأعطال مجهول الهوية.',
       icon: Icons.privacy_tip_rounded,
     ),
   ];
@@ -176,7 +176,7 @@ class _ReferencesScreenState extends State<ReferencesScreen>
     TechLibraryItem(
       name: 'flutter_compass',
       version: '0.8.1',
-      purpose: 'قراءة الحساس المغناطيسي لتوجيه بوصلة القبلة بالواقع المعزز.',
+      purpose: 'قراءة الحساس المغناطيسي لتوجيه بوصلة القبلة بالواقع المعزز والوضع الرقمي.',
       sourceUrl: 'pub.dev/packages/flutter_compass',
     ),
     TechLibraryItem(
@@ -188,8 +188,20 @@ class _ReferencesScreenState extends State<ReferencesScreen>
     TechLibraryItem(
       name: 'just_audio',
       version: '0.10.5',
-      purpose: 'محرك تشغيل التلاوات الصوتية والأذكار وإذاعات القرآن المباشرة.',
+      purpose: 'محرك تشغيل التلاوات الصوتية والأذكار وإذاعات القرآن وأصوات السكينة.',
       sourceUrl: 'pub.dev/packages/just_audio',
+    ),
+    TechLibraryItem(
+      name: 'video_player',
+      version: '2.9.2',
+      purpose: 'تشغيل مقاطع الريلز الإيمانية القصيرة داخل التطبيق.',
+      sourceUrl: 'pub.dev/packages/video_player',
+    ),
+    TechLibraryItem(
+      name: 'speech_to_text',
+      version: '7.4.0',
+      purpose: 'البحث الصوتي الذكي في سور وآيات القرآن الكريم.',
+      sourceUrl: 'pub.dev/packages/speech_to_text',
     ),
     TechLibraryItem(
       name: 'hijri',
@@ -200,26 +212,92 @@ class _ReferencesScreenState extends State<ReferencesScreen>
     TechLibraryItem(
       name: 'shared_preferences',
       version: '2.5.5',
-      purpose: 'التخزين المحلي الآمن لإعدادات المستخدم وإحصائيات الورد اليومي.',
+      purpose: 'التخزين المحلي لإعدادات المستخدم وإحصائيات الورد اليومي.',
       sourceUrl: 'pub.dev/packages/shared_preferences',
     ),
     TechLibraryItem(
       name: 'flutter_secure_storage',
-      version: 'Latest',
+      version: '10.3.1',
       purpose: 'التخزين المشفر للمفاتيح والبيانات الحساسة على مستوى النظام.',
       sourceUrl: 'pub.dev/packages/flutter_secure_storage',
     ),
     TechLibraryItem(
       name: 'flutter_local_notifications',
-      version: '21.0.0',
+      version: '22.3.0',
       purpose: 'إرسال إشعارات الأذان والورد اليومي والتنبيهات في المواعيد.',
       sourceUrl: 'pub.dev/packages/flutter_local_notifications',
+    ),
+    TechLibraryItem(
+      name: 'flutter_background_service',
+      version: '5.1.0',
+      purpose: 'تشغيل الخدمة الخلفية لضمان دقة تنبيهات الأذان والمواقيت.',
+      sourceUrl: 'pub.dev/packages/flutter_background_service',
+    ),
+    TechLibraryItem(
+      name: 'home_widget',
+      version: '0.9.2',
+      purpose: 'عرض ويدجت الشاشة الرئيسية لمواقيت الصلاة والتاريخ الهجري.',
+      sourceUrl: 'pub.dev/packages/home_widget',
+    ),
+    TechLibraryItem(
+      name: 'provider',
+      version: '6.1.5+1',
+      purpose: 'إدارة حالة التطبيق والسمات اللونية واللغة.',
+      sourceUrl: 'pub.dev/packages/provider',
+    ),
+    TechLibraryItem(
+      name: 'google_fonts',
+      version: '8.1.0',
+      purpose: 'عرض الخطوط العربية الأصيلة (Amiri و Cairo) بوضوح عالٍ.',
+      sourceUrl: 'pub.dev/packages/google_fonts',
+    ),
+    TechLibraryItem(
+      name: 'flutter_svg',
+      version: '2.3.0',
+      purpose: 'عرض الزخارف الإسلامية وأيقونات البوصلة بدقة متجهة.',
+      sourceUrl: 'pub.dev/packages/flutter_svg',
     ),
     TechLibraryItem(
       name: 'crypto',
       version: '3.0.6',
       purpose: 'التشفير والتحقق الرقمي لسلامة البيانات ونصوص الأذكار (SHA-256).',
       sourceUrl: 'pub.dev/packages/crypto',
+    ),
+    TechLibraryItem(
+      name: 'share_plus',
+      version: '13.1.0',
+      purpose: 'مشاركة الآيات والأذكار وبطاقات التهاني والختمات التشاركية.',
+      sourceUrl: 'pub.dev/packages/share_plus',
+    ),
+    TechLibraryItem(
+      name: 'shorebird_code_push',
+      version: '1.1.6',
+      purpose: 'توصيل التحديثات الهوائية الفورية (OTA) لإصلاح الأخطاء بسرعة.',
+      sourceUrl: 'pub.dev/packages/shorebird_code_push',
+    ),
+    TechLibraryItem(
+      name: 'firebase_core & cloud_firestore',
+      version: '4.14.0 / 6.9.0',
+      purpose: 'مزامنة الختمات الجماعية ومجتمع أثر والعدادات التشاركية.',
+      sourceUrl: 'pub.dev/packages/cloud_firestore',
+    ),
+    TechLibraryItem(
+      name: 'firebase_auth & google_sign_in',
+      version: '6.6.0 / 6.3.0',
+      purpose: 'المصادقة الآمنة وتسجيل الدخول الاختياري للميزات التشاركية.',
+      sourceUrl: 'pub.dev/packages/firebase_auth',
+    ),
+    TechLibraryItem(
+      name: 'firebase_crashlytics & analytics',
+      version: '5.3.0 / 12.5.0',
+      purpose: 'رصد الأعطال تلقائياً وتحسين استقرار التطبيق وأدائه.',
+      sourceUrl: 'pub.dev/packages/firebase_crashlytics',
+    ),
+    TechLibraryItem(
+      name: 'huawei_account',
+      version: '6.11.0+301',
+      purpose: 'دعم خدمات حساب هواوي (HMS) على أجهزة Huawei AppGallery.',
+      sourceUrl: 'pub.dev/packages/huawei_account',
     ),
     TechLibraryItem(
       name: 'in_app_review',
@@ -232,6 +310,12 @@ class _ReferencesScreenState extends State<ReferencesScreen>
       version: '4.2.3',
       purpose: 'نظام التحديث التلقائي الفوري والمرن من متجر Google Play.',
       sourceUrl: 'pub.dev/packages/in_app_update',
+    ),
+    TechLibraryItem(
+      name: 'url_launcher',
+      version: '6.3.1',
+      purpose: 'فتح الروابط الخارجية وصفحات الدعم والمتاجر الرسمية.',
+      sourceUrl: 'pub.dev/packages/url_launcher',
     ),
   ];
 

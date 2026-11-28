@@ -4,7 +4,7 @@
   "bot_name": "المكتب التنفيذي لسكن الروح",
   "chairman_chat_id": 8114686643,
   "target_buffer_days": 10,
-  "auto_refill_enabled": true,
+  "auto_refill_enabled": false,
   "app_name_ar": "سكن الروح",
   "app_name_en": "Sakan Al-Rooh",
   "package_name": "com.nooralhoda.official.app",

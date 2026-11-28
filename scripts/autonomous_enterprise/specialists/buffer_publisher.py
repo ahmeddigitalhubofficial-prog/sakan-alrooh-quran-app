@@ -332,12 +332,16 @@ class BufferPublisher:
         posts = []
         after_cursor = None
         has_next = True
+        self.last_query_failed = False
 
         while has_next:
             variables = {"orgId": self.organization_id}
             if after_cursor:
                 variables["after"] = after_cursor
             res = self._query(query, variables)
+            if not res or "errors" in res or not res.get("data"):
+                self.last_query_failed = True
+                break
             posts_data = res.get("data", {}).get("posts", {})
             edges = posts_data.get("edges", [])
             for e in edges:

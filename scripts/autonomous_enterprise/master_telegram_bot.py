@@ -168,7 +168,7 @@ def get_main_keyboard():
     }
 
 def get_reels_keyboard():
-    refill_status = "مفعل ✅" if CONFIG.get("auto_refill_enabled", True) else "معطل ⏸️"
+    refill_status = "مفعل ✅" if CONFIG.get("auto_refill_enabled", False) else "معطل ⏸️"
     return {
         "keyboard": [
             [{"text": "📅 جدولة شهر كامل (30 يوماً دفعة واحدة)"}],
@@ -409,7 +409,7 @@ def process_update(update):
             threading.Thread(target=handle_schedule_days, args=(chat_id, 7), daemon=True).start()
 
         elif text.startswith("🔄 التجديد التلقائي:") or text in ["/toggle_refill", "تغيير التجديد التلقائي"]:
-            current_status = CONFIG.get("auto_refill_enabled", True)
+            current_status = CONFIG.get("auto_refill_enabled", False)
             new_status = not current_status
             CONFIG["auto_refill_enabled"] = new_status
             save_config(CONFIG)
@@ -809,7 +809,7 @@ def process_update(update):
 # ── عامل التدوير الذاتي المتبادل (Auto-Refill Background Worker) ──
 def check_and_auto_refill(chat_id=None):
     """فحص طابور Buffer وإضافة أيام جديدة تلقائياً لملء أي شواغر والحفاظ على 8 أيام مجدولة للأمام"""
-    if not CONFIG.get("auto_refill_enabled", True) or not md.buffer:
+    if not CONFIG.get("auto_refill_enabled", False) or not md.buffer:
         return
 
     try:
@@ -840,8 +840,11 @@ def check_and_auto_refill(chat_id=None):
                         if res.get("success"):
                             print(f"✅ Healed missing platforms for {d_str} (Day #{matched_day_num})")
 
-        # 2. فحص الأيام المحجوزة بالكامل وإضافة أيام جديدة لنهاية الطابور
+        # 2. فحص الأيام المحجوزة بالكامل وإضافة أيام جديدة لنهاية الطابور (فقط إذا نجح استعلام Buffer بدون أخطاء/429)
         occupied = md.buffer.get_occupied_dates()
+        if getattr(md.buffer, "last_query_failed", False) or not md.buffer.get_connected_channels():
+            print("⚠️ Skipping Auto-Refill: Buffer API returned an error or rate-limit (429). Will not duplicate schedule.")
+            return
         future_occupied = [d for d in occupied if d >= today_str]
 
         target_buffer_days = CONFIG.get("target_buffer_days", 10)

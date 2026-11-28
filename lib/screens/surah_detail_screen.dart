@@ -859,6 +859,22 @@ class _SurahDetailScreenState extends State<SurahDetailScreen> {
     return 'https://everyayah.com/data/$reciterFolder/$surahStr$verseStr.mp3';
   }
 
+  Future<(String dirPath, Set<String> files)> _getLocalAudioFilesForReciter(
+      String reciterFolder) async {
+    final appDir = await getApplicationDocumentsDirectory();
+    final reciterDirPath = '${appDir.path}/audio/$reciterFolder';
+    final reciterDir = Directory(reciterDirPath);
+    final Set<String> localFiles = {};
+    if (await reciterDir.exists()) {
+      await for (final entity in reciterDir.list(followLinks: false)) {
+        if (entity is File) {
+          localFiles.add(entity.uri.pathSegments.last);
+        }
+      }
+    }
+    return (reciterDirPath, localFiles);
+  }
+
   Future<void> _playVerse(int surahNum, int verseNum) async {
     await AudioService.stop();
     final reciter = _getSelectedReciter();
@@ -875,28 +891,36 @@ class _SurahDetailScreenState extends State<SurahDetailScreen> {
           _playlistSurahNumber != surahNum ||
           _playlistReciterFolder != reciterFolder) {
         final totalVerses = quran.getVerseCount(surahNum);
+        final (reciterDirPath, localFiles) =
+            await _getLocalAudioFilesForReciter(reciterFolder);
+
+        final surahStr = surahNum.toString().padLeft(3, '0');
         final sources = <AudioSource>[];
         for (int i = 1; i <= totalVerses; i++) {
-          final localPath = await _getLocalAudioPath(surahNum, i);
-          final file = File(localPath);
-          if (await file.exists()) {
-            sources.add(AudioSource.file(localPath));
+          final verseStr = i.toString().padLeft(3, '0');
+          final fileName = '$surahStr$verseStr.mp3';
+          if (localFiles.contains(fileName)) {
+            sources.add(AudioSource.file('$reciterDirPath/$fileName'));
           } else {
-            final url = _getVerseAudioUrl(surahNum, i);
+            final url = 'https://everyayah.com/data/$reciterFolder/$fileName';
             sources.add(AudioSource.uri(Uri.parse(url)));
           }
         }
         _currentPlaylist = ConcatenatingAudioSource(children: sources);
         _playlistSurahNumber = surahNum;
         _playlistReciterFolder = reciterFolder;
-        await _audioPlayer.setAudioSource(_currentPlaylist!, initialIndex: verseNum - 1);
+        await _audioPlayer
+            .setAudioSource(_currentPlaylist!, initialIndex: verseNum - 1)
+            .timeout(const Duration(seconds: 15));
       } else {
-        await _audioPlayer.seek(Duration.zero, index: verseNum - 1);
+        await _audioPlayer
+            .seek(Duration.zero, index: verseNum - 1)
+            .timeout(const Duration(seconds: 10));
       }
 
       _scrollToVerse(surahNum, verseNum);
       _autoSavePosition(surahNum, verseNum);
-      await _audioPlayer.play();
+      await _audioPlayer.play().timeout(const Duration(seconds: 15));
 
       setState(() {
         _isPlaying = true;
@@ -911,12 +935,12 @@ class _SurahDetailScreenState extends State<SurahDetailScreen> {
           behavior: SnackBarBehavior.floating,
           backgroundColor: Colors.redAccent,
           content: Text(
-            'تعذر تشغيل الآية $verseNum من سورة ${quran.getSurahNameArabic(surahNum)}',
+            'تعذر تشغيل الآية $verseNum من سورة ${quran.getSurahNameArabic(surahNum)} — تحقق من الإنترنت أو حمّل السورة أوفلاين',
             style: GoogleFonts.cairo(fontWeight: FontWeight.bold),
           ),
         ),
       );
-      
+
       setState(() {
         _isLoading = false;
         _isPlaying = false;
@@ -2447,11 +2471,13 @@ $tafsirText
   }
 
   Future<bool> _isSurahDownloaded(int surahNum) async {
+    final reciterFolder = _getReciterFolder(_getSelectedReciter());
+    final (_, localFiles) = await _getLocalAudioFilesForReciter(reciterFolder);
     final versesCount = quran.getVerseCount(surahNum);
+    final surahStr = surahNum.toString().padLeft(3, '0');
     for (int v = 1; v <= versesCount; v++) {
-      final localPath = await _getLocalAudioPath(surahNum, v);
-      final file = File(localPath);
-      if (!await file.exists()) {
+      final fileName = '$surahStr${v.toString().padLeft(3, '0')}.mp3';
+      if (!localFiles.contains(fileName)) {
         return false;
       }
     }
